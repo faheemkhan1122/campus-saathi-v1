@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>15-Min Planner | Campus Saathi</title>
+
+    <link rel="stylesheet" href="css/planner.css">
+</head>
+
+<body>
+
+    <!-- =========================
+         SIDEBAR
+    ========================== -->
+    <aside class="sidebar">
+<button class="mobile-close-btn" id="mobileCloseBtn">
+    ×
+</button>
+        <a href="index.html" class="sidebar-logo">
+            <span>CS</span>
+            Campus Saathi
+        </a>
+
+        <nav class="sidebar-nav">
+
+            <p class="nav-title">MAIN</p>
+
+            <a href="dashboard.html" class="nav-link">
+                <span>⌂</span>
+                Dashboard
+            </a>
+
+            <a href="planner.html" class="nav-link active">
+                <span>✓</span>
+                15-Min Planner
+            </a>
+
+            <a href="quiz.html" class="nav-link">
+                <span>◫</span>
+                Notes → Quiz
+            </a>
+
+            <a href="doubts.html" class="nav-link">
+                <span>?</span>
+                Doubt Board
+            </a>
+
+            <p class="nav-title second-title">ORGANIZE</p>
+
+            <a href="assignments.html" class="nav-link">
+                <span>□</span>
+                Assignments
+            </a>
+
+            <a href="past-papers.html" class="nav-link">
+                <span>▤</span>
+                Past Papers
+            </a>
+
+            <a href="projects.html" class="nav-link">
+                <span>◈</span>
+                Group Projects
+            </a>
+
+            <p class="nav-title second-title">WELLBEING</p>
+
+            <a href="wellbeing.html" class="nav-link">
+                <span>◌</span>
+                Wellbeing
+            </a>
+
+        </nav>
+
+        <div class="sidebar-bottom">
+
+            <a href="index.html" class="back-home">
+                ← Back to website
+            </a>
+
+        </div>
+
+    </aside>
+
+
+    <!-- =========================
+         MAIN
+    ========================== -->
+    <main class="app-main">
+
+        <header class="topbar">
+<button class="mobile-menu-btn" id="mobileMenuBtn">
+    ☰
+</button>
+            <div class="mobile-brand">
+                Campus<span>Saathi</span>
+            </div>
+
+            <div class="user-profile">
+
+                <div class="avatar">
+                    LF
+                </div>
+
+                <div>
+                    <strong>Laiba Fatima</strong>
+                    <small>Student</small>
+                </div>
+
+            </div>
+
+        </header>
+
+
+        <section class="planner-content">
+
+            <!-- =========================
+                 HEADER
+            ========================== -->
+            <div class="page-header">
+
+                <div>
+                    <p class="eyebrow">
+                        STUDY PILLAR
+                    </p>
+
+                    <h1>
+                        15-Min Planner
+                    </h1>
+
+                    <p>
+                        Don't plan your whole day. Just plan your next 15 minutes.
+                    </p>
+                </div>
+
+                <div class="date-card">
+                    <span>Today</span>
+                    <strong>01 SEP</strong>
+                </div>
+
+            </div>
+
+
+            <!-- =========================
+                 FOCUS AREA
+            ========================== -->
+            <div class="focus-layout">
+
+
+                <!-- TIMER -->
+                <div class="focus-panel">
+
+                    <div class="focus-panel-top">
+
+                        <div>
+                            <small>FOCUS SESSION</small>
+                            <h2>Your next 15 minutes</h2>
+                        </div>
+
+                        <span class="ready-badge">
+                            ● Ready
+                        </span>
+
+                    </div>
+
+
+                    <div class="timer-area">
+
+                        <div class="timer-ring">
+
+                            <div class="timer-inner">
+
+                                <strong id="timer">
+                                    15:00
+                                </strong>
+
+                                <span>
+                                    FOCUS
+                                </span>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="timer-actions">
+
+                        <button class="start-btn" id="startTimer">
+                            Start Focus
+                        </button>
+
+                        <button class="reset-btn" id="resetTimer">
+                            Reset
+                        </button>
+
+                    </div>
+
+
+                    <p class="focus-tip">
+                        ✦ Put your phone away and focus on one small task.
+                    </p>
+
+                </div>
+
+
+
+                <!-- QUICK ADD -->
+                <div class="add-panel">
+
+                    <div class="panel-heading">
+
+                        <div>
+                            <small>PLAN YOUR NEXT STEP</small>
+                            <h2>Add a task</h2>
+                        </div>
+
+                    </div>
+
+
+                    <form id="taskForm">
+
+                        <label for="taskTitle">
+                            What do you want to work on?
+                        </label>
+
+                        <input
+                            type="text"
+                            id="taskTitle"
+                            placeholder="e.g. Review Biology notes"
+                            required
+                        >
+
+
+                        <label for="taskTime">
+                            Estimated time
+                        </label>
+
+                        <select id="taskTime">
+
+                            <option value="15 minutes">
+                                15 minutes
+                            </option>
+
+                            <option value="30 minutes">
+                                30 minutes
+                            </option>
+
+                            <option value="45 minutes">
+                                45 minutes
+                            </option>
+
+                            <option value="60 minutes">
+                                1 hour
+                            </option>
+
+                        </select>
+
+
+                        <label for="taskType">
+                            Task type
+                        </label>
+
+                        <select id="taskType">
+
+                            <option value="Study">
+                                📚 Study
+                            </option>
+
+                            <option value="Assignment">
+                                📝 Assignment
+                            </option>
+
+                            <option value="Quiz">
+                                ◫ Quiz
+                            </option>
+
+                            <option value="Project">
+                                ◈ Project
+                            </option>
+
+                        </select>
+
+
+                        <button type="submit" class="add-btn">
+                            + Add to today's plan
+                        </button>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+
+            <!-- =========================
+                 TODAY PLAN
+            ========================== -->
+            <div class="plan-panel">
+
+                <div class="panel-heading">
+
+                    <div>
+                        <small>TODAY</small>
+                        <h2>Your plan</h2>
+                    </div>
+
+                    <span class="task-counter" id="taskCounter">
+                        3 tasks
+                    </span>
+
+                </div>
+
+
+                <div class="task-list" id="taskList">
+
+                    <div class="planner-task completed">
+
+                        <div class="task-check">
+                            ✓
+                        </div>
+
+                        <div class="planner-task-info">
+
+                            <strong>
+                                Review Biology notes
+                            </strong>
+
+                            <small>
+                                Study • 25 minutes
+                            </small>
+
+                        </div>
+
+                        <span class="planner-status">
+                            Done
+                        </span>
+
+                    </div>
+
+
+                    <div class="planner-task current-task">
+
+                        <div class="task-check">
+                            2
+                        </div>
+
+                        <div class="planner-task-info">
+
+                            <strong>
+                                Complete Math assignment
+                            </strong>
+
+                            <small>
+                                Assignment • 40 minutes
+                            </small>
+
+                        </div>
+
+                        <span class="planner-status current">
+                            Next
+                        </span>
+
+                    </div>
+
+
+                    <div class="planner-task">
+
+                        <div class="task-check">
+                            3
+                        </div>
+
+                        <div class="planner-task-info">
+
+                            <strong>
+                                Prepare for Biology quiz
+                            </strong>
+
+                            <small>
+                                Quiz • 20 minutes
+                            </small>
+
+                        </div>
+
+                        <span class="planner-status">
+                            Later
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- =========================
+                 MOTIVATION
+            ========================== -->
+            <div class="planner-message">
+
+                <span>✦</span>
+
+                <div>
+                    <strong>
+                        One small step is enough.
+                    </strong>
+
+                    <p>
+                        You don't need to finish everything today.
+                        Just decide what deserves your next 15 minutes.
+                    </p>
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <script src="js/script.js"></script>
+<script src="js/planner.js"></script>
+
+</body>
+</html>

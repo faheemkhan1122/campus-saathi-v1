@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Dashboard | Campus Saathi</title>
+
+    <meta
+        name="description"
+        content="Campus Saathi student dashboard."
+    >
+
+    <link rel="stylesheet" href="css/dashboard.css">
+</head>
+
+<body>
+
+    <!-- =========================
+         APP SIDEBAR
+    ========================== -->
+    <aside class="sidebar">
+<button class="mobile-close-btn" id="mobileCloseBtn">
+    ×
+</button>
+        <a href="index.html" class="sidebar-logo">
+            <span>CS</span>
+            Campus Saathi
+        </a>
+
+
+        <nav class="sidebar-nav">
+
+            <p class="nav-title">MAIN</p>
+
+            <a href="dashboard.html" class="nav-link active">
+                <span>⌂</span>
+                Dashboard
+            </a>
+
+            <a href="planner.html" class="nav-link">
+                <span>✓</span>
+                15-Min Planner
+            </a>
+
+            <a href="quiz.html" class="nav-link">
+                <span>◫</span>
+                Notes → Quiz
+            </a>
+
+            <a href="doubts.html" class="nav-link">
+                <span>?</span>
+                Doubt Board
+            </a>
+
+
+            <p class="nav-title second-title">ORGANIZE</p>
+
+            <a href="assignments.html" class="nav-link">
+                <span>□</span>
+                Assignments
+            </a>
+
+            <a href="past-papers.html" class="nav-link">
+                <span>▤</span>
+                Past Papers
+            </a>
+
+            <a href="projects.html" class="nav-link">
+                <span>◈</span>
+                Group Projects
+            </a>
+
+
+            <p class="nav-title second-title">WELLBEING</p>
+
+            <a href="wellbeing.html" class="nav-link">
+                <span>◌</span>
+                Wellbeing
+            </a>
+
+        </nav>
+
+
+        <div class="sidebar-bottom">
+
+            <a href="#" class="help-link">
+                <span>?</span>
+                Help & Support
+            </a>
+
+            <a href="index.html" class="back-home">
+                ← Back to website
+            </a>
+
+        </div>
+
+    </aside>
+
+
+
+    <!-- =========================
+         MAIN APP
+    ========================== -->
+    <main class="app-main">
+
+        <!-- TOP BAR -->
+        <header class="topbar">
+<button class="mobile-menu-btn" id="mobileMenuBtn">
+    ☰
+</button>
+            <div class="mobile-brand">
+                Campus<span>Saathi</span>
+            </div>
+
+            <div class="topbar-actions">
+
+                <button class="icon-btn">
+                    🔔
+                    <span class="notification-dot"></span>
+                </button>
+
+                <div class="user-profile">
+
+                    <div class="avatar">
+                        LF
+                    </div>
+
+                    <div class="user-info">
+                        <strong>Laiba Fatima</strong>
+                        <small>Student</small>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </header>
+
+
+
+        <!-- DASHBOARD CONTENT -->
+        <section class="dashboard-content">
+
+            <!-- GREETING -->
+            <div class="welcome-row">
+
+                <div>
+                    <p class="eyebrow">
+                        TUESDAY, SEPTEMBER 1
+                    </p>
+
+                    <h1>
+                        Good morning, Laiba 👋
+                    </h1>
+
+                    <p class="welcome-text">
+                        Let's make today productive without making it overwhelming.
+                    </p>
+                </div>
+
+
+                <a href="planner.html" class="primary-btn">
+                    + Plan my day
+                </a>
+
+            </div>
+
+
+
+            <!-- =========================
+                 TOP STATS
+            ========================== -->
+            <div class="dashboard-stats">
+
+                <div class="dashboard-stat primary-stat">
+
+                    <div class="stat-content">
+
+                        <small>
+                            TODAY'S PROGRESS
+                        </small>
+
+                        <h2>
+                            72%
+                        </h2>
+
+                        <p>
+                            Great work! Keep going.
+                        </p>
+
+                    </div>
+
+                    <div class="progress-ring">
+                        <div>
+                            <strong>72</strong>
+                            <span>%</span>
+                        </div>
+                    </div>
+
+                </div>
+
+
+                <div class="dashboard-stat">
+
+                    <div class="stat-icon purple">
+                        ✓
+                    </div>
+
+                    <small>
+                        TASKS
+                    </small>
+
+                    <h3>
+                        04
+                    </h3>
+
+                    <p>
+                        <span>2</span> due today
+                    </p>
+
+                </div>
+
+
+                <div class="dashboard-stat">
+
+                    <div class="stat-icon blue">
+                        ◫
+                    </div>
+
+                    <small>
+                        STUDY TIME
+                    </small>
+
+                    <h3>
+                        2h 18m
+                    </h3>
+
+                    <p>
+                        ↑ 24% this week
+                    </p>
+
+                </div>
+
+
+                <div class="dashboard-stat">
+
+                    <div class="stat-icon green">
+                        🔥
+                    </div>
+
+                    <small>
+                        STUDY STREAK
+                    </small>
+
+                    <h3>
+                        7 Days
+                    </h3>
+
+                    <p>
+                        Keep the streak alive!
+                    </p>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- =========================
+                 MAIN GRID
+            ========================== -->
+            <div class="main-dashboard-grid">
+
+
+                <!-- TODAY PLAN -->
+                <div class="panel today-panel">
+
+                    <div class="panel-header">
+
+                        <div>
+                            <small>
+                                TODAY'S PLAN
+                            </small>
+
+                            <h2>
+                                Keep your momentum
+                            </h2>
+                        </div>
+
+                        <a href="planner.html">
+                            View planner →
+                        </a>
+
+                    </div>
+
+
+                    <div class="task-list">
+
+
+                        <div class="dashboard-task completed">
+
+                            <div class="task-check">
+                                ✓
+                            </div>
+
+                            <div class="task-detail">
+
+                                <strong>
+                                    Review Biology notes
+                                </strong>
+
+                                <small>
+                                    Study • 25 minutes
+                                </small>
+
+                            </div>
+
+                            <span class="task-status">
+                                Done
+                            </span>
+
+                        </div>
+
+
+
+                        <div class="dashboard-task active">
+
+                            <div class="task-check">
+                                2
+                            </div>
+
+                            <div class="task-detail">
+
+                                <strong>
+                                    Complete Math assignment
+                                </strong>
+
+                                <small>
+                                    Assignment • 40 minutes
+                                </small>
+
+                            </div>
+
+                            <span class="task-status current">
+                                Now
+                            </span>
+
+                        </div>
+
+
+
+                        <div class="dashboard-task">
+
+                            <div class="task-check">
+                                3
+                            </div>
+
+                            <div class="task-detail">
+
+                                <strong>
+                                    Prepare for Biology quiz
+                                </strong>
+
+                                <small>
+                                    Quiz • 20 minutes
+                                </small>
+
+                            </div>
+
+                            <span class="task-status">
+                                Later
+                            </span>
+
+                        </div>
+
+
+
+                        <div class="dashboard-task">
+
+                            <div class="task-check">
+                                4
+                            </div>
+
+                            <div class="task-detail">
+
+                                <strong>
+                                    Work on group project
+                                </strong>
+
+                                <small>
+                                    Project • 30 minutes
+                                </small>
+
+                            </div>
+
+                            <span class="task-status">
+                                Later
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <a href="planner.html" class="add-task">
+                        + Add another task
+                    </a>
+
+                </div>
+
+
+
+                <!-- RIGHT COLUMN -->
+                <div class="right-dashboard-column">
+
+
+                    <!-- FOCUS -->
+                    <div class="panel focus-panel">
+
+                        <div class="panel-header">
+
+                            <div>
+                                <small>
+                                    FOCUS SESSION
+                                </small>
+
+                                <h2>
+                                    Ready to focus?
+                                </h2>
+                            </div>
+
+                            <span class="focus-status">
+                                ● Ready
+                            </span>
+
+                        </div>
+
+
+                        <div class="focus-timer">
+
+                            <span>
+                                15
+                            </span>
+
+                            <small>
+                                MIN
+                            </small>
+
+                        </div>
+
+
+                        <a href="planner.html" class="focus-btn">
+                            Start 15-min session →
+                        </a>
+
+                    </div>
+
+
+
+                    <!-- DEADLINES -->
+                    <div class="panel deadlines-panel">
+
+                        <div class="panel-header">
+
+                            <div>
+                                <small>
+                                    UPCOMING
+                                </small>
+
+                                <h2>
+                                    Deadlines
+                                </h2>
+                            </div>
+
+                            <a href="assignments.html">
+                                View all →
+                            </a>
+
+                        </div>
+
+
+                        <div class="deadline-item">
+
+                            <div class="deadline-date">
+                                <strong>02</strong>
+                                <span>SEP</span>
+                            </div>
+
+                            <div>
+                                <strong>
+                                    Physics Assignment
+                                </strong>
+
+                                <small>
+                                    Due tomorrow
+                                </small>
+                            </div>
+
+                            <span class="deadline-priority">
+                                High
+                            </span>
+
+                        </div>
+
+
+                        <div class="deadline-item">
+
+                            <div class="deadline-date">
+                                <strong>05</strong>
+                                <span>SEP</span>
+                            </div>
+
+                            <div>
+                                <strong>
+                                    Group Presentation
+                                </strong>
+
+                                <small>
+                                    4 days left
+                                </small>
+                            </div>
+
+                            <span class="deadline-normal">
+                                Normal
+                            </span>
+
+                        </div>
+
+
+                        <div class="deadline-item">
+
+                            <div class="deadline-date">
+                                <strong>08</strong>
+                                <span>SEP</span>
+                            </div>
+
+                            <div>
+                                <strong>
+                                    Biology Quiz
+                                </strong>
+
+                                <small>
+                                    7 days left
+                                </small>
+                            </div>
+
+                            <span class="deadline-normal">
+                                Normal
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- =========================
+                 BOTTOM ROW
+            ========================== -->
+            <div class="bottom-grid">
+
+
+                <!-- QUICK ACCESS -->
+                <div class="panel quick-panel">
+
+                    <div class="panel-header">
+
+                        <div>
+                            <small>
+                                QUICK ACCESS
+                            </small>
+
+                            <h2>
+                                What do you need?
+                            </h2>
+                        </div>
+
+                    </div>
+
+
+                    <div class="quick-grid">
+
+                        <a href="quiz.html" class="quick-card">
+
+                            <span class="quick-icon purple">
+                                ◫
+                            </span>
+
+                            <strong>
+                                Make a Quiz
+                            </strong>
+
+                            <small>
+                                Turn notes into questions
+                            </small>
+
+                        </a>
+
+
+                        <a href="doubts.html" class="quick-card">
+
+                            <span class="quick-icon blue">
+                                ?
+                            </span>
+
+                            <strong>
+                                Ask a Doubt
+                            </strong>
+
+                            <small>
+                                Get help from students
+                            </small>
+
+                        </a>
+
+
+                        <a href="past-papers.html" class="quick-card">
+
+                            <span class="quick-icon orange">
+                                ▤
+                            </span>
+
+                            <strong>
+                                Find Papers
+                            </strong>
+
+                            <small>
+                                Browse past papers
+                            </small>
+
+                        </a>
+
+
+                        <a href="projects.html" class="quick-card">
+
+                            <span class="quick-icon green">
+                                ◈
+                            </span>
+
+                            <strong>
+                                Project Hub
+                            </strong>
+
+                            <small>
+                                Manage group work
+                            </small>
+
+                        </a>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- MOTIVATION -->
+                <div class="panel motivation-panel">
+
+                    <div class="motivation-glow"></div>
+
+                    <span class="motivation-icon">
+                        ✦
+                    </span>
+
+                    <p class="motivation-label">
+                        TODAY'S REMINDER
+                    </p>
+
+                    <h2>
+                        Progress doesn't have to be perfect.
+                    </h2>
+
+                    <p>
+                        One focused session today is still progress.
+                    </p>
+
+                    <div class="motivation-line"></div>
+
+                    <span class="motivation-footer">
+                        Keep going, you've got this.
+                    </span>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+
+    <script src="js/script.js"></script>
+
+</body>
+</html>

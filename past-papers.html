@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Past Paper Bank | Campus Saathi</title>
+
+    <link rel="stylesheet" href="css/past-papers.css">
+</head>
+
+<body>
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+<button class="mobile-close-btn" id="mobileCloseBtn">
+    ×
+</button>
+        <a href="index.html" class="sidebar-logo">
+            <span>CS</span>
+            Campus Saathi
+        </a>
+
+        <nav class="sidebar-nav">
+
+            <p class="nav-title">MAIN</p>
+
+            <a href="dashboard.html" class="nav-link">
+                <span>⌂</span>
+                Dashboard
+            </a>
+
+            <a href="planner.html" class="nav-link">
+                <span>✓</span>
+                15-Min Planner
+            </a>
+
+            <a href="quiz.html" class="nav-link">
+                <span>◫</span>
+                Notes → Quiz
+            </a>
+
+            <a href="doubts.html" class="nav-link">
+                <span>?</span>
+                Doubt Board
+            </a>
+
+            <p class="nav-title second-title">ORGANIZE</p>
+
+            <a href="assignments.html" class="nav-link">
+                <span>□</span>
+                Assignments
+            </a>
+
+            <a href="past-papers.html" class="nav-link active">
+                <span>▤</span>
+                Past Papers
+            </a>
+
+            <a href="projects.html" class="nav-link">
+                <span>◈</span>
+                Group Projects
+            </a>
+
+            <p class="nav-title second-title">WELLBEING</p>
+
+            <a href="wellbeing.html" class="nav-link">
+                <span>◌</span>
+                Wellbeing
+            </a>
+
+        </nav>
+
+        <div class="sidebar-bottom">
+            <a href="index.html" class="back-home">
+                ← Back to website
+            </a>
+        </div>
+
+    </aside>
+
+
+    <!-- MAIN -->
+    <main class="app-main">
+
+        <header class="topbar">
+<button class="mobile-menu-btn" id="mobileMenuBtn">
+    ☰
+</button>
+            <div class="mobile-brand">
+                Campus<span>Saathi</span>
+            </div>
+
+            <div class="user-profile">
+
+                <div class="avatar">
+                    LF
+                </div>
+
+                <div>
+                    <strong>Laiba Fatima</strong>
+                    <small>Student</small>
+                </div>
+
+            </div>
+
+        </header>
+
+
+        <section class="papers-content">
+
+            <!-- HEADER -->
+            <div class="page-header">
+
+                <div>
+
+                    <p class="eyebrow">
+                        ORGANIZE PILLAR
+                    </p>
+
+                    <h1>
+                        Past Paper Bank
+                    </h1>
+
+                    <p>
+                        Find old papers, practice smarter, and prepare with confidence.
+                    </p>
+
+                </div>
+
+                <div class="paper-stat-badge">
+                    <strong>1,240+</strong>
+                    <span>papers available</span>
+                </div>
+
+            </div>
+
+
+            <!-- SEARCH -->
+            <div class="search-panel">
+
+                <div class="search-box">
+
+                    <span>⌕</span>
+
+                    <input
+                        type="text"
+                        id="paperSearch"
+                        placeholder="Search by subject, course, university..."
+                    >
+
+                </div>
+
+                <button class="search-btn" id="searchBtn">
+                    Search Papers
+                </button>
+
+            </div>
+
+
+            <!-- FILTERS -->
+            <div class="filters-panel">
+
+                <div class="filter-group">
+
+                    <label for="institution">
+                        Institution
+                    </label>
+
+                    <select id="institution">
+
+                        <option value="all">
+                            All Institutions
+                        </option>
+
+                        <option value="university">
+                            University
+                        </option>
+
+                        <option value="college">
+                            College
+                        </option>
+
+                        <option value="school">
+                            School
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="filter-group">
+
+                    <label for="subject">
+                        Subject
+                    </label>
+
+                    <select id="subject">
+
+                        <option value="all">
+                            All Subjects
+                        </option>
+
+                        <option value="mathematics">
+                            Mathematics
+                        </option>
+
+                        <option value="physics">
+                            Physics
+                        </option>
+
+                        <option value="biology">
+                            Biology
+                        </option>
+
+                        <option value="computer">
+                            Computer Science
+                        </option>
+
+                        <option value="chemistry">
+                            Chemistry
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="filter-group">
+
+                    <label for="year">
+                        Year
+                    </label>
+
+                    <select id="year">
+
+                        <option value="all">
+                            All Years
+                        </option>
+
+                        <option value="2026">
+                            2026
+                        </option>
+
+                        <option value="2025">
+                            2025
+                        </option>
+
+                        <option value="2024">
+                            2024
+                        </option>
+
+                        <option value="2023">
+                            2023
+                        </option>
+
+                        <option value="2022">
+                            2022
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <button class="clear-filter" id="clearFilters">
+                    Clear filters
+                </button>
+
+            </div>
+
+
+            <!-- PAPER CONTENT -->
+            <div class="paper-layout">
+
+
+                <!-- PAPERS -->
+                <div class="papers-panel">
+
+                    <div class="panel-heading">
+
+                        <div>
+                            <small>AVAILABLE PAPERS</small>
+                            <h2>Explore past papers</h2>
+                        </div>
+
+                        <span id="paperCount">
+                            6 papers
+                        </span>
+
+                    </div>
+
+
+                    <div class="paper-list" id="paperList">
+
+
+                        <!-- PAPER -->
+                        <article
+                            class="paper-card"
+                            data-institution="university"
+                            data-subject="mathematics"
+                            data-year="2026"
+                        >
+
+                            <div class="paper-icon purple">
+                                MTH
+                            </div>
+
+                            <div class="paper-info">
+
+                                <strong>
+                                    Calculus — Final Exam
+                                </strong>
+
+                                <span>
+                                    Mathematics • University
+                                </span>
+
+                                <small>
+                                    2026 • 3 hours • 100 marks
+                                </small>
+
+                            </div>
+
+                            <span class="paper-badge">
+                                Popular
+                            </span>
+
+                            <button class="view-paper">
+                                View
+                            </button>
+
+                        </article>
+
+
+                        <article
+                            class="paper-card"
+                            data-institution="university"
+                            data-subject="physics"
+                            data-year="2025"
+                        >
+
+                            <div class="paper-icon blue">
+                                PHY
+                            </div>
+
+                            <div class="paper-info">
+
+                                <strong>
+                                    Physics — Annual Paper
+                                </strong>
+
+                                <span>
+                                    Physics • University
+                                </span>
+
+                                <small>
+                                    2025 • 3 hours • 85 marks
+                                </small>
+
+                            </div>
+
+                            <span class="paper-badge">
+                                New
+                            </span>
+
+                            <button class="view-paper">
+                                View
+                            </button>
+
+                        </article>
+
+
+                        <article
+                            class="paper-card"
+                            data-institution="college"
+                            data-subject="biology"
+                            data-year="2025"
+                        >
+
+                            <div class="paper-icon green">
+                                BIO
+                            </div>
+
+                            <div class="paper-info">
+
+                                <strong>
+                                    Biology — Theory Paper
+                                </strong>
+
+                                <span>
+                                    Biology • College
+                                </span>
+
+                                <small>
+                                    2025 • 2 hours • 75 marks
+                                </small>
+
+                            </div>
+
+                            <span class="paper-badge">
+                                Popular
+                            </span>
+
+                            <button class="view-paper">
+                                View
+                            </button>
+
+                        </article>
+
+
+                        <article
+                            class="paper-card"
+                            data-institution="university"
+                            data-subject="computer"
+                            data-year="2024"
+                        >
+
+                            <div class="paper-icon orange">
+                                CS
+                            </div>
+
+                            <div class="paper-info">
+
+                                <strong>
+                                    Web Development — Midterm
+                                </strong>
+
+                                <span>
+                                    Computer Science • University
+                                </span>
+
+                                <small>
+                                    2024 • 2 hours • 60 marks
+                                </small>
+
+                            </div>
+
+                            <span class="paper-badge">
+                                Practice
+                            </span>
+
+                            <button class="view-paper">
+                                View
+                            </button>
+
+                        </article>
+
+
+                        <article
+                            class="paper-card"
+                            data-institution="college"
+                            data-subject="chemistry"
+                            data-year="2023"
+                        >
+
+                            <div class="paper-icon pink">
+                                CHE
+                            </div>
+
+                            <div class="paper-info">
+
+                                <strong>
+                                    Organic Chemistry
+                                </strong>
+
+                                <span>
+                                    Chemistry • College
+                                </span>
+
+                                <small>
+                                    2023 • 2 hours • 80 marks
+                                </small>
+
+                            </div>
+
+                            <span class="paper-badge">
+                                Practice
+                            </span>
+
+                            <button class="view-paper">
+                                View
+                            </button>
+
+                        </article>
+
+
+                        <article
+                            class="paper-card"
+                            data-institution="school"
+                            data-subject="mathematics"
+                            data-year="2024"
+                        >
+
+                            <div class="paper-icon purple">
+                                MTH
+                            </div>
+
+                            <div class="paper-info">
+
+                                <strong>
+                                    Mathematics — Board Exam
+                                </strong>
+
+                                <span>
+                                    Mathematics • School
+                                </span>
+
+                                <small>
+                                    2024 • 3 hours • 100 marks
+                                </small>
+
+                            </div>
+
+                            <span class="paper-badge">
+                                Popular
+                            </span>
+
+                            <button class="view-paper">
+                                View
+                            </button>
+
+                        </article>
+
+                    </div>
+
+                </div>
+
+
+                <!-- SIDE -->
+                <aside class="paper-sidebar">
+
+
+                    <div class="study-card">
+
+                        <span class="study-icon">
+                            ✦
+                        </span>
+
+                        <p>
+                            EXAM PREP TIP
+                        </p>
+
+                        <h2>
+                            Practice before you memorize.
+                        </h2>
+
+                        <span>
+                            Past papers help you understand question patterns,
+                            timing, and important topics.
+                        </span>
+
+                    </div>
+
+
+                    <div class="recent-card">
+
+                        <div class="side-title">
+
+                            <div>
+                                <small>YOUR ACTIVITY</small>
+                                <h2>Recently viewed</h2>
+                            </div>
+
+                        </div>
+
+
+                        <div class="recent-item">
+
+                            <span class="recent-icon purple">
+                                M
+                            </span>
+
+                            <div>
+                                <strong>
+                                    Calculus Final
+                                </strong>
+
+                                <small>
+                                    Viewed 10 min ago
+                                </small>
+                            </div>
+
+                        </div>
+
+
+                        <div class="recent-item">
+
+                            <span class="recent-icon blue">
+                                P
+                            </span>
+
+                            <div>
+                                <strong>
+                                    Physics Annual
+                                </strong>
+
+                                <small>
+                                    Viewed yesterday
+                                </small>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </aside>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- VIEW PAPER MODAL -->
+    <div class="modal-overlay" id="paperModal">
+
+        <div class="modal">
+
+            <button class="close-modal" id="closePaper">
+                ×
+            </button>
+
+            <div class="modal-icon">
+                PDF
+            </div>
+
+            <p class="modal-label">
+                PAPER PREVIEW
+            </p>
+
+            <h2 id="modalTitle">
+                Calculus — Final Exam
+            </h2>
+
+            <p id="modalDetails">
+                Mathematics • University • 2026
+            </p>
+
+            <div class="paper-preview">
+
+                <div class="preview-line large"></div>
+                <div class="preview-line"></div>
+                <div class="preview-line"></div>
+                <div class="preview-line short"></div>
+
+                <div class="preview-question">
+                    Question 01
+                </div>
+
+                <div class="preview-lines">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+
+            </div>
+
+            <button class="download-btn" id="downloadPaper">
+                Download Paper
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <script src="js/script.js"></script>
+<script src="js/past-papers.js"></script>
+
+</body>
+</html>

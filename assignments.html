@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Assignment Tracker | Campus Saathi</title>
+
+    <link rel="stylesheet" href="css/assignments.css">
+</head>
+
+<body>
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+<button class="mobile-close-btn" id="mobileCloseBtn">
+    ×
+</button>
+        <a href="index.html" class="sidebar-logo">
+            <span>CS</span>
+            Campus Saathi
+        </a>
+
+        <nav class="sidebar-nav">
+
+            <p class="nav-title">MAIN</p>
+
+            <a href="dashboard.html" class="nav-link">
+                <span>⌂</span>
+                Dashboard
+            </a>
+
+            <a href="planner.html" class="nav-link">
+                <span>✓</span>
+                15-Min Planner
+            </a>
+
+            <a href="quiz.html" class="nav-link">
+                <span>◫</span>
+                Notes → Quiz
+            </a>
+
+            <a href="doubts.html" class="nav-link">
+                <span>?</span>
+                Doubt Board
+            </a>
+
+            <p class="nav-title second-title">ORGANIZE</p>
+
+            <a href="assignments.html" class="nav-link active">
+                <span>□</span>
+                Assignments
+            </a>
+
+            <a href="past-papers.html" class="nav-link">
+                <span>▤</span>
+                Past Papers
+            </a>
+
+            <a href="projects.html" class="nav-link">
+                <span>◈</span>
+                Group Projects
+            </a>
+
+            <p class="nav-title second-title">WELLBEING</p>
+
+            <a href="wellbeing.html" class="nav-link">
+                <span>◌</span>
+                Wellbeing
+            </a>
+
+        </nav>
+
+        <div class="sidebar-bottom">
+
+            <a href="index.html" class="back-home">
+                ← Back to website
+            </a>
+
+        </div>
+
+    </aside>
+
+
+    <!-- MAIN -->
+    <main class="app-main">
+
+        <header class="topbar">
+<button class="mobile-menu-btn" id="mobileMenuBtn">
+    ☰
+</button>
+            <div class="mobile-brand">
+                Campus<span>Saathi</span>
+            </div>
+
+            <div class="user-profile">
+
+                <div class="avatar">
+                    LF
+                </div>
+
+                <div>
+                    <strong>Laiba Fatima</strong>
+                    <small>Student</small>
+                </div>
+
+            </div>
+
+        </header>
+
+
+        <section class="assignment-content">
+
+            <!-- PAGE HEADER -->
+            <div class="page-header">
+
+                <div>
+
+                    <p class="eyebrow">
+                        ORGANIZE PILLAR
+                    </p>
+
+                    <h1>
+                        Assignment Tracker
+                    </h1>
+
+                    <p>
+                        Keep every deadline in one place and stay ahead.
+                    </p>
+
+                </div>
+
+                <button class="add-assignment-btn" id="openAssignmentModal">
+                    + Add assignment
+                </button>
+
+            </div>
+
+
+            <!-- SUMMARY -->
+            <div class="summary-grid">
+
+                <div class="summary-card">
+                    <span class="summary-icon purple">□</span>
+
+                    <small>TOTAL</small>
+
+                    <strong id="totalAssignments">6</strong>
+
+                    <p>all assignments</p>
+                </div>
+
+
+                <div class="summary-card">
+                    <span class="summary-icon red">!</span>
+
+                    <small>DUE SOON</small>
+
+                    <strong id="dueSoon">2</strong>
+
+                    <p>within 3 days</p>
+                </div>
+
+
+                <div class="summary-card">
+                    <span class="summary-icon blue">◷</span>
+
+                    <small>IN PROGRESS</small>
+
+                    <strong id="inProgress">3</strong>
+
+                    <p>currently working</p>
+                </div>
+
+
+                <div class="summary-card">
+                    <span class="summary-icon green">✓</span>
+
+                    <small>COMPLETED</small>
+
+                    <strong id="completedCount">1</strong>
+
+                    <p>finished assignments</p>
+                </div>
+
+            </div>
+
+
+            <!-- TOOLBAR -->
+            <div class="toolbar">
+
+                <div class="search-box">
+
+                    <span>⌕</span>
+
+                    <input
+                        type="text"
+                        id="searchAssignments"
+                        placeholder="Search assignments..."
+                    >
+
+                </div>
+
+
+                <div class="filter-buttons">
+
+                    <button class="filter-btn active" data-filter="all">
+                        All
+                    </button>
+
+                    <button class="filter-btn" data-filter="pending">
+                        Pending
+                    </button>
+
+                    <button class="filter-btn" data-filter="progress">
+                        In Progress
+                    </button>
+
+                    <button class="filter-btn" data-filter="completed">
+                        Completed
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <!-- ASSIGNMENT LIST -->
+            <div class="assignment-panel">
+
+                <div class="panel-heading">
+
+                    <div>
+
+                        <small>YOUR WORK</small>
+
+                        <h2>
+                            Upcoming assignments
+                        </h2>
+
+                    </div>
+
+                    <span id="assignmentCount">
+                        6 assignments
+                    </span>
+
+                </div>
+
+
+                <div id="assignmentList">
+
+
+                    <!-- ASSIGNMENT 1 -->
+                    <article
+                        class="assignment-card"
+                        data-status="pending"
+                    >
+
+                        <div class="subject-icon purple">
+                            PHY
+                        </div>
+
+
+                        <div class="assignment-info">
+
+                            <strong>
+                                Physics Assignment
+                            </strong>
+
+                            <span>
+                                Physics • Chapter 4
+                            </span>
+
+                        </div>
+
+
+                        <div class="deadline">
+
+                            <small>
+                                DUE
+                            </small>
+
+                            <strong>
+                                Sep 02
+                            </strong>
+
+                            <span class="urgent">
+                                Tomorrow
+                            </span>
+
+                        </div>
+
+
+                        <span class="status pending">
+                            Pending
+                        </span>
+
+
+                        <button class="complete-btn" title="Mark complete">
+                            ✓
+                        </button>
+
+                    </article>
+
+
+
+                    <!-- ASSIGNMENT 2 -->
+                    <article
+                        class="assignment-card"
+                        data-status="progress"
+                    >
+
+                        <div class="subject-icon blue">
+                            MTH
+                        </div>
+
+
+                        <div class="assignment-info">
+
+                            <strong>
+                                Calculus Problem Set
+                            </strong>
+
+                            <span>
+                                Mathematics • Integration
+                            </span>
+
+                        </div>
+
+
+                        <div class="deadline">
+
+                            <small>
+                                DUE
+                            </small>
+
+                            <strong>
+                                Sep 04
+                            </strong>
+
+                            <span>
+                                3 days left
+                            </span>
+
+                        </div>
+
+
+                        <span class="status progress">
+                            In Progress
+                        </span>
+
+
+                        <button class="complete-btn" title="Mark complete">
+                            ✓
+                        </button>
+
+                    </article>
+
+
+
+                    <!-- ASSIGNMENT 3 -->
+                    <article
+                        class="assignment-card"
+                        data-status="pending"
+                    >
+
+                        <div class="subject-icon green">
+                            BIO
+                        </div>
+
+
+                        <div class="assignment-info">
+
+                            <strong>
+                                Biology Lab Report
+                            </strong>
+
+                            <span>
+                                Biology • Lab 03
+                            </span>
+
+                        </div>
+
+
+                        <div class="deadline">
+
+                            <small>
+                                DUE
+                            </small>
+
+                            <strong>
+                                Sep 06
+                            </strong>
+
+                            <span>
+                                5 days left
+                            </span>
+
+                        </div>
+
+
+                        <span class="status pending">
+                            Pending
+                        </span>
+
+
+                        <button class="complete-btn" title="Mark complete">
+                            ✓
+                        </button>
+
+                    </article>
+
+
+
+                    <!-- ASSIGNMENT 4 -->
+                    <article
+                        class="assignment-card"
+                        data-status="progress"
+                    >
+
+                        <div class="subject-icon orange">
+                            CS
+                        </div>
+
+
+                        <div class="assignment-info">
+
+                            <strong>
+                                JavaScript Mini Project
+                            </strong>
+
+                            <span>
+                                Computer Science • Web Development
+                            </span>
+
+                        </div>
+
+
+                        <div class="deadline">
+
+                            <small>
+                                DUE
+                            </small>
+
+                            <strong>
+                                Sep 08
+                            </strong>
+
+                            <span>
+                                7 days left
+                            </span>
+
+                        </div>
+
+
+                        <span class="status progress">
+                            In Progress
+                        </span>
+
+
+                        <button class="complete-btn" title="Mark complete">
+                            ✓
+                        </button>
+
+                    </article>
+
+
+
+                    <!-- ASSIGNMENT 5 -->
+                    <article
+                        class="assignment-card"
+                        data-status="completed"
+                    >
+
+                        <div class="subject-icon purple">
+                            ENG
+                        </div>
+
+
+                        <div class="assignment-info">
+
+                            <strong>
+                                English Presentation
+                            </strong>
+
+                            <span>
+                                English • Presentation
+                            </span>
+
+                        </div>
+
+
+                        <div class="deadline">
+
+                            <small>
+                                COMPLETED
+                            </small>
+
+                            <strong>
+                                Aug 29
+                            </strong>
+
+                            <span>
+                                Finished
+                            </span>
+
+                        </div>
+
+
+                        <span class="status completed">
+                            Completed
+                        </span>
+
+
+                        <button class="complete-btn checked">
+                            ✓
+                        </button>
+
+                    </article>
+
+
+
+                    <!-- ASSIGNMENT 6 -->
+                    <article
+                        class="assignment-card"
+                        data-status="progress"
+                    >
+
+                        <div class="subject-icon blue">
+                            CHE
+                        </div>
+
+
+                        <div class="assignment-info">
+
+                            <strong>
+                                Chemistry Research Notes
+                            </strong>
+
+                            <span>
+                                Chemistry • Organic Chemistry
+                            </span>
+
+                        </div>
+
+
+                        <div class="deadline">
+
+                            <small>
+                                DUE
+                            </small>
+
+                            <strong>
+                                Sep 10
+                            </strong>
+
+                            <span>
+                                9 days left
+                            </span>
+
+                        </div>
+
+
+                        <span class="status progress">
+                            In Progress
+                        </span>
+
+
+                        <button class="complete-btn">
+                            ✓
+                        </button>
+
+                    </article>
+
+                </div>
+
+            </div>
+
+
+            <!-- TIP -->
+            <div class="assignment-tip">
+
+                <span>✦</span>
+
+                <div>
+
+                    <strong>
+                        Don't let deadlines surprise you.
+                    </strong>
+
+                    <p>
+                        Check your tracker every morning and choose
+                        one important task to move forward.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- MODAL -->
+    <div class="modal-overlay" id="assignmentModal">
+
+        <div class="modal">
+
+            <button
+                class="close-modal"
+                id="closeAssignmentModal"
+            >
+                ×
+            </button>
+
+
+            <div class="modal-icon">
+                +
+            </div>
+
+            <p class="modal-label">
+                NEW ASSIGNMENT
+            </p>
+
+            <h2>
+                Add a new deadline
+            </h2>
+
+            <p class="modal-text">
+                Keep it simple. You can edit the details later.
+            </p>
+
+
+            <form id="assignmentForm">
+
+                <label for="assignmentTitle">
+                    Assignment name
+                </label>
+
+                <input
+                    type="text"
+                    id="assignmentTitle"
+                    placeholder="e.g. Biology Lab Report"
+                    required
+                >
+
+
+                <label for="assignmentSubject">
+                    Subject
+                </label>
+
+                <select id="assignmentSubject">
+
+                    <option>
+                        Mathematics
+                    </option>
+
+                    <option>
+                        Biology
+                    </option>
+
+                    <option>
+                        Physics
+                    </option>
+
+                    <option>
+                        Chemistry
+                    </option>
+
+                    <option>
+                        Computer Science
+                    </option>
+
+                    <option>
+                        English
+                    </option>
+
+                    <option>
+                        Other
+                    </option>
+
+                </select>
+
+
+                <label for="assignmentDate">
+                    Deadline
+                </label>
+
+                <input
+                    type="date"
+                    id="assignmentDate"
+                    required
+                >
+
+
+                <button
+                    type="submit"
+                    class="submit-assignment"
+                >
+                    Add Assignment
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+
+    <script src="js/script.js"></script>
+<script src="js/assignments.js"></script>
+
+</body>
+</html>

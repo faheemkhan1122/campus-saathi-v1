@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Notes → Quiz | Campus Saathi</title>
+
+    <link rel="stylesheet" href="css/quiz.css">
+</head>
+
+<body>
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+<button class="mobile-close-btn" id="mobileCloseBtn">
+    ×
+</button>
+        <a href="index.html" class="sidebar-logo">
+            <span>CS</span>
+            Campus Saathi
+        </a>
+
+        <nav class="sidebar-nav">
+
+            <p class="nav-title">MAIN</p>
+
+            <a href="dashboard.html" class="nav-link">
+                <span>⌂</span>
+                Dashboard
+            </a>
+
+            <a href="planner.html" class="nav-link">
+                <span>✓</span>
+                15-Min Planner
+            </a>
+
+            <a href="quiz.html" class="nav-link active">
+                <span>◫</span>
+                Notes → Quiz
+            </a>
+
+            <a href="doubts.html" class="nav-link">
+                <span>?</span>
+                Doubt Board
+            </a>
+
+            <p class="nav-title second-title">ORGANIZE</p>
+
+            <a href="assignments.html" class="nav-link">
+                <span>□</span>
+                Assignments
+            </a>
+
+            <a href="past-papers.html" class="nav-link">
+                <span>▤</span>
+                Past Papers
+            </a>
+
+            <a href="projects.html" class="nav-link">
+                <span>◈</span>
+                Group Projects
+            </a>
+
+            <p class="nav-title second-title">WELLBEING</p>
+
+            <a href="wellbeing.html" class="nav-link">
+                <span>◌</span>
+                Wellbeing
+            </a>
+
+        </nav>
+
+        <div class="sidebar-bottom">
+            <a href="index.html" class="back-home">
+                ← Back to website
+            </a>
+        </div>
+
+    </aside>
+
+
+    <!-- MAIN -->
+    <main class="app-main">
+
+        <header class="topbar">
+<button class="mobile-menu-btn" id="mobileMenuBtn">
+    ☰
+</button>
+            <div class="mobile-brand">
+                Campus<span>Saathi</span>
+            </div>
+
+            <div class="user-profile">
+
+                <div class="avatar">
+                    LF
+                </div>
+
+                <div>
+                    <strong>Laiba Fatima</strong>
+                    <small>Student</small>
+                </div>
+
+            </div>
+
+        </header>
+
+
+        <section class="quiz-content">
+
+            <!-- PAGE HEADER -->
+            <div class="page-header">
+
+                <div>
+
+                    <p class="eyebrow">
+                        STUDY PILLAR
+                    </p>
+
+                    <h1>
+                        Notes → Quiz
+                    </h1>
+
+                    <p>
+                        Turn your notes into practice questions in seconds.
+                    </p>
+
+                </div>
+
+                <div class="ai-badge">
+                    ✦ Smart Quiz Maker
+                </div>
+
+            </div>
+
+
+            <!-- MAIN BUILDER -->
+            <div class="builder-grid">
+
+                <!-- NOTES INPUT -->
+                <div class="panel notes-panel">
+
+                    <div class="panel-heading">
+
+                        <div>
+                            <small>STEP 01</small>
+                            <h2>Add your notes</h2>
+                        </div>
+
+                        <span>📝</span>
+
+                    </div>
+
+
+                    <label for="notesInput">
+                        Paste your study notes
+                    </label>
+
+                    <textarea
+                        id="notesInput"
+                        placeholder="Paste your notes here...
+
+Example:
+Photosynthesis is the process by which green plants convert light energy into chemical energy..."
+                    ></textarea>
+
+
+                    <div class="notes-footer">
+
+                        <span id="wordCount">
+                            0 words
+                        </span>
+
+                        <button
+                            type="button"
+                            id="clearNotes"
+                            class="text-btn"
+                        >
+                            Clear
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+                <!-- QUIZ SETTINGS -->
+                <div class="panel settings-panel">
+
+                    <div class="panel-heading">
+
+                        <div>
+                            <small>STEP 02</small>
+                            <h2>Quiz settings</h2>
+                        </div>
+
+                        <span>⚙</span>
+
+                    </div>
+
+
+                    <label for="questionCount">
+                        Number of questions
+                    </label>
+
+                    <select id="questionCount">
+
+                        <option value="5">
+                            5 Questions
+                        </option>
+
+                        <option value="10">
+                            10 Questions
+                        </option>
+
+                        <option value="15">
+                            15 Questions
+                        </option>
+
+                    </select>
+
+
+                    <label for="difficulty">
+                        Difficulty
+                    </label>
+
+                    <div class="difficulty-options">
+
+                        <button
+                            type="button"
+                            class="difficulty active"
+                            data-level="Easy"
+                        >
+                            Easy
+                        </button>
+
+                        <button
+                            type="button"
+                            class="difficulty"
+                            data-level="Medium"
+                        >
+                            Medium
+                        </button>
+
+                        <button
+                            type="button"
+                            class="difficulty"
+                            data-level="Hard"
+                        >
+                            Hard
+                        </button>
+
+                    </div>
+
+
+                    <label for="quizType">
+                        Question type
+                    </label>
+
+                    <select id="quizType">
+
+                        <option value="multiple">
+                            Multiple Choice
+                        </option>
+
+                        <option value="truefalse">
+                            True / False
+                        </option>
+
+                        <option value="mixed">
+                            Mixed Questions
+                        </option>
+
+                    </select>
+
+
+                    <button
+                        type="button"
+                        id="generateQuiz"
+                        class="generate-btn"
+                    >
+                        ✦ Generate Quiz
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <!-- HOW IT WORKS -->
+            <div class="info-strip">
+
+                <div class="info-step">
+                    <span>01</span>
+                    <p>
+                        Paste notes
+                    </p>
+                </div>
+
+                <div class="info-arrow">
+                    →
+                </div>
+
+                <div class="info-step">
+                    <span>02</span>
+                    <p>
+                        Choose settings
+                    </p>
+                </div>
+
+                <div class="info-arrow">
+                    →
+                </div>
+
+                <div class="info-step">
+                    <span>03</span>
+                    <p>
+                        Generate quiz
+                    </p>
+                </div>
+
+            </div>
+
+
+            <!-- QUIZ AREA -->
+            <div
+                class="quiz-result panel"
+                id="quizResult"
+            >
+
+                <div class="result-empty">
+
+                    <div class="empty-icon">
+                        ✦
+                    </div>
+
+                    <h2>
+                        Your quiz will appear here
+                    </h2>
+
+                    <p>
+                        Add your notes and click
+                        <strong>Generate Quiz</strong>
+                        to create your practice test.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <script src="js/script.js"></script>
+<script src="js/quiz.js"></script>
+
+</body>
+</html>

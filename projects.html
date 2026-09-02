@@ -1,0 +1,915 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Group Projects | Campus Saathi</title>
+
+    <link rel="stylesheet" href="css/projects.css">
+</head>
+
+<body>
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+<button class="mobile-close-btn" id="mobileCloseBtn">
+    ×
+</button>
+        <a href="index.html" class="sidebar-logo">
+            <span>CS</span>
+            Campus Saathi
+        </a>
+
+        <nav class="sidebar-nav">
+
+            <p class="nav-title">MAIN</p>
+
+            <a href="dashboard.html" class="nav-link">
+                <span>⌂</span>
+                Dashboard
+            </a>
+
+            <a href="planner.html" class="nav-link">
+                <span>✓</span>
+                15-Min Planner
+            </a>
+
+            <a href="quiz.html" class="nav-link">
+                <span>◫</span>
+                Notes → Quiz
+            </a>
+
+            <a href="doubts.html" class="nav-link">
+                <span>?</span>
+                Doubt Board
+            </a>
+
+            <p class="nav-title second-title">ORGANIZE</p>
+
+            <a href="assignments.html" class="nav-link">
+                <span>□</span>
+                Assignments
+            </a>
+
+            <a href="past-papers.html" class="nav-link">
+                <span>▤</span>
+                Past Papers
+            </a>
+
+            <a href="projects.html" class="nav-link active">
+                <span>◈</span>
+                Group Projects
+            </a>
+
+            <p class="nav-title second-title">WELLBEING</p>
+
+            <a href="wellbeing.html" class="nav-link">
+                <span>◌</span>
+                Wellbeing
+            </a>
+
+        </nav>
+
+        <div class="sidebar-bottom">
+            <a href="index.html" class="back-home">
+                ← Back to website
+            </a>
+        </div>
+
+    </aside>
+
+
+    <!-- MAIN -->
+    <main class="app-main">
+
+        <header class="topbar">
+<button class="mobile-menu-btn" id="mobileMenuBtn">
+    ☰
+</button>
+            <div class="mobile-brand">
+                Campus<span>Saathi</span>
+            </div>
+
+            <div class="user-profile">
+
+                <div class="avatar">
+                    LF
+                </div>
+
+                <div>
+                    <strong>Laiba Fatima</strong>
+                    <small>Student</small>
+                </div>
+
+            </div>
+
+        </header>
+
+
+        <section class="project-content">
+
+            <!-- HEADER -->
+            <div class="page-header">
+
+                <div>
+
+                    <p class="eyebrow">
+                        ORGANIZE PILLAR
+                    </p>
+
+                    <h1>
+                        Group Project Manager
+                    </h1>
+
+                    <p>
+                        Divide the work, track progress, and keep everyone moving.
+                    </p>
+
+                </div>
+
+                <button class="add-project-btn" id="openProjectModal">
+                    + New project
+                </button>
+
+            </div>
+
+
+            <!-- PROJECT SUMMARY -->
+            <div class="summary-grid">
+
+                <div class="summary-card">
+
+                    <span class="summary-icon purple">
+                        ◈
+                    </span>
+
+                    <small>ACTIVE PROJECTS</small>
+
+                    <strong id="activeProjects">
+                        3
+                    </strong>
+
+                    <p>currently working</p>
+
+                </div>
+
+
+                <div class="summary-card">
+
+                    <span class="summary-icon blue">
+                        ✓
+                    </span>
+
+                    <small>OPEN TASKS</small>
+
+                    <strong id="openTasks">
+                        12
+                    </strong>
+
+                    <p>across projects</p>
+
+                </div>
+
+
+                <div class="summary-card">
+
+                    <span class="summary-icon green">
+                        ↑
+                    </span>
+
+                    <small>COMPLETED</small>
+
+                    <strong id="completedTasks">
+                        18
+                    </strong>
+
+                    <p>tasks finished</p>
+
+                </div>
+
+
+                <div class="summary-card">
+
+                    <span class="summary-icon orange">
+                        %
+                    </span>
+
+                    <small>TEAM PROGRESS</small>
+
+                    <strong>
+                        76%
+                    </strong>
+
+                    <p>average progress</p>
+
+                </div>
+
+            </div>
+
+
+            <!-- PROJECT GRID -->
+            <div class="project-grid" id="projectGrid">
+
+
+                <!-- PROJECT 1 -->
+                <article class="project-card">
+
+                    <div class="project-top">
+
+                        <div class="project-icon purple">
+                            CS
+                        </div>
+
+                        <button class="more-btn">
+                            •••
+                        </button>
+
+                    </div>
+
+
+                    <div class="project-title-row">
+
+                        <div>
+
+                            <small>
+                                COMPUTER SCIENCE
+                            </small>
+
+                            <h2>
+                                Campus Website
+                            </h2>
+
+                        </div>
+
+                        <span class="project-percent">
+                            82%
+                        </span>
+
+                    </div>
+
+
+                    <p class="project-description">
+                        Build a responsive university website for the semester project.
+                    </p>
+
+
+                    <div class="project-progress">
+
+                        <div>
+                            <span>Progress</span>
+                            <strong>82%</strong>
+                        </div>
+
+                        <div class="progress-bar">
+                            <span style="width:82%"></span>
+                        </div>
+
+                    </div>
+
+
+                    <div class="project-meta">
+
+                        <div class="members">
+
+                            <span>LF</span>
+                            <span>AM</span>
+                            <span>SK</span>
+                            <span>+</span>
+
+                        </div>
+
+                        <small>
+                            Due Sep 08
+                        </small>
+
+                    </div>
+
+
+                    <div class="task-summary">
+
+                        <span>
+                            ✓ 8 completed
+                        </span>
+
+                        <span>
+                            ○ 2 remaining
+                        </span>
+
+                    </div>
+
+                </article>
+
+
+
+                <!-- PROJECT 2 -->
+                <article class="project-card">
+
+                    <div class="project-top">
+
+                        <div class="project-icon blue">
+                            BIO
+                        </div>
+
+                        <button class="more-btn">
+                            •••
+                        </button>
+
+                    </div>
+
+
+                    <div class="project-title-row">
+
+                        <div>
+
+                            <small>
+                                BIOLOGY
+                            </small>
+
+                            <h2>
+                                Health Research
+                            </h2>
+
+                        </div>
+
+                        <span class="project-percent">
+                            64%
+                        </span>
+
+                    </div>
+
+
+                    <p class="project-description">
+                        Research and present a report about modern healthcare trends.
+                    </p>
+
+
+                    <div class="project-progress">
+
+                        <div>
+                            <span>Progress</span>
+                            <strong>64%</strong>
+                        </div>
+
+                        <div class="progress-bar">
+                            <span style="width:64%"></span>
+                        </div>
+
+                    </div>
+
+
+                    <div class="project-meta">
+
+                        <div class="members">
+
+                            <span>SA</span>
+                            <span>MR</span>
+                            <span>LF</span>
+
+                        </div>
+
+                        <small>
+                            Due Sep 12
+                        </small>
+
+                    </div>
+
+
+                    <div class="task-summary">
+
+                        <span>
+                            ✓ 5 completed
+                        </span>
+
+                        <span>
+                            ○ 3 remaining
+                        </span>
+
+                    </div>
+
+                </article>
+
+
+
+                <!-- PROJECT 3 -->
+                <article class="project-card">
+
+                    <div class="project-top">
+
+                        <div class="project-icon orange">
+                            PHY
+                        </div>
+
+                        <button class="more-btn">
+                            •••
+                        </button>
+
+                    </div>
+
+
+                    <div class="project-title-row">
+
+                        <div>
+
+                            <small>
+                                PHYSICS
+                            </small>
+
+                            <h2>
+                                Solar Energy Study
+                            </h2>
+
+                        </div>
+
+                        <span class="project-percent">
+                            51%
+                        </span>
+
+                    </div>
+
+
+                    <p class="project-description">
+                        Prepare a group presentation exploring practical solar energy solutions.
+                    </p>
+
+
+                    <div class="project-progress">
+
+                        <div>
+                            <span>Progress</span>
+                            <strong>51%</strong>
+                        </div>
+
+                        <div class="progress-bar">
+                            <span style="width:51%"></span>
+                        </div>
+
+                    </div>
+
+
+                    <div class="project-meta">
+
+                        <div class="members">
+
+                            <span>SK</span>
+                            <span>AF</span>
+                            <span>HA</span>
+                            <span>+</span>
+
+                        </div>
+
+                        <small>
+                            Due Sep 15
+                        </small>
+
+                    </div>
+
+
+                    <div class="task-summary">
+
+                        <span>
+                            ✓ 5 completed
+                        </span>
+
+                        <span>
+                            ○ 7 remaining
+                        </span>
+
+                    </div>
+
+                </article>
+
+            </div>
+
+
+            <!-- SELECTED PROJECT -->
+            <div class="workspace-panel">
+
+                <div class="workspace-header">
+
+                    <div>
+
+                        <small>SELECTED PROJECT</small>
+
+                        <h2>
+                            Campus Website
+                        </h2>
+
+                    </div>
+
+                    <span class="workspace-status">
+                        ● Active
+                    </span>
+
+                </div>
+
+
+                <div class="workspace-grid">
+
+
+                    <!-- TASKS -->
+                    <div class="tasks-area">
+
+                        <div class="section-title">
+
+                            <div>
+                                <small>TASKS</small>
+                                <h3>
+                                    Team workload
+                                </h3>
+                            </div>
+
+                            <button id="addTaskBtn">
+                                + Add task
+                            </button>
+
+                        </div>
+
+
+                        <div id="taskList">
+
+
+                            <div class="project-task completed">
+
+                                <button class="task-check">
+                                    ✓
+                                </button>
+
+                                <div>
+                                    <strong>
+                                        Create homepage wireframe
+                                    </strong>
+
+                                    <small>
+                                        Laiba • Design
+                                    </small>
+                                </div>
+
+                                <span class="done-label">
+                                    Done
+                                </span>
+
+                            </div>
+
+
+                            <div class="project-task completed">
+
+                                <button class="task-check">
+                                    ✓
+                                </button>
+
+                                <div>
+                                    <strong>
+                                        Build navigation
+                                    </strong>
+
+                                    <small>
+                                        Ahmed • Frontend
+                                    </small>
+                                </div>
+
+                                <span class="done-label">
+                                    Done
+                                </span>
+
+                            </div>
+
+
+                            <div class="project-task">
+
+                                <button class="task-check">
+                                    3
+                                </button>
+
+                                <div>
+                                    <strong>
+                                        Connect contact form
+                                    </strong>
+
+                                    <small>
+                                        Sara • JavaScript
+                                    </small>
+                                </div>
+
+                                <span class="pending-label">
+                                    In progress
+                                </span>
+
+                            </div>
+
+
+                            <div class="project-task">
+
+                                <button class="task-check">
+                                    4
+                                </button>
+
+                                <div>
+                                    <strong>
+                                        Mobile responsiveness
+                                    </strong>
+
+                                    <small>
+                                        Laiba • Frontend
+                                    </small>
+                                </div>
+
+                                <span class="pending-label">
+                                    Pending
+                                </span>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- TEAM -->
+                    <div class="team-area">
+
+                        <div class="section-title">
+
+                            <div>
+                                <small>TEAM</small>
+
+                                <h3>
+                                    Members
+                                </h3>
+
+                            </div>
+
+                            <span>
+                                4 people
+                            </span>
+
+                        </div>
+
+
+                        <div class="member-card">
+
+                            <div class="member-avatar purple">
+                                LF
+                            </div>
+
+                            <div>
+                                <strong>
+                                    Laiba
+                                </strong>
+
+                                <small>
+                                    Frontend Developer
+                                </small>
+                            </div>
+
+                            <span>
+                                You
+                            </span>
+
+                        </div>
+
+
+                        <div class="member-card">
+
+                            <div class="member-avatar blue">
+                                AM
+                            </div>
+
+                            <div>
+                                <strong>
+                                    Ahmed
+                                </strong>
+
+                                <small>
+                                    UI Developer
+                                </small>
+                            </div>
+
+                            <span>
+                                32%
+                            </span>
+
+                        </div>
+
+
+                        <div class="member-card">
+
+                            <div class="member-avatar green">
+                                SK
+                            </div>
+
+                            <div>
+                                <strong>
+                                    Sara
+                                </strong>
+
+                                <small>
+                                    JavaScript
+                                </small>
+                            </div>
+
+                            <span>
+                                28%
+                            </span>
+
+                        </div>
+
+
+                        <div class="member-card">
+
+                            <div class="member-avatar orange">
+                                MK
+                            </div>
+
+                            <div>
+                                <strong>
+                                    Maryam
+                                </strong>
+
+                                <small>
+                                    Content
+                                </small>
+                            </div>
+
+                            <span>
+                                20%
+                            </span>
+
+                        </div>
+
+
+                        <button class="invite-btn">
+                            + Invite teammate
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+        </section>
+
+    </main>
+
+
+    <!-- NEW PROJECT MODAL -->
+    <div class="modal-overlay" id="projectModal">
+
+        <div class="modal">
+
+            <button
+                class="close-modal"
+                id="closeProjectModal"
+            >
+                ×
+            </button>
+
+            <div class="modal-icon">
+                ◈
+            </div>
+
+            <p class="modal-label">
+                NEW PROJECT
+            </p>
+
+            <h2>
+                Start a group project
+            </h2>
+
+            <p class="modal-text">
+                Create the project first. You can add teammates and tasks next.
+            </p>
+
+
+            <form id="projectForm">
+
+                <label for="projectName">
+                    Project name
+                </label>
+
+                <input
+                    type="text"
+                    id="projectName"
+                    placeholder="e.g. Campus Website"
+                    required
+                >
+
+
+                <label for="projectSubject">
+                    Subject
+                </label>
+
+                <select id="projectSubject">
+
+                    <option>Computer Science</option>
+                    <option>Mathematics</option>
+                    <option>Biology</option>
+                    <option>Physics</option>
+                    <option>Chemistry</option>
+                    <option>Other</option>
+
+                </select>
+
+
+                <label for="projectDeadline">
+                    Deadline
+                </label>
+
+                <input
+                    type="date"
+                    id="projectDeadline"
+                    required
+                >
+
+
+                <button
+                    type="submit"
+                    class="submit-project"
+                >
+                    Create Project
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+
+    <!-- ADD TASK MODAL -->
+    <div class="modal-overlay" id="taskModal">
+
+        <div class="modal">
+
+            <button
+                class="close-modal"
+                id="closeTaskModal"
+            >
+                ×
+            </button>
+
+            <div class="modal-icon blue-icon">
+                ✓
+            </div>
+
+            <p class="modal-label">
+                NEW TASK
+            </p>
+
+            <h2>
+                Add a team task
+            </h2>
+
+            <p class="modal-text">
+                Give the task a clear name and assign it to a teammate.
+            </p>
+
+
+            <form id="taskForm">
+
+                <label for="taskName">
+                    Task name
+                </label>
+
+                <input
+                    type="text"
+                    id="taskName"
+                    placeholder="e.g. Create presentation slides"
+                    required
+                >
+
+
+                <label for="taskMember">
+                    Assign to
+                </label>
+
+                <select id="taskMember">
+
+                    <option>Laiba</option>
+                    <option>Ahmed</option>
+                    <option>Sara</option>
+                    <option>Maryam</option>
+
+                </select>
+
+
+                <button
+                    type="submit"
+                    class="submit-project"
+                >
+                    Add Task
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+<script src="js/script.js"></script>
+    <script src="js/projects.js"></script>
+
+</body>
+</html>

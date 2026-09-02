@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Doubt Board | Campus Saathi</title>
+
+    <link rel="stylesheet" href="css/doubts.css">
+</head>
+
+<body>
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+<button class="mobile-close-btn" id="mobileCloseBtn">
+    ×
+</button>
+        <a href="index.html" class="sidebar-logo">
+            <span>CS</span>
+            Campus Saathi
+        </a>
+
+        <nav class="sidebar-nav">
+
+            <p class="nav-title">MAIN</p>
+
+            <a href="dashboard.html" class="nav-link">
+                <span>⌂</span>
+                Dashboard
+            </a>
+
+            <a href="planner.html" class="nav-link">
+                <span>✓</span>
+                15-Min Planner
+            </a>
+
+            <a href="quiz.html" class="nav-link">
+                <span>◫</span>
+                Notes → Quiz
+            </a>
+
+            <a href="doubts.html" class="nav-link active">
+                <span>?</span>
+                Doubt Board
+            </a>
+
+            <p class="nav-title second-title">ORGANIZE</p>
+
+            <a href="assignments.html" class="nav-link">
+                <span>□</span>
+                Assignments
+            </a>
+
+            <a href="past-papers.html" class="nav-link">
+                <span>▤</span>
+                Past Papers
+            </a>
+
+            <a href="projects.html" class="nav-link">
+                <span>◈</span>
+                Group Projects
+            </a>
+
+            <p class="nav-title second-title">WELLBEING</p>
+
+            <a href="wellbeing.html" class="nav-link">
+                <span>◌</span>
+                Wellbeing
+            </a>
+
+        </nav>
+
+        <div class="sidebar-bottom">
+            <a href="index.html" class="back-home">
+                ← Back to website
+            </a>
+        </div>
+
+    </aside>
+
+
+    <!-- MAIN -->
+    <main class="app-main">
+
+        <header class="topbar">
+<button class="mobile-menu-btn" id="mobileMenuBtn">
+    ☰
+</button>
+            <div class="mobile-brand">
+                Campus<span>Saathi</span>
+            </div>
+
+            <div class="user-profile">
+
+                <div class="avatar">
+                    LF
+                </div>
+
+                <div>
+                    <strong>Laiba Fatima</strong>
+                    <small>Student</small>
+                </div>
+
+            </div>
+
+        </header>
+
+
+        <section class="doubt-content">
+
+            <!-- PAGE HEADER -->
+            <div class="page-header">
+
+                <div>
+
+                    <p class="eyebrow">
+                        STUDY PILLAR
+                    </p>
+
+                    <h1>
+                        Doubt Board
+                    </h1>
+
+                    <p>
+                        Ask questions anonymously. Learn together.
+                    </p>
+
+                </div>
+
+                <button class="ask-btn" id="openModal">
+                    + Ask a doubt
+                </button>
+
+            </div>
+
+
+            <!-- SEARCH + FILTER -->
+            <div class="toolbar">
+
+                <div class="search-box">
+
+                    <span>⌕</span>
+
+                    <input
+                        type="text"
+                        id="searchDoubts"
+                        placeholder="Search doubts..."
+                    >
+
+                </div>
+
+
+                <div class="filter-buttons">
+
+                    <button class="filter-btn active" data-filter="all">
+                        All
+                    </button>
+
+                    <button class="filter-btn" data-filter="unanswered">
+                        Unanswered
+                    </button>
+
+                    <button class="filter-btn" data-filter="answered">
+                        Answered
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <!-- BOARD LAYOUT -->
+            <div class="board-layout">
+
+
+                <!-- DOUBTS -->
+                <div class="doubts-panel">
+
+                    <div class="panel-title">
+
+                        <div>
+                            <small>COMMUNITY</small>
+                            <h2>Recent doubts</h2>
+                        </div>
+
+                        <span id="doubtCount">
+                            4 doubts
+                        </span>
+
+                    </div>
+
+
+                    <div id="doubtList">
+
+
+                        <!-- DOUBT 1 -->
+                        <article
+                            class="doubt-card"
+                            data-status="answered"
+                        >
+
+                            <div class="doubt-top">
+
+                                <div class="anonymous-user">
+                                    <span>AN</span>
+                                    <div>
+                                        <strong>Anonymous Student</strong>
+                                        <small>Biology • 18 min ago</small>
+                                    </div>
+                                </div>
+
+                                <span class="answered-badge">
+                                    Answered
+                                </span>
+
+                            </div>
+
+
+                            <h3>
+                                Can someone explain the difference between
+                                mitosis and meiosis in simple words?
+                            </h3>
+
+
+                            <div class="tags">
+                                <span>Biology</span>
+                                <span>Exam Prep</span>
+                            </div>
+
+
+                            <div class="doubt-footer">
+
+                                <span>
+                                    💬 4 answers
+                                </span>
+
+                                <button
+                                    class="answer-btn"
+                                    data-question="Can someone explain the difference between mitosis and meiosis in simple words?"
+                                >
+                                    View answers →
+                                </button>
+
+                            </div>
+
+                        </article>
+
+
+
+                        <!-- DOUBT 2 -->
+                        <article
+                            class="doubt-card"
+                            data-status="unanswered"
+                        >
+
+                            <div class="doubt-top">
+
+                                <div class="anonymous-user">
+                                    <span>AS</span>
+                                    <div>
+                                        <strong>Anonymous Student</strong>
+                                        <small>Mathematics • 32 min ago</small>
+                                    </div>
+                                </div>
+
+                                <span class="unanswered-badge">
+                                    Needs help
+                                </span>
+
+                            </div>
+
+
+                            <h3>
+                                How do I solve integration by parts questions?
+                                I understand the formula but get stuck while
+                                choosing u and dv.
+                            </h3>
+
+
+                            <div class="tags">
+                                <span>Math</span>
+                                <span>Calculus</span>
+                            </div>
+
+
+                            <div class="doubt-footer">
+
+                                <span>
+                                    💬 0 answers
+                                </span>
+
+                                <button
+                                    class="answer-btn"
+                                    data-question="How do I solve integration by parts questions?"
+                                >
+                                    Answer this →
+                                </button>
+
+                            </div>
+
+                        </article>
+
+
+
+                        <!-- DOUBT 3 -->
+                        <article
+                            class="doubt-card"
+                            data-status="answered"
+                        >
+
+                            <div class="doubt-top">
+
+                                <div class="anonymous-user">
+                                    <span>SS</span>
+                                    <div>
+                                        <strong>Anonymous Student</strong>
+                                        <small>Physics • 1 hr ago</small>
+                                    </div>
+                                </div>
+
+                                <span class="answered-badge">
+                                    Answered
+                                </span>
+
+                            </div>
+
+
+                            <h3>
+                                What is the easiest way to remember Newton's
+                                three laws for an exam?
+                            </h3>
+
+
+                            <div class="tags">
+                                <span>Physics</span>
+                                <span>Study Tips</span>
+                            </div>
+
+
+                            <div class="doubt-footer">
+
+                                <span>
+                                    💬 7 answers
+                                </span>
+
+                                <button
+                                    class="answer-btn"
+                                    data-question="What is the easiest way to remember Newton's three laws?"
+                                >
+                                    View answers →
+                                </button>
+
+                            </div>
+
+                        </article>
+
+
+
+                        <!-- DOUBT 4 -->
+                        <article
+                            class="doubt-card"
+                            data-status="answered"
+                        >
+
+                            <div class="doubt-top">
+
+                                <div class="anonymous-user">
+                                    <span>MK</span>
+                                    <div>
+                                        <strong>Anonymous Student</strong>
+                                        <small>Computer Science • 2 hrs ago</small>
+                                    </div>
+                                </div>
+
+                                <span class="answered-badge">
+                                    Answered
+                                </span>
+
+                            </div>
+
+
+                            <h3>
+                                What is the difference between let, const,
+                                and var in JavaScript?
+                            </h3>
+
+
+                            <div class="tags">
+                                <span>JavaScript</span>
+                                <span>Programming</span>
+                            </div>
+
+
+                            <div class="doubt-footer">
+
+                                <span>
+                                    💬 3 answers
+                                </span>
+
+                                <button
+                                    class="answer-btn"
+                                    data-question="What is the difference between let, const, and var?"
+                                >
+                                    View answers →
+                                </button>
+
+                            </div>
+
+                        </article>
+
+                    </div>
+
+                </div>
+
+
+                <!-- RIGHT SIDEBAR -->
+                <aside class="board-sidebar">
+
+
+                    <div class="community-card">
+
+                        <div class="community-icon">
+                            ✦
+                        </div>
+
+                        <p class="community-label">
+                            STUDY TOGETHER
+                        </p>
+
+                        <h2>
+                            Nobody has to study alone.
+                        </h2>
+
+                        <p>
+                            Ask a question, share what you know,
+                            and help another student move forward.
+                        </p>
+
+                        <div class="community-stats">
+
+                            <div>
+                                <strong>128</strong>
+                                <span>questions</span>
+                            </div>
+
+                            <div>
+                                <strong>96</strong>
+                                <span>answered</span>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="topics-card">
+
+                        <div class="panel-title">
+
+                            <div>
+                                <small>POPULAR</small>
+                                <h2>Topics</h2>
+                            </div>
+
+                        </div>
+
+
+                        <div class="topic-item">
+                            <span>Mathematics</span>
+                            <small>28</small>
+                        </div>
+
+                        <div class="topic-item">
+                            <span>Biology</span>
+                            <small>21</small>
+                        </div>
+
+                        <div class="topic-item">
+                            <span>Physics</span>
+                            <small>17</small>
+                        </div>
+
+                        <div class="topic-item">
+                            <span>Programming</span>
+                            <small>14</small>
+                        </div>
+
+                    </div>
+
+                </aside>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+
+    <!-- ASK DOUBT MODAL -->
+
+    <div class="modal-overlay" id="doubtModal">
+
+        <div class="modal">
+
+            <button
+                class="close-modal"
+                id="closeModal"
+            >
+                ×
+            </button>
+
+
+            <div class="modal-icon">
+                ?
+            </div>
+
+            <p class="modal-label">
+                ASK ANONYMOUSLY
+            </p>
+
+            <h2>
+                What's confusing you?
+            </h2>
+
+            <p class="modal-text">
+                Your name will not be displayed with your question.
+            </p>
+
+
+            <form id="doubtForm">
+
+                <label for="questionInput">
+                    Your question
+                </label>
+
+                <textarea
+                    id="questionInput"
+                    placeholder="e.g. Can someone explain..."
+                    required
+                ></textarea>
+
+
+                <label for="subjectInput">
+                    Subject
+                </label>
+
+                <select id="subjectInput">
+
+                    <option>Mathematics</option>
+                    <option>Biology</option>
+                    <option>Physics</option>
+                    <option>Computer Science</option>
+                    <option>Other</option>
+
+                </select>
+
+
+                <button
+                    type="submit"
+                    class="submit-doubt"
+                >
+                    Post Anonymous Doubt
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+
+    <script src="js/script.js"></script>
+<script src="js/doubts.js"></script>
+
+</body>
+</html>

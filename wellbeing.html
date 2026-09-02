@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Wellbeing | Campus Saathi</title>
+
+    <link rel="stylesheet" href="css/wellbeing.css">
+</head>
+
+<body>
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+<button class="mobile-close-btn" id="mobileCloseBtn">
+    ×
+</button>
+        <a href="index.html" class="sidebar-logo">
+            <span>CS</span>
+            Campus Saathi
+        </a>
+
+        <nav class="sidebar-nav">
+
+            <p class="nav-title">MAIN</p>
+
+            <a href="dashboard.html" class="nav-link">
+                <span>⌂</span>
+                Dashboard
+            </a>
+
+            <a href="planner.html" class="nav-link">
+                <span>✓</span>
+                15-Min Planner
+            </a>
+
+            <a href="quiz.html" class="nav-link">
+                <span>◫</span>
+                Notes → Quiz
+            </a>
+
+            <a href="doubts.html" class="nav-link">
+                <span>?</span>
+                Doubt Board
+            </a>
+
+            <p class="nav-title second-title">ORGANIZE</p>
+
+            <a href="assignments.html" class="nav-link">
+                <span>□</span>
+                Assignments
+            </a>
+
+            <a href="past-papers.html" class="nav-link">
+                <span>▤</span>
+                Past Papers
+            </a>
+
+            <a href="projects.html" class="nav-link">
+                <span>◈</span>
+                Group Projects
+            </a>
+
+            <p class="nav-title second-title">WELLBEING</p>
+
+            <a href="wellbeing.html" class="nav-link active">
+                <span>◌</span>
+                Wellbeing
+            </a>
+
+        </nav>
+
+        <div class="sidebar-bottom">
+            <a href="index.html" class="back-home">
+                ← Back to website
+            </a>
+        </div>
+
+    </aside>
+
+
+    <!-- MAIN -->
+    <main class="app-main">
+
+        <header class="topbar">
+<button class="mobile-menu-btn" id="mobileMenuBtn">
+    ☰
+</button>
+            <div class="mobile-brand">
+                Campus<span>Saathi</span>
+            </div>
+
+            <div class="user-profile">
+
+                <div class="avatar">
+                    LF
+                </div>
+
+                <div>
+                    <strong>Laiba Fatima</strong>
+                    <small>Student</small>
+                </div>
+
+            </div>
+
+        </header>
+
+
+        <section class="wellbeing-content">
+
+            <!-- HEADER -->
+            <div class="page-header">
+
+                <div>
+
+                    <p class="eyebrow">
+                        WELLBEING PILLAR
+                    </p>
+
+                    <h1>
+                        Take a moment for yourself.
+                    </h1>
+
+                    <p>
+                        Productivity matters, but so does the person behind it.
+                    </p>
+
+                </div>
+
+                <div class="mood-badge">
+                    ✦ You deserve a reset
+                </div>
+
+            </div>
+
+
+            <!-- HERO CARD -->
+            <div class="wellbeing-hero">
+
+                <div class="hero-orb orb-one"></div>
+                <div class="hero-orb orb-two"></div>
+
+                <div class="hero-content">
+
+                    <span class="hero-icon">
+                        ◌
+                    </span>
+
+                    <p>
+                        TODAY'S REMINDER
+                    </p>
+
+                    <h2>
+                        You don't have to be
+                        productive every minute.
+                    </h2>
+
+                    <span>
+                        Pause. Breathe. Reset. Then decide what comes next.
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <!-- FEATURE GRID -->
+            <div class="feature-grid">
+
+
+                <!-- SILENT STUDY -->
+                <div class="wellbeing-card silent-card">
+
+                    <div class="card-top">
+
+                        <div class="feature-icon purple">
+                            ♫
+                        </div>
+
+                        <span class="feature-number">
+                            01
+                        </span>
+
+                    </div>
+
+                    <small class="card-label">
+                        FOCUS MODE
+                    </small>
+
+                    <h2>
+                        Silent Study Mode
+                    </h2>
+
+                    <p>
+                        Create a distraction-free session and
+                        give your attention one place to go.
+                    </p>
+
+                    <div class="mode-status" id="silentStatus">
+                        <span></span>
+                        Mode is off
+                    </div>
+
+                    <button
+                        class="feature-btn"
+                        id="silentToggle"
+                    >
+                        Turn on Silent Mode
+                    </button>
+
+                </div>
+
+
+                <!-- QUICK RESET -->
+                <div class="wellbeing-card reset-card">
+
+                    <div class="card-top">
+
+                        <div class="feature-icon blue">
+                            ✦
+                        </div>
+
+                        <span class="feature-number">
+                            02
+                        </span>
+
+                    </div>
+
+                    <small class="card-label">
+                        QUICK RESET
+                    </small>
+
+                    <h2>
+                        Need a small reset?
+                    </h2>
+
+                    <p>
+                        Take a short guided breathing break
+                        before returning to your work.
+                    </p>
+
+                    <div class="breathing-circle" id="breathingCircle">
+
+                        <div>
+                            <strong id="breathingText">
+                                Ready
+                            </strong>
+
+                            <small>
+                                breathe
+                            </small>
+                        </div>
+
+                    </div>
+
+                    <button
+                        class="feature-btn"
+                        id="resetBtn"
+                    >
+                        Start 60-second reset
+                    </button>
+
+                </div>
+
+
+                <!-- SUPPORT -->
+                <div class="wellbeing-card support-card">
+
+                    <div class="card-top">
+
+                        <div class="feature-icon green">
+                            ♡
+                        </div>
+
+                        <span class="feature-number">
+                            03
+                        </span>
+
+                    </div>
+
+                    <small class="card-label">
+                        COMMUNITY SUPPORT
+                    </small>
+
+                    <h2>
+                        You can talk anonymously.
+                    </h2>
+
+                    <p>
+                        Share how you're feeling with a supportive
+                        student community without using your name.
+                    </p>
+
+                    <div class="support-box">
+
+                        <span>
+                            💬
+                        </span>
+
+                        <div>
+                            <strong>
+                                You're not alone.
+                            </strong>
+
+                            <small>
+                                Share what's on your mind.
+                            </small>
+                        </div>
+
+                    </div>
+
+                    <button
+                        class="feature-btn"
+                        id="supportBtn"
+                    >
+                        Share anonymously
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <!-- DAILY CHECK-IN -->
+            <div class="checkin-panel">
+
+                <div class="checkin-text">
+
+                    <small>
+                        DAILY CHECK-IN
+                    </small>
+
+                    <h2>
+                        How are you feeling today?
+                    </h2>
+
+                    <p>
+                        There's no right answer. Just choose what feels closest.
+                    </p>
+
+                </div>
+
+
+                <div class="mood-options">
+
+                    <button class="mood-option" data-mood="Great">
+                        <span>😊</span>
+                        Great
+                    </button>
+
+                    <button class="mood-option" data-mood="Good">
+                        <span>🙂</span>
+                        Good
+                    </button>
+
+                    <button class="mood-option" data-mood="Okay">
+                        <span>😐</span>
+                        Okay
+                    </button>
+
+                    <button class="mood-option" data-mood="Low">
+                        <span>😔</span>
+                        Low
+                    </button>
+
+                    <button class="mood-option" data-mood="Stressed">
+                        <span>😣</span>
+                        Stressed
+                    </button>
+
+                </div>
+
+
+                <div class="checkin-result" id="checkinResult">
+                    Choose a mood to check in.
+                </div>
+
+            </div>
+
+
+            <!-- SUPPORT MESSAGE -->
+            <div class="support-message">
+
+                <div class="message-icon">
+                    ✦
+                </div>
+
+                <div>
+
+                    <strong>
+                        Small reminder:
+                    </strong>
+
+                    <p>
+                        Rest is not wasted time. A focused student also knows
+                        when to pause.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- SUPPORT MODAL -->
+    <div class="modal-overlay" id="supportModal">
+
+        <div class="modal">
+
+            <button
+                class="close-modal"
+                id="closeSupport"
+            >
+                ×
+            </button>
+
+            <div class="modal-icon">
+                ♡
+            </div>
+
+            <p class="modal-label">
+                ANONYMOUS SUPPORT
+            </p>
+
+            <h2>
+                What's on your mind?
+            </h2>
+
+            <p class="modal-text">
+                Your message will be shared anonymously.
+            </p>
+
+            <form id="supportForm">
+
+                <textarea
+                    id="supportInput"
+                    placeholder="Write anything you feel comfortable sharing..."
+                    required
+                ></textarea>
+
+                <button
+                    type="submit"
+                    class="submit-support"
+                >
+                    Share anonymously
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+<script src="js/script.js"></script>
+    <script src="js/wellbeing.js"></script>
+
+</body>
+</html>
