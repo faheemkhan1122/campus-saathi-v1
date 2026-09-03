@@ -2,8 +2,8 @@
 // CAMPUS SAATHI - SIGNUP
 // =========================================
 
-const SUPABASE_URL = "YOUR_SUPABASE_URL";
-const SUPABASE_ANON_KEY = "YOUR_SUPABASE_ANON_KEY";
+const SUPABASE_URL = "https://sjnejzsvmedbjqpmoyhw.supabase.co";
+const SUPABASE_ANON_KEY = "sb_publishable_ANNCaMJFW9vxfFzpEzClxA_QUk-Q-8h";
 
 const supabaseClient = window.supabase.createClient(
     SUPABASE_URL,
