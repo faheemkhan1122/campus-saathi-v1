@@ -118,3 +118,45 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
 });
+/* =========================================
+   USER NAME & PROFILE
+========================================= */
+
+const savedName = localStorage.getItem("userName");
+
+const greetingName =
+    document.getElementById("userGreetingName");
+
+const profileName =
+    document.getElementById("userProfileName");
+
+const userAvatar =
+    document.getElementById("userAvatar");
+
+
+if (savedName) {
+
+    // Greeting
+    if (greetingName) {
+        greetingName.textContent = savedName;
+    }
+
+    // Profile name
+    if (profileName) {
+        profileName.textContent = savedName;
+    }
+
+    // Avatar initials
+    if (userAvatar) {
+
+        const initials = savedName
+            .split(" ")
+            .map(word => word.charAt(0))
+            .join("")
+            .substring(0, 2)
+            .toUpperCase();
+
+        userAvatar.textContent = initials;
+    }
+
+}
