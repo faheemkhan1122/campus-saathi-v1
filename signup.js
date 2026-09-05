@@ -75,12 +75,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
             signupMessage.textContent =
-                "Account created successfully!";
+    "Account created successfully!";
 
-            signupMessage.style.color = "#16a34a";
+signupMessage.style.color = "#16a34a";
 
+// Save user's name for dashboard
+localStorage.setItem("userName", name);
 
-            signupForm.reset();
+signupForm.reset();
 
 
             // If email confirmation is enabled
