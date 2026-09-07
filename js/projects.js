@@ -1,5 +1,20 @@
 document.addEventListener("DOMContentLoaded", () => {
 
+    /* =========================
+       CURRENT USER
+    ========================== */
+
+    const userId = localStorage.getItem("userId");
+
+    const projectStorageKey = userId
+        ? `projects_${userId}`
+        : "projects_guest";
+
+
+    /* =========================
+       ELEMENTS
+    ========================== */
+
     const projectModal =
         document.getElementById("projectModal");
 
@@ -31,6 +46,71 @@ document.addEventListener("DOMContentLoaded", () => {
         document.getElementById("taskList");
 
 
+    if (
+        !projectModal ||
+        !taskModal ||
+        !openProjectModal ||
+        !closeProjectModal ||
+        !addTaskBtn ||
+        !closeTaskModal ||
+        !projectForm ||
+        !taskForm ||
+        !projectGrid ||
+        !taskList
+    ) {
+        console.error("Project elements not found.");
+        return;
+    }
+
+
+    /* =========================
+       LOAD USER PROJECTS
+    ========================== */
+
+    let projects = [];
+
+    try {
+
+        projects =
+            JSON.parse(
+                localStorage.getItem(
+                    projectStorageKey
+                )
+            ) || [];
+
+    } catch (error) {
+
+        console.error(
+            "Could not load projects.",
+            error
+        );
+
+        projects = [];
+
+    }
+
+
+    /* =========================
+       CURRENT PROJECT
+    ========================== */
+
+    let currentProjectId = null;
+
+
+    /* =========================
+       SAVE PROJECTS
+    ========================== */
+
+    function saveProjects() {
+
+        localStorage.setItem(
+            projectStorageKey,
+            JSON.stringify(projects)
+        );
+
+    }
+
+
     /* =========================
        PROJECT MODAL
     ========================== */
@@ -38,7 +118,9 @@ document.addEventListener("DOMContentLoaded", () => {
     openProjectModal.addEventListener(
         "click",
         () => {
+
             projectModal.classList.add("show");
+
         }
     );
 
@@ -46,7 +128,9 @@ document.addEventListener("DOMContentLoaded", () => {
     closeProjectModal.addEventListener(
         "click",
         () => {
+
             projectModal.classList.remove("show");
+
         }
     );
 
@@ -58,7 +142,19 @@ document.addEventListener("DOMContentLoaded", () => {
     addTaskBtn.addEventListener(
         "click",
         () => {
+
+            if (!currentProjectId) {
+
+                alert(
+                    "Please create a project first."
+                );
+
+                return;
+
+            }
+
             taskModal.classList.add("show");
+
         }
     );
 
@@ -66,81 +162,103 @@ document.addEventListener("DOMContentLoaded", () => {
     closeTaskModal.addEventListener(
         "click",
         () => {
+
             taskModal.classList.remove("show");
+
         }
     );
 
 
-    /* CLOSE BY BACKDROP */
+    /* =========================
+       CLOSE BY BACKDROP
+    ========================== */
 
-    [projectModal, taskModal].forEach(modal => {
+    [projectModal, taskModal].forEach(
+        modal => {
 
-        modal.addEventListener(
-            "click",
-            event => {
+            modal.addEventListener(
+                "click",
+                event => {
 
-                if (event.target === modal) {
-                    modal.classList.remove("show");
+                    if (
+                        event.target === modal
+                    ) {
+
+                        modal.classList.remove(
+                            "show"
+                        );
+
+                    }
+
                 }
+            );
 
-            }
-        );
-
-    });
+        }
+    );
 
 
     /* =========================
-       CREATE PROJECT
+       RENDER PROJECTS
     ========================== */
 
-    projectForm.addEventListener(
-        "submit",
-        event => {
+    function renderProjects() {
 
-            event.preventDefault();
+        projectGrid.innerHTML = "";
 
 
-            const projectName =
-                document
-                    .getElementById("projectName")
-                    .value
-                    .trim();
+        projects.forEach(project => {
+
+            const completedTasks =
+                project.tasks.filter(
+                    task => task.completed
+                ).length;
 
 
-            const subject =
-                document
-                    .getElementById("projectSubject")
-                    .value;
+            const totalTasks =
+                project.tasks.length;
 
 
-            const deadline =
-                document
-                    .getElementById("projectDeadline")
-                    .value;
+            const remainingTasks =
+                totalTasks - completedTasks;
 
 
-            if (!projectName || !deadline) {
-                return;
-            }
+            const progress =
+                totalTasks === 0
+                    ? 0
+                    : Math.round(
+                        (completedTasks /
+                            totalTasks) * 100
+                    );
 
 
-            const project =
-                document.createElement("article");
+            const card =
+                document.createElement(
+                    "article"
+                );
 
 
-            project.className =
+            card.className =
                 "project-card";
 
 
-            project.innerHTML = `
+            card.dataset.id =
+                project.id;
+
+
+            card.innerHTML = `
 
                 <div class="project-top">
 
                     <div class="project-icon purple">
-                        ${subject.substring(0, 3).toUpperCase()}
+                        ${project.subject
+                            .substring(0, 3)
+                            .toUpperCase()}
                     </div>
 
-                    <button class="more-btn">
+                    <button
+                        class="more-btn"
+                        type="button"
+                    >
                         •••
                     </button>
 
@@ -152,7 +270,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     <div>
 
                         <small>
-                            ${subject.toUpperCase()}
+                            ${project.subject.toUpperCase()}
                         </small>
 
                         <h2></h2>
@@ -160,7 +278,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     </div>
 
                     <span class="project-percent">
-                        0%
+                        ${progress}%
                     </span>
 
                 </div>
@@ -178,14 +296,17 @@ document.addEventListener("DOMContentLoaded", () => {
                         <span>Progress</span>
 
                         <strong>
-                            0%
+                            ${progress}%
                         </strong>
 
                     </div>
 
+
                     <div class="progress-bar">
 
-                        <span style="width:0%"></span>
+                        <span
+                            style="width:${progress}%"
+                        ></span>
 
                     </div>
 
@@ -196,12 +317,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
                     <div class="members">
 
-                        <span>LF</span>
+                        <span>
+                            LF
+                        </span>
 
                     </div>
 
                     <small>
-                        Due ${deadline}
+                        Due ${project.deadline}
                     </small>
 
                 </div>
@@ -210,32 +333,156 @@ document.addEventListener("DOMContentLoaded", () => {
                 <div class="task-summary">
 
                     <span>
-                        ✓ 0 completed
+                        ✓ ${completedTasks} completed
                     </span>
 
                     <span>
-                        ○ 0 remaining
+                        ○ ${remainingTasks} remaining
                     </span>
 
                 </div>
+
             `;
 
 
-            project
-                .querySelector(".project-title-row h2")
+            card
+                .querySelector(
+                    ".project-title-row h2"
+                )
                 .textContent =
-                projectName;
+                    project.name;
 
 
-            projectGrid.prepend(project);
+            projectGrid.appendChild(card);
+
+        });
+
+
+        updateProjectCount();
+
+        renderTasks();
+
+    }
+
+
+    /* =========================
+       CREATE PROJECT
+    ========================== */
+
+    projectForm.addEventListener(
+        "submit",
+        event => {
+
+            event.preventDefault();
+
+
+            const projectName =
+                document
+                    .getElementById(
+                        "projectName"
+                    )
+                    .value
+                    .trim();
+
+
+            const subject =
+                document
+                    .getElementById(
+                        "projectSubject"
+                    )
+                    .value;
+
+
+            const deadline =
+                document
+                    .getElementById(
+                        "projectDeadline"
+                    )
+                    .value;
+
+
+            if (
+                !projectName ||
+                !deadline
+            ) {
+
+                return;
+
+            }
+
+
+            const project = {
+
+                id: Date.now(),
+
+                name: projectName,
+
+                subject: subject,
+
+                deadline: deadline,
+
+                tasks: []
+
+            };
+
+
+            /* =========================
+               SAVE FOR CURRENT USER
+            ========================== */
+
+            projects.unshift(
+                project
+            );
+
+
+            currentProjectId =
+                project.id;
+
+
+            saveProjects();
+
+
+            renderProjects();
 
 
             projectForm.reset();
 
-            projectModal.classList.remove("show");
+            projectModal.classList.remove(
+                "show"
+            );
+
+        }
+    );
 
 
-            updateProjectCount();
+    /* =========================
+       SELECT PROJECT
+    ========================== */
+
+    projectGrid.addEventListener(
+        "click",
+        event => {
+
+            const card =
+                event.target.closest(
+                    ".project-card"
+                );
+
+
+            if (!card) {
+                return;
+            }
+
+
+            const projectId =
+                Number(card.dataset.id);
+
+
+            currentProjectId =
+                projectId;
+
+
+            renderTasks();
 
         }
     );
@@ -252,68 +499,199 @@ document.addEventListener("DOMContentLoaded", () => {
             event.preventDefault();
 
 
+            if (!currentProjectId) {
+
+                alert(
+                    "Please select a project first."
+                );
+
+                return;
+
+            }
+
+
             const taskName =
                 document
-                    .getElementById("taskName")
+                    .getElementById(
+                        "taskName"
+                    )
                     .value
                     .trim();
 
 
             const member =
                 document
-                    .getElementById("taskMember")
+                    .getElementById(
+                        "taskMember"
+                    )
                     .value;
 
 
             if (!taskName) {
+
                 return;
+
             }
 
 
-            const task =
-                document.createElement("div");
+            const project =
+                projects.find(
+                    item =>
+                        item.id ===
+                        currentProjectId
+                );
 
 
-            task.className =
+            if (!project) {
+
+                return;
+
+            }
+
+
+            const task = {
+
+                id: Date.now(),
+
+                name: taskName,
+
+                member: member,
+
+                completed: false
+
+            };
+
+
+            project.tasks.push(task);
+
+
+            saveProjects();
+
+
+            renderProjects();
+
+
+            taskForm.reset();
+
+            taskModal.classList.remove(
+                "show"
+            );
+
+        }
+    );
+
+
+    /* =========================
+       RENDER TASKS
+    ========================== */
+
+    function renderTasks() {
+
+        taskList.innerHTML = "";
+
+
+        if (!currentProjectId) {
+
+            return;
+
+        }
+
+
+        const project =
+            projects.find(
+                item =>
+                    item.id ===
+                    currentProjectId
+            );
+
+
+        if (!project) {
+
+            return;
+
+        }
+
+
+        project.tasks.forEach(task => {
+
+            const taskElement =
+                document.createElement(
+                    "div"
+                );
+
+
+            taskElement.className =
                 "project-task";
 
 
-            task.innerHTML = `
+            if (task.completed) {
 
-                <button class="task-check">
-                    +
+                taskElement.classList.add(
+                    "completed"
+                );
+
+            }
+
+
+            taskElement.dataset.id =
+                task.id;
+
+
+            taskElement.innerHTML = `
+
+                <button
+                    class="task-check"
+                    type="button"
+                >
+                    ${task.completed
+                        ? "✓"
+                        : "+"}
                 </button>
+
 
                 <div>
 
                     <strong></strong>
 
                     <small>
-                        ${member} • New task
+                        ${task.member} • New task
                     </small>
 
                 </div>
 
-                <span class="pending-label">
-                    Pending
+
+                <span class="${
+                    task.completed
+                        ? "done-label"
+                        : "pending-label"
+                }">
+
+                    ${
+                        task.completed
+                            ? "Done"
+                            : "Pending"
+                    }
+
                 </span>
 
             `;
 
 
-            task.querySelector("strong")
-                .textContent = taskName;
+            taskElement
+                .querySelector(
+                    "strong"
+                )
+                .textContent =
+                    task.name;
 
 
-            taskList.appendChild(task);
+            taskList.appendChild(
+                taskElement
+            );
 
+        });
 
-            taskForm.reset();
-
-            taskModal.classList.remove("show");
-
-        }
-    );
+    }
 
 
     /* =========================
@@ -325,46 +703,75 @@ document.addEventListener("DOMContentLoaded", () => {
         event => {
 
             const button =
-                event.target.closest(".task-check");
+                event.target.closest(
+                    ".task-check"
+                );
 
 
             if (!button) {
+
                 return;
+
+            }
+
+
+            const taskElement =
+                button.closest(
+                    ".project-task"
+                );
+
+
+            if (!taskElement) {
+
+                return;
+
+            }
+
+
+            const taskId =
+                Number(
+                    taskElement.dataset.id
+                );
+
+
+            const project =
+                projects.find(
+                    item =>
+                        item.id ===
+                        currentProjectId
+                );
+
+
+            if (!project) {
+
+                return;
+
             }
 
 
             const task =
-                button.closest(".project-task");
+                project.tasks.find(
+                    item =>
+                        item.id ===
+                        taskId
+                );
 
 
-            const status =
-                task.querySelector("span");
+            if (!task) {
 
-
-            task.classList.toggle("completed");
-
-
-            if (
-                task.classList.contains("completed")
-            ) {
-
-                button.textContent = "✓";
-
-                status.textContent = "Done";
-
-                status.className =
-                    "done-label";
-
-            } else {
-
-                button.textContent = "+";
-
-                status.textContent = "Pending";
-
-                status.className =
-                    "pending-label";
+                return;
 
             }
+
+
+            task.completed =
+                !task.completed;
+
+
+            saveProjects();
+
+
+            renderProjects();
 
         }
     );
@@ -377,15 +784,37 @@ document.addEventListener("DOMContentLoaded", () => {
     function updateProjectCount() {
 
         const count =
-            projectGrid.querySelectorAll(
-                ".project-card"
-            ).length;
+            projects.length;
 
 
-        document.getElementById(
-            "activeProjects"
-        ).textContent = count;
+        const activeProjects =
+            document.getElementById(
+                "activeProjects"
+            );
+
+
+        if (activeProjects) {
+
+            activeProjects.textContent =
+                count;
+
+        }
 
     }
+
+
+    /* =========================
+       INITIAL LOAD
+    ========================== */
+
+    if (projects.length > 0) {
+
+        currentProjectId =
+            projects[0].id;
+
+    }
+
+
+    renderProjects();
 
 });
