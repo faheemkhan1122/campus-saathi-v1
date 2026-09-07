@@ -1,3 +1,4 @@
+```javascript
 document.addEventListener("DOMContentLoaded", () => {
 
     /* =========================
@@ -17,6 +18,59 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     /* =========================
+       USER NAME
+    ========================== */
+
+    const userName =
+        localStorage.getItem("userName") ||
+        localStorage.getItem("name") ||
+        "Student";
+
+
+    /* =========================
+       USER PROFILE
+    ========================== */
+
+    const userProfileName =
+        document.getElementById("userProfileName");
+
+    const userAvatar =
+        document.getElementById("userAvatar");
+
+
+    // Show actual logged-in user's name
+    if (userProfileName) {
+        userProfileName.textContent = userName;
+    }
+
+
+    // Create initials
+    if (userAvatar) {
+
+        const nameParts =
+            userName.trim().split(/\s+/);
+
+        let initials = "ST";
+
+        if (nameParts.length >= 2) {
+
+            initials =
+                nameParts[0].charAt(0) +
+                nameParts[1].charAt(0);
+
+        } else if (nameParts.length === 1) {
+
+            initials =
+                nameParts[0].substring(0, 2);
+
+        }
+
+        userAvatar.textContent =
+            initials.toUpperCase();
+    }
+
+
+    /* =========================
        TIMER
     ========================== */
 
@@ -24,16 +78,25 @@ document.addEventListener("DOMContentLoaded", () => {
     let timerInterval = null;
     let isRunning = false;
 
-    const timerDisplay = document.getElementById("timer");
-    const startButton = document.getElementById("startTimer");
-    const resetButton = document.getElementById("resetTimer");
+    const timerDisplay =
+        document.getElementById("timer");
+
+    const startButton =
+        document.getElementById("startTimer");
+
+    const resetButton =
+        document.getElementById("resetTimer");
+
 
     if (timerDisplay && startButton && resetButton) {
 
         function updateTimer() {
 
-            const minutes = Math.floor(timeLeft / 60);
-            const seconds = timeLeft % 60;
+            const minutes =
+                Math.floor(timeLeft / 60);
+
+            const seconds =
+                timeLeft % 60;
 
             timerDisplay.textContent =
                 `${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
@@ -49,7 +112,8 @@ document.addEventListener("DOMContentLoaded", () => {
                 timerInterval = null;
                 isRunning = false;
 
-                startButton.textContent = "Resume Focus";
+                startButton.textContent =
+                    "Resume Focus";
 
                 return;
             }
@@ -57,7 +121,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
             isRunning = true;
 
-            startButton.textContent = "Pause";
+            startButton.textContent =
+                "Pause";
 
 
             timerInterval = setInterval(() => {
@@ -106,7 +171,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     } else {
 
-        console.warn("Timer elements not found.");
+        console.warn(
+            "Timer elements not found."
+        );
 
     }
 
@@ -127,7 +194,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (!taskForm || !taskList || !taskCounter) {
 
-        console.error("Task elements not found.");
+        console.error(
+            "Task elements not found."
+        );
 
         return;
 
@@ -179,7 +248,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function updateTaskCounter() {
 
-        const totalTasks = tasks.length;
+        const totalTasks =
+            tasks.length;
 
         taskCounter.textContent =
             `${totalTasks} ${totalTasks === 1 ? "task" : "tasks"}`;
@@ -223,7 +293,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
             taskElement
                 .querySelector("strong")
-                .textContent = task.title;
+                .textContent =
+                    task.title;
 
 
             taskElement
@@ -236,18 +307,23 @@ document.addEventListener("DOMContentLoaded", () => {
                TASK CLICK
             ========================== */
 
-            taskElement.addEventListener("click", () => {
+            taskElement.addEventListener(
+                "click",
+                () => {
 
-                tasks.splice(index, 1);
+                    tasks.splice(index, 1);
 
-                saveTasks();
+                    saveTasks();
 
-                renderTasks();
+                    renderTasks();
 
-            });
+                }
+            );
 
 
-            taskList.appendChild(taskElement);
+            taskList.appendChild(
+                taskElement
+            );
 
         });
 
@@ -261,85 +337,88 @@ document.addEventListener("DOMContentLoaded", () => {
        ADD TASK
     ========================== */
 
-    taskForm.addEventListener("submit", (event) => {
+    taskForm.addEventListener(
+        "submit",
+        (event) => {
 
-        event.preventDefault();
-
-
-        const titleInput =
-            document.getElementById("taskTitle");
-
-        const timeInput =
-            document.getElementById("taskTime");
-
-        const typeInput =
-            document.getElementById("taskType");
+            event.preventDefault();
 
 
-        const title =
-            titleInput.value.trim();
+            const titleInput =
+                document.getElementById("taskTitle");
 
-        const time =
-            timeInput.value;
+            const timeInput =
+                document.getElementById("taskTime");
 
-        const type =
-            typeInput.value;
+            const typeInput =
+                document.getElementById("taskType");
 
 
-        if (title === "") {
+            const title =
+                titleInput.value.trim();
 
-            titleInput.focus();
+            const time =
+                timeInput.value;
 
-            return;
+            const type =
+                typeInput.value;
+
+
+            if (title === "") {
+
+                titleInput.focus();
+
+                return;
+
+            }
+
+
+            /* =========================
+               CREATE TASK
+            ========================== */
+
+            const task = {
+
+                id: Date.now(),
+
+                title: title,
+
+                time: time,
+
+                type: type
+
+            };
+
+
+            /* =========================
+               ADD TO CURRENT USER
+            ========================== */
+
+            tasks.push(task);
+
+
+            /* =========================
+               SAVE
+            ========================== */
+
+            saveTasks();
+
+
+            /* =========================
+               DISPLAY
+            ========================== */
+
+            renderTasks();
+
+
+            /* =========================
+               RESET FORM
+            ========================== */
+
+            taskForm.reset();
 
         }
-
-
-        /* =========================
-           CREATE TASK
-        ========================== */
-
-        const task = {
-
-            id: Date.now(),
-
-            title: title,
-
-            time: time,
-
-            type: type
-
-        };
-
-
-        /* =========================
-           ADD TO CURRENT USER
-        ========================== */
-
-        tasks.push(task);
-
-
-        /* =========================
-           SAVE
-        ========================== */
-
-        saveTasks();
-
-
-        /* =========================
-           DISPLAY
-        ========================== */
-
-        renderTasks();
-
-
-        /* =========================
-           RESET FORM
-        ========================== */
-
-        taskForm.reset();
-
-    });
+    );
 
 
     /* =========================
@@ -349,3 +428,4 @@ document.addEventListener("DOMContentLoaded", () => {
     renderTasks();
 
 });
+```
