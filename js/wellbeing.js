@@ -1,3 +1,7 @@
+// =========================================
+// CAMPUS SAATHI - WELLBEING
+// =========================================
+
 document.addEventListener("DOMContentLoaded", () => {
 
     /* =========================
@@ -6,14 +10,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const userId = localStorage.getItem("userId");
 
-    // Har user ka apna wellbeing data
+    // Har logged-in user ka apna separate data
     const wellbeingStorageKey = userId
         ? `wellbeing_${userId}`
         : "wellbeing_guest";
 
 
     let wellbeingData =
-        JSON.parse(localStorage.getItem(wellbeingStorageKey)) || {
+        JSON.parse(
+            localStorage.getItem(wellbeingStorageKey)
+        ) || {
             silentMode: false,
             mood: null
         };
@@ -40,10 +46,11 @@ document.addEventListener("DOMContentLoaded", () => {
         document.getElementById("silentStatus");
 
 
-    let silentMode = wellbeingData.silentMode;
+    let silentMode =
+        wellbeingData.silentMode;
 
 
-    // Page open hone par saved mode restore karo
+    // Saved Silent Mode restore karo
     if (silentMode) {
 
         document.body.classList.add("silent-active");
@@ -71,6 +78,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         silentMode = !silentMode;
 
+        // Current user ka Silent Mode save karo
         wellbeingData.silentMode = silentMode;
 
         saveWellbeingData();
@@ -99,6 +107,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             silentToggle.textContent =
                 "Turn on Silent Mode";
+
         }
 
     });
@@ -127,9 +136,11 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
 
+
         breathingRunning = true;
 
         let seconds = 60;
+
 
         resetBtn.textContent =
             "Reset in progress...";
@@ -153,6 +164,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 breathingRunning = false;
 
                 return;
+
             }
 
 
@@ -212,12 +224,43 @@ document.addEventListener("DOMContentLoaded", () => {
         document.getElementById("checkinResult");
 
 
-    // Saved mood restore karo
+    /* =========================
+       DIFFERENT MESSAGE
+       FOR EACH MOOD
+    ========================== */
+
+    const moodMessages = {
+
+        Great:
+            "That's wonderful! 🌟 Keep that positive energy going today.",
+
+        Good:
+            "That's nice to hear! 😊 Keep going and take care of yourself.",
+
+        Okay:
+            "It's okay to have an ordinary day. 🌱 Take things one step at a time.",
+
+        Low:
+            "It's okay to feel low. 💙 Be gentle with yourself and take a little break.",
+
+        Stressed:
+            "Take a deep breath. 🫶 You don't have to solve everything at once."
+
+    };
+
+
+    /* =========================
+       RESTORE SAVED MOOD
+    ========================== */
+
     if (wellbeingData.mood) {
 
         moodOptions.forEach(option => {
 
-            if (option.dataset.mood === wellbeingData.mood) {
+            if (
+                option.dataset.mood ===
+                wellbeingData.mood
+            ) {
 
                 option.classList.add("selected");
 
@@ -225,16 +268,23 @@ document.addEventListener("DOMContentLoaded", () => {
 
         });
 
+
         checkinResult.textContent =
-            `Your last check-in was "${wellbeingData.mood}". Be kind to yourself today.`;
+            moodMessages[wellbeingData.mood] ||
+            "Thank you for checking in. Be kind to yourself today.";
 
     }
 
+
+    /* =========================
+       MOOD SELECTION
+    ========================== */
 
     moodOptions.forEach(option => {
 
         option.addEventListener("click", () => {
 
+            // Pehle sab moods unselect
             moodOptions.forEach(item => {
 
                 item.classList.remove("selected");
@@ -242,6 +292,7 @@ document.addEventListener("DOMContentLoaded", () => {
             });
 
 
+            // Selected mood highlight
             option.classList.add("selected");
 
 
@@ -255,8 +306,10 @@ document.addEventListener("DOMContentLoaded", () => {
             saveWellbeingData();
 
 
+            // Mood ke according different message
             checkinResult.textContent =
-                `Thanks for checking in. You selected "${mood}". Be kind to yourself today.`;
+                moodMessages[mood] ||
+                "Thank you for checking in. Be kind to yourself today.";
 
         });
 
@@ -309,9 +362,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
         event.preventDefault();
 
+
         alert(
             "Your message has been shared anonymously in this V1 prototype."
         );
+
 
         supportForm.reset();
 
