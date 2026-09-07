@@ -1,6 +1,22 @@
 document.addEventListener("DOMContentLoaded", () => {
 
     /* =========================
+       CURRENT USER
+    ========================== */
+
+    const userId = localStorage.getItem("userId");
+
+    if (!userId) {
+        console.warn("No logged-in user found.");
+    }
+
+    // Har user ke tasks ki alag storage
+    const taskStorageKey = userId
+        ? `plannerTasks_${userId}`
+        : "plannerTasks_guest";
+
+
+    /* =========================
        TIMER
     ========================== */
 
@@ -12,101 +28,243 @@ document.addEventListener("DOMContentLoaded", () => {
     const startButton = document.getElementById("startTimer");
     const resetButton = document.getElementById("resetTimer");
 
-    if (!timerDisplay || !startButton || !resetButton) {
-        console.error("Timer elements not found.");
-        return;
-    }
+    if (timerDisplay && startButton && resetButton) {
 
-    function updateTimer() {
-        const minutes = Math.floor(timeLeft / 60);
-        const seconds = timeLeft % 60;
+        function updateTimer() {
 
-        timerDisplay.textContent =
-            `${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
-    }
+            const minutes = Math.floor(timeLeft / 60);
+            const seconds = timeLeft % 60;
 
-    startButton.addEventListener("click", () => {
-
-        if (isRunning) {
-
-            clearInterval(timerInterval);
-
-            timerInterval = null;
-            isRunning = false;
-
-            startButton.textContent = "Resume Focus";
-
-            return;
+            timerDisplay.textContent =
+                `${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
         }
 
-        isRunning = true;
-        startButton.textContent = "Pause";
 
-        timerInterval = setInterval(() => {
+        startButton.addEventListener("click", () => {
 
-            if (timeLeft <= 0) {
+            if (isRunning) {
 
                 clearInterval(timerInterval);
 
                 timerInterval = null;
                 isRunning = false;
 
-                startButton.textContent = "Session Complete 🎉";
+                startButton.textContent = "Resume Focus";
 
                 return;
             }
 
-            timeLeft--;
+
+            isRunning = true;
+
+            startButton.textContent = "Pause";
+
+
+            timerInterval = setInterval(() => {
+
+                if (timeLeft <= 0) {
+
+                    clearInterval(timerInterval);
+
+                    timerInterval = null;
+                    isRunning = false;
+
+                    startButton.textContent =
+                        "Session Complete 🎉";
+
+                    return;
+                }
+
+
+                timeLeft--;
+
+                updateTimer();
+
+            }, 1000);
+
+        });
+
+
+        resetButton.addEventListener("click", () => {
+
+            clearInterval(timerInterval);
+
+            timerInterval = null;
+            isRunning = false;
+
+            timeLeft = 15 * 60;
 
             updateTimer();
 
-        }, 1000);
+            startButton.textContent =
+                "Start Focus";
 
-    });
+        });
 
-
-    resetButton.addEventListener("click", () => {
-
-        clearInterval(timerInterval);
-
-        timerInterval = null;
-        isRunning = false;
-
-        timeLeft = 15 * 60;
 
         updateTimer();
 
-        startButton.textContent = "Start Focus";
+    } else {
 
-    });
+        console.warn("Timer elements not found.");
+
+    }
+
+
+    /* =========================
+       TASK ELEMENTS
+    ========================== */
+
+    const taskForm =
+        document.getElementById("taskForm");
+
+    const taskList =
+        document.getElementById("taskList");
+
+    const taskCounter =
+        document.getElementById("taskCounter");
+
+
+    if (!taskForm || !taskList || !taskCounter) {
+
+        console.error("Task elements not found.");
+
+        return;
+
+    }
+
+
+    /* =========================
+       LOAD USER TASKS
+    ========================== */
+
+    let tasks = [];
+
+    try {
+
+        tasks =
+            JSON.parse(
+                localStorage.getItem(taskStorageKey)
+            ) || [];
+
+    } catch (error) {
+
+        console.error(
+            "Could not load planner tasks.",
+            error
+        );
+
+        tasks = [];
+
+    }
+
+
+    /* =========================
+       SAVE USER TASKS
+    ========================== */
+
+    function saveTasks() {
+
+        localStorage.setItem(
+            taskStorageKey,
+            JSON.stringify(tasks)
+        );
+
+    }
+
+
+    /* =========================
+       UPDATE COUNTER
+    ========================== */
+
+    function updateTaskCounter() {
+
+        const totalTasks = tasks.length;
+
+        taskCounter.textContent =
+            `${totalTasks} ${totalTasks === 1 ? "task" : "tasks"}`;
+
+    }
+
+
+    /* =========================
+       DISPLAY TASKS
+    ========================== */
+
+    function renderTasks() {
+
+        taskList.innerHTML = "";
+
+
+        tasks.forEach((task, index) => {
+
+            const taskElement =
+                document.createElement("div");
+
+            taskElement.className =
+                "planner-task";
+
+
+            taskElement.innerHTML = `
+                <div class="task-check">
+                    +
+                </div>
+
+                <div class="planner-task-info">
+                    <strong></strong>
+                    <small></small>
+                </div>
+
+                <span class="planner-status">
+                    Later
+                </span>
+            `;
+
+
+            taskElement
+                .querySelector("strong")
+                .textContent = task.title;
+
+
+            taskElement
+                .querySelector("small")
+                .textContent =
+                    `${task.type} • ${task.time}`;
+
+
+            /* =========================
+               TASK CLICK
+            ========================== */
+
+            taskElement.addEventListener("click", () => {
+
+                tasks.splice(index, 1);
+
+                saveTasks();
+
+                renderTasks();
+
+            });
+
+
+            taskList.appendChild(taskElement);
+
+        });
+
+
+        updateTaskCounter();
+
+    }
 
 
     /* =========================
        ADD TASK
     ========================== */
 
-    const taskForm = document.getElementById("taskForm");
-    const taskList = document.getElementById("taskList");
-    const taskCounter = document.getElementById("taskCounter");
-
-    if (!taskForm || !taskList || !taskCounter) {
-        console.error("Task elements not found.");
-        return;
-    }
-
-    function updateTaskCounter() {
-
-        const totalTasks =
-            taskList.querySelectorAll(".planner-task").length;
-
-        taskCounter.textContent =
-            `${totalTasks} ${totalTasks === 1 ? "task" : "tasks"}`;
-    }
-
-
     taskForm.addEventListener("submit", (event) => {
 
         event.preventDefault();
+
 
         const titleInput =
             document.getElementById("taskTitle");
@@ -117,49 +275,77 @@ document.addEventListener("DOMContentLoaded", () => {
         const typeInput =
             document.getElementById("taskType");
 
-        const title = titleInput.value.trim();
-        const time = timeInput.value;
-        const type = typeInput.value;
+
+        const title =
+            titleInput.value.trim();
+
+        const time =
+            timeInput.value;
+
+        const type =
+            typeInput.value;
+
 
         if (title === "") {
+
             titleInput.focus();
+
             return;
+
         }
 
-        const task = document.createElement("div");
 
-        task.className = "planner-task";
+        /* =========================
+           CREATE TASK
+        ========================== */
 
-        task.innerHTML = `
-            <div class="task-check">
-                +
-            </div>
+        const task = {
 
-            <div class="planner-task-info">
-                <strong></strong>
-                <small></small>
-            </div>
+            id: Date.now(),
 
-            <span class="planner-status">
-                Later
-            </span>
-        `;
+            title: title,
 
-        task.querySelector("strong").textContent = title;
+            time: time,
 
-        task.querySelector("small").textContent =
-            `${type} • ${time}`;
+            type: type
 
-        taskList.appendChild(task);
+        };
 
-        updateTaskCounter();
+
+        /* =========================
+           ADD TO CURRENT USER
+        ========================== */
+
+        tasks.push(task);
+
+
+        /* =========================
+           SAVE
+        ========================== */
+
+        saveTasks();
+
+
+        /* =========================
+           DISPLAY
+        ========================== */
+
+        renderTasks();
+
+
+        /* =========================
+           RESET FORM
+        ========================== */
 
         taskForm.reset();
 
     });
 
 
-    updateTimer();
-    updateTaskCounter();
+    /* =========================
+       INITIAL LOAD
+    ========================== */
+
+    renderTasks();
 
 });
