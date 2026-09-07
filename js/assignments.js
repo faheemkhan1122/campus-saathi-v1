@@ -1,5 +1,20 @@
 document.addEventListener("DOMContentLoaded", () => {
 
+    /* =========================
+       CURRENT USER
+    ========================== */
+
+    const userId = localStorage.getItem("userId");
+
+    const assignmentStorageKey = userId
+        ? `assignments_${userId}`
+        : "assignments_guest";
+
+
+    /* =========================
+       ELEMENTS
+    ========================== */
+
     const modal =
         document.getElementById("assignmentModal");
 
@@ -22,25 +37,211 @@ document.addEventListener("DOMContentLoaded", () => {
         document.querySelectorAll(".filter-btn");
 
 
+    if (
+        !modal ||
+        !openModal ||
+        !closeModal ||
+        !form ||
+        !list
+    ) {
+        console.error("Assignment elements not found.");
+        return;
+    }
+
+
+    /* =========================
+       LOAD ASSIGNMENTS
+    ========================== */
+
+    let assignments = [];
+
+    try {
+
+        assignments =
+            JSON.parse(
+                localStorage.getItem(
+                    assignmentStorageKey
+                )
+            ) || [];
+
+    } catch (error) {
+
+        console.error(
+            "Could not load assignments.",
+            error
+        );
+
+        assignments = [];
+
+    }
+
+
+    /* =========================
+       SAVE ASSIGNMENTS
+    ========================== */
+
+    function saveAssignments() {
+
+        localStorage.setItem(
+            assignmentStorageKey,
+            JSON.stringify(assignments)
+        );
+
+    }
+
+
     /* =========================
        MODAL
     ========================== */
 
     openModal.addEventListener("click", () => {
+
         modal.classList.add("show");
+
     });
 
+
     closeModal.addEventListener("click", () => {
+
         modal.classList.remove("show");
+
     });
+
 
     modal.addEventListener("click", (event) => {
 
         if (event.target === modal) {
+
             modal.classList.remove("show");
+
         }
 
     });
+
+
+    /* =========================
+       RENDER ASSIGNMENTS
+    ========================== */
+
+    function renderAssignments() {
+
+        list.innerHTML = "";
+
+
+        assignments.forEach(assignment => {
+
+            const formattedDate =
+                new Date(
+                    assignment.date
+                ).toLocaleDateString(
+                    "en-US",
+                    {
+                        month: "short",
+                        day: "2-digit"
+                    }
+                );
+
+
+            const card =
+                document.createElement("article");
+
+            card.className =
+                "assignment-card";
+
+
+            card.dataset.status =
+                assignment.status;
+
+
+            card.dataset.id =
+                assignment.id;
+
+
+            card.innerHTML = `
+
+                <div class="subject-icon purple">
+                    ${assignment.subject
+                        .substring(0, 3)
+                        .toUpperCase()}
+                </div>
+
+                <div class="assignment-info">
+
+                    <strong></strong>
+
+                    <span>
+                        ${assignment.subject}
+                    </span>
+
+                </div>
+
+                <div class="deadline">
+
+                    <small>
+                        DUE
+                    </small>
+
+                    <strong>
+                        ${formattedDate}
+                    </strong>
+
+                    <span>
+                        New
+                    </span>
+
+                </div>
+
+                <span class="status">
+                    ${assignment.status === "completed"
+                        ? "Completed"
+                        : "Pending"}
+                </span>
+
+                <button
+                    class="complete-btn ${assignment.status === "completed" ? "checked" : ""}"
+                    title="Mark complete"
+                >
+                    ✓
+                </button>
+
+            `;
+
+
+            card
+                .querySelector(
+                    ".assignment-info strong"
+                )
+                .textContent =
+                    assignment.title;
+
+
+            const status =
+                card.querySelector(".status");
+
+
+            if (assignment.status === "completed") {
+
+                status.className =
+                    "status completed";
+
+            } else {
+
+                status.className =
+                    "status pending";
+
+            }
+
+
+            list.appendChild(card);
+
+        });
+
+
+        updateNumbers();
+
+        applyCurrentFilters();
+
+    }
 
 
     /* =========================
@@ -51,98 +252,70 @@ document.addEventListener("DOMContentLoaded", () => {
 
         event.preventDefault();
 
+
         const title =
             document
                 .getElementById("assignmentTitle")
                 .value
                 .trim();
 
+
         const subject =
             document
                 .getElementById("assignmentSubject")
                 .value;
+
 
         const date =
             document
                 .getElementById("assignmentDate")
                 .value;
 
+
         if (!title || !date) {
+
             return;
+
         }
 
 
-        const formattedDate =
-            new Date(date).toLocaleDateString(
-                "en-US",
-                {
-                    month: "short",
-                    day: "2-digit"
-                }
-            );
+        const assignment = {
+
+            id: Date.now(),
+
+            title: title,
+
+            subject: subject,
+
+            date: date,
+
+            status: "pending"
+
+        };
 
 
-        const card =
-            document.createElement("article");
+        /* =========================
+           SAVE FOR CURRENT USER
+        ========================== */
 
-        card.className = "assignment-card";
-
-        card.dataset.status = "pending";
-
-        card.innerHTML = `
-
-            <div class="subject-icon purple">
-                ${subject.substring(0, 3).toUpperCase()}
-            </div>
-
-            <div class="assignment-info">
-
-                <strong></strong>
-
-                <span>
-                    ${subject}
-                </span>
-
-            </div>
-
-            <div class="deadline">
-
-                <small>
-                    DUE
-                </small>
-
-                <strong>
-                    ${formattedDate}
-                </strong>
-
-                <span>
-                    New
-                </span>
-
-            </div>
-
-            <span class="status pending">
-                Pending
-            </span>
-
-            <button class="complete-btn" title="Mark complete">
-                ✓
-            </button>
-        `;
+        assignments.unshift(
+            assignment
+        );
 
 
-        card
-            .querySelector(".assignment-info strong")
-            .textContent = title;
+        saveAssignments();
 
 
-        list.prepend(card);
+        /* =========================
+           UPDATE SCREEN
+        ========================== */
+
+        renderAssignments();
+
 
         form.reset();
 
         modal.classList.remove("show");
-
-        updateNumbers();
 
     });
 
@@ -154,41 +327,72 @@ document.addEventListener("DOMContentLoaded", () => {
     list.addEventListener("click", (event) => {
 
         const button =
-            event.target.closest(".complete-btn");
+            event.target.closest(
+                ".complete-btn"
+            );
+
 
         if (!button) {
+
             return;
+
         }
 
+
         const card =
-            button.closest(".assignment-card");
+            button.closest(
+                ".assignment-card"
+            );
 
-        const status =
-            card.querySelector(".status");
 
-        if (card.dataset.status === "completed") {
+        if (!card) {
 
-            card.dataset.status = "pending";
+            return;
 
-            status.textContent = "Pending";
+        }
 
-            status.className = "status pending";
 
-            button.classList.remove("checked");
+        const assignmentId =
+            Number(card.dataset.id);
+
+
+        const assignment =
+            assignments.find(
+                item =>
+                    item.id === assignmentId
+            );
+
+
+        if (!assignment) {
+
+            return;
+
+        }
+
+
+        /* =========================
+           TOGGLE STATUS
+        ========================== */
+
+        if (
+            assignment.status ===
+            "completed"
+        ) {
+
+            assignment.status =
+                "pending";
 
         } else {
 
-            card.dataset.status = "completed";
-
-            status.textContent = "Completed";
-
-            status.className = "status completed";
-
-            button.classList.add("checked");
+            assignment.status =
+                "completed";
 
         }
 
-        updateNumbers();
+
+        saveAssignments();
+
+        renderAssignments();
 
     });
 
@@ -197,93 +401,121 @@ document.addEventListener("DOMContentLoaded", () => {
        SEARCH
     ========================== */
 
-    searchInput.addEventListener("input", () => {
+    if (searchInput) {
 
-        const query =
-            searchInput.value
-                .toLowerCase()
-                .trim();
+        searchInput.addEventListener(
+            "input",
+            () => {
 
-        const cards =
-            list.querySelectorAll(".assignment-card");
+                applyCurrentFilters();
 
-        cards.forEach(card => {
+            }
+        );
 
-            const text =
-                card.textContent.toLowerCase();
-
-            card.style.display =
-                text.includes(query)
-                    ? ""
-                    : "none";
-
-        });
-
-    });
+    }
 
 
     /* =========================
        FILTER
     ========================== */
 
+    let currentFilter = "all";
+
+
     filterButtons.forEach(button => {
 
-        button.addEventListener("click", () => {
+        button.addEventListener(
+            "click",
+            () => {
 
-            filterButtons.forEach(item => {
-                item.classList.remove("active");
-            });
+                filterButtons.forEach(item => {
 
-            button.classList.add("active");
+                    item.classList.remove(
+                        "active"
+                    );
 
-            const filter =
-                button.dataset.filter;
+                });
 
-            const cards =
-                list.querySelectorAll(".assignment-card");
 
-            cards.forEach(card => {
+                button.classList.add(
+                    "active"
+                );
 
-                if (filter === "all") {
 
-                    card.style.display = "";
+                currentFilter =
+                    button.dataset.filter;
 
-                    return;
-                }
 
-                const status =
-                    card.dataset.status;
+                applyCurrentFilters();
 
-                if (
-                    filter === "pending" &&
-                    status === "pending"
-                ) {
-                    card.style.display = "";
-                }
+            }
+        );
 
-                else if (
-                    filter === "progress" &&
-                    status === "progress"
-                ) {
-                    card.style.display = "";
-                }
+    });
 
-                else if (
-                    filter === "completed" &&
-                    status === "completed"
-                ) {
-                    card.style.display = "";
-                }
 
-                else {
-                    card.style.display = "none";
-                }
+    /* =========================
+       APPLY SEARCH + FILTER
+    ========================== */
 
-            });
+    function applyCurrentFilters() {
+
+        const query =
+            searchInput
+                ? searchInput.value
+                    .toLowerCase()
+                    .trim()
+                : "";
+
+
+        const cards =
+            list.querySelectorAll(
+                ".assignment-card"
+            );
+
+
+        cards.forEach(card => {
+
+            const text =
+                card.textContent
+                    .toLowerCase();
+
+
+            const status =
+                card.dataset.status;
+
+
+            const matchesSearch =
+                text.includes(query);
+
+
+            let matchesFilter = true;
+
+
+            if (currentFilter !== "all") {
+
+                matchesFilter =
+                    status === currentFilter;
+
+            }
+
+
+            if (
+                matchesSearch &&
+                matchesFilter
+            ) {
+
+                card.style.display = "";
+
+            } else {
+
+                card.style.display = "none";
+
+            }
 
         });
 
-    });
+    }
 
 
     /* =========================
@@ -292,58 +524,124 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function updateNumbers() {
 
-        const cards =
-            list.querySelectorAll(".assignment-card");
+        const total =
+            assignments.length;
+
 
         let completed = 0;
+
         let progress = 0;
+
         let pending = 0;
 
-        cards.forEach(card => {
 
-            const status =
-                card.dataset.status;
+        assignments.forEach(
+            assignment => {
 
-            if (status === "completed") {
-                completed++;
+                if (
+                    assignment.status ===
+                    "completed"
+                ) {
+
+                    completed++;
+
+                }
+
+                else if (
+                    assignment.status ===
+                    "progress"
+                ) {
+
+                    progress++;
+
+                }
+
+                else {
+
+                    pending++;
+
+                }
+
             }
-
-            else if (status === "progress") {
-                progress++;
-            }
-
-            else {
-                pending++;
-            }
-
-        });
+        );
 
 
-        document.getElementById(
-            "totalAssignments"
-        ).textContent = cards.length;
+        const totalElement =
+            document.getElementById(
+                "totalAssignments"
+            );
 
 
-        document.getElementById(
-            "completedCount"
-        ).textContent = completed;
+        const completedElement =
+            document.getElementById(
+                "completedCount"
+            );
 
 
-        document.getElementById(
-            "inProgress"
-        ).textContent = progress;
+        const progressElement =
+            document.getElementById(
+                "inProgress"
+            );
 
 
-        document.getElementById(
-            "dueSoon"
-        ).textContent = pending;
+        const dueSoonElement =
+            document.getElementById(
+                "dueSoon"
+            );
 
 
-        document.getElementById(
-            "assignmentCount"
-        ).textContent =
-            `${cards.length} assignments`;
+        const countElement =
+            document.getElementById(
+                "assignmentCount"
+            );
+
+
+        if (totalElement) {
+
+            totalElement.textContent =
+                total;
+
+        }
+
+
+        if (completedElement) {
+
+            completedElement.textContent =
+                completed;
+
+        }
+
+
+        if (progressElement) {
+
+            progressElement.textContent =
+                progress;
+
+        }
+
+
+        if (dueSoonElement) {
+
+            dueSoonElement.textContent =
+                pending;
+
+        }
+
+
+        if (countElement) {
+
+            countElement.textContent =
+                `${total} assignments`;
+
+        }
 
     }
+
+
+    /* =========================
+       INITIAL LOAD
+    ========================== */
+
+    renderAssignments();
 
 });
