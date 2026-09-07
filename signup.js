@@ -13,107 +13,199 @@ const supabaseClient = window.supabase.createClient(
 
 document.addEventListener("DOMContentLoaded", () => {
 
-    const signupForm = document.getElementById("signupForm");
-    const signupMessage = document.getElementById("signupMessage");
+    const signupForm =
+        document.getElementById("signupForm");
 
-    signupForm.addEventListener("submit", async (event) => {
-
-        event.preventDefault();
-
-        const name =
-            document.getElementById("name").value.trim();
-
-        const email =
-            document.getElementById("email").value.trim();
-
-        const password =
-            document.getElementById("password").value;
-
-        const confirmPassword =
-            document.getElementById("confirmPassword").value;
+    const signupMessage =
+        document.getElementById("signupMessage");
 
 
-        // Password check
-        if (password !== confirmPassword) {
-
-            signupMessage.textContent =
-                "Passwords do not match.";
-
-            signupMessage.style.color = "#dc2626";
-
-            return;
-        }
+    if (!signupForm) return;
 
 
-        signupMessage.textContent =
-            "Creating your account...";
+    signupForm.addEventListener(
+        "submit",
+        async (event) => {
 
-        signupMessage.style.color = "#6c63ff";
-
-
-        try {
-
-            const { data, error } =
-                await supabaseClient.auth.signUp({
-
-                    email: email,
-
-                    password: password,
-
-                    options: {
-                        data: {
-                            full_name: name
-                        }
-                    }
-
-                });
+            event.preventDefault();
 
 
-            if (error) {
-                throw error;
-            }
+            const name =
+                document.getElementById("name")
+                    .value
+                    .trim();
 
 
-            signupMessage.textContent =
-    "Account created successfully!";
-
-signupMessage.style.color = "#16a34a";
-
-// Save user's name for dashboard
-localStorage.setItem("userName", name);
-
-signupForm.reset();
+            const email =
+                document.getElementById("email")
+                    .value
+                    .trim();
 
 
-            // If email confirmation is enabled
-            if (data.user && !data.session) {
+            const password =
+                document.getElementById("password")
+                    .value;
+
+
+            const confirmPassword =
+                document.getElementById(
+                    "confirmPassword"
+                ).value;
+
+
+            /* =========================
+               PASSWORD CHECK
+            ========================== */
+
+            if (password !== confirmPassword) {
 
                 signupMessage.textContent =
-                    "Account created! Please check your email to confirm your account.";
+                    "Passwords do not match.";
 
-            } else {
+                signupMessage.style.color =
+                    "#dc2626";
 
-                setTimeout(() => {
-
-                    window.location.href =
-                        "dashboard.html";
-
-                }, 1200);
+                return;
 
             }
 
 
-        } catch (error) {
-
-            console.error(error);
-
             signupMessage.textContent =
-                error.message || "Something went wrong.";
+                "Creating your account...";
 
-            signupMessage.style.color = "#dc2626";
+            signupMessage.style.color =
+                "#6c63ff";
+
+
+            try {
+
+                /* =========================
+                   CREATE SUPABASE ACCOUNT
+                ========================== */
+
+                const { data, error } =
+                    await supabaseClient.auth.signUp({
+
+                        email: email,
+
+                        password: password,
+
+                        options: {
+
+                            data: {
+                                full_name: name
+                            }
+
+                        }
+
+                    });
+
+
+                if (error) {
+
+                    throw error;
+
+                }
+
+
+                /* =========================
+                   GET NEW USER
+                ========================== */
+
+                const user =
+                    data.user;
+
+
+                /* =========================
+                   SAVE USER INFORMATION
+                ========================== */
+
+                // Save user's name
+                localStorage.setItem(
+                    "userName",
+                    name
+                );
+
+
+                // Save UNIQUE Supabase User ID
+                // Har user ki ID different hoti hai
+                if (user?.id) {
+
+                    localStorage.setItem(
+                        "userId",
+                        user.id
+                    );
+
+                }
+
+
+                // Save user's email
+                if (user?.email) {
+
+                    localStorage.setItem(
+                        "userEmail",
+                        user.email
+                    );
+
+                }
+
+
+                /* =========================
+                   SUCCESS MESSAGE
+                ========================== */
+
+                signupMessage.textContent =
+                    "Account created successfully!";
+
+                signupMessage.style.color =
+                    "#16a34a";
+
+
+                signupForm.reset();
+
+
+                /* =========================
+                   EMAIL CONFIRMATION
+                ========================== */
+
+                if (
+                    data.user &&
+                    !data.session
+                ) {
+
+                    signupMessage.textContent =
+                        "Account created! Please check your email to confirm your account.";
+
+                } else {
+
+                    /* =========================
+                       OPEN DASHBOARD
+                    ========================== */
+
+                    setTimeout(() => {
+
+                        window.location.href =
+                            "dashboard.html";
+
+                    }, 1200);
+
+                }
+
+            } catch (error) {
+
+                console.error(error);
+
+
+                signupMessage.textContent =
+                    error.message ||
+                    "Something went wrong.";
+
+                signupMessage.style.color =
+                    "#dc2626";
+
+            }
 
         }
-
-    });
+    );
 
 });
