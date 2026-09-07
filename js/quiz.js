@@ -1,14 +1,49 @@
 document.addEventListener("DOMContentLoaded", () => {
 
-    const notesInput = document.getElementById("notesInput");
-    const wordCount = document.getElementById("wordCount");
-    const clearNotes = document.getElementById("clearNotes");
+    /* =========================
+       CURRENT USER
+    ========================== */
 
-    const generateQuiz = document.getElementById("generateQuiz");
-    const quizResult = document.getElementById("quizResult");
+    const userId = localStorage.getItem("userId");
+
+    const quizStorageKey = userId
+        ? `userQuizzes_${userId}`
+        : "userQuizzes_guest";
+
+
+    /* =========================
+       ELEMENTS
+    ========================== */
+
+    const notesInput =
+        document.getElementById("notesInput");
+
+    const wordCount =
+        document.getElementById("wordCount");
+
+    const clearNotes =
+        document.getElementById("clearNotes");
+
+    const generateQuiz =
+        document.getElementById("generateQuiz");
+
+    const quizResult =
+        document.getElementById("quizResult");
 
     const difficultyButtons =
         document.querySelectorAll(".difficulty");
+
+
+    if (
+        !notesInput ||
+        !wordCount ||
+        !clearNotes ||
+        !generateQuiz ||
+        !quizResult
+    ) {
+        console.error("Quiz elements not found.");
+        return;
+    }
 
 
     /* =========================
@@ -17,7 +52,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function updateWordCount() {
 
-        const text = notesInput.value.trim();
+        const text =
+            notesInput.value.trim();
 
         const words =
             text === ""
@@ -26,7 +62,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
         wordCount.textContent =
             `${words} ${words === 1 ? "word" : "words"}`;
+
     }
+
 
     notesInput.addEventListener(
         "input",
@@ -58,7 +96,9 @@ document.addEventListener("DOMContentLoaded", () => {
         button.addEventListener("click", () => {
 
             difficultyButtons.forEach(item => {
+
                 item.classList.remove("active");
+
             });
 
             button.classList.add("active");
@@ -69,37 +109,92 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     /* =========================
+       SAVE QUIZ
+    ========================== */
+
+    function saveQuiz(quizData) {
+
+        let quizzes = [];
+
+        try {
+
+            quizzes =
+                JSON.parse(
+                    localStorage.getItem(
+                        quizStorageKey
+                    )
+                ) || [];
+
+        } catch (error) {
+
+            console.error(
+                "Could not load quizzes.",
+                error
+            );
+
+            quizzes = [];
+
+        }
+
+
+        quizzes.push(quizData);
+
+
+        localStorage.setItem(
+            quizStorageKey,
+            JSON.stringify(quizzes)
+        );
+
+    }
+
+
+    /* =========================
        GENERATE QUIZ
     ========================== */
 
     generateQuiz.addEventListener("click", () => {
 
-        const notes = notesInput.value.trim();
+        const notes =
+            notesInput.value.trim();
+
 
         if (notes === "") {
 
             notesInput.focus();
 
-            alert("Please paste your notes first.");
+            alert(
+                "Please paste your notes first."
+            );
 
             return;
+
         }
 
 
         const questionCount =
             Number(
-                document.getElementById("questionCount").value
+                document.getElementById(
+                    "questionCount"
+                ).value
+            );
+
+
+        const activeDifficulty =
+            document.querySelector(
+                ".difficulty.active"
             );
 
 
         const difficulty =
-            document.querySelector(
-                ".difficulty.active"
-            ).dataset.level;
+            activeDifficulty
+                ? activeDifficulty.dataset.level
+                : "Easy";
 
 
         const quizType =
-            document.getElementById("quizType").value;
+            document.getElementById(
+                "quizType"
+            ).value;
 
 
         generateQuiz.textContent =
@@ -111,10 +206,12 @@ document.addEventListener("DOMContentLoaded", () => {
             generateQuiz.textContent =
                 "✦ Generate Quiz";
 
+
             createQuiz(
                 questionCount,
                 difficulty,
-                quizType
+                quizType,
+                notes
             );
 
         }, 700);
@@ -129,7 +226,8 @@ document.addEventListener("DOMContentLoaded", () => {
     function createQuiz(
         questionCount,
         difficulty,
-        quizType
+        quizType,
+        notes
     ) {
 
         const sampleQuestions = [
@@ -137,66 +235,114 @@ document.addEventListener("DOMContentLoaded", () => {
             {
                 question:
                     "What is the main topic of the notes you are studying?",
+
                 answers: [
                     "The concept explained in the notes",
                     "A completely unrelated topic",
                     "None of the above",
                     "All of the above"
                 ]
+
             },
+
 
             {
                 question:
                     "Which statement best describes the key idea?",
+
                 answers: [
                     "It explains the main concept",
                     "It is unrelated",
                     "It only gives an example",
                     "It is a question"
                 ]
+
             },
+
 
             {
                 question:
                     "Why is this topic important?",
+
                 answers: [
                     "It helps understand the subject",
                     "It has no purpose",
                     "It replaces every other topic",
                     "It is only for memorization"
                 ]
+
             },
+
 
             {
                 question:
                     "Which option is most likely connected to your notes?",
+
                 answers: [
                     "A key concept",
                     "Random information",
                     "An unrelated event",
                     "None"
                 ]
+
             },
+
 
             {
                 question:
                     "What should you do after reviewing these notes?",
+
                 answers: [
                     "Practice and test your understanding",
                     "Ignore the material",
                     "Delete the notes",
                     "Stop studying completely"
                 ]
+
             }
 
         ];
 
+
+        /* =========================
+           QUIZ DATA
+        ========================== */
+
+        const quizData = {
+
+            id: Date.now(),
+
+            notes: notes,
+
+            questionCount: questionCount,
+
+            difficulty: difficulty,
+
+            quizType: quizType,
+
+            createdAt:
+                new Date().toISOString()
+
+        };
+
+
+        /* =========================
+           SAVE FOR CURRENT USER
+        ========================== */
+
+        saveQuiz(quizData);
+
+
+        /* =========================
+           QUIZ HTML
+        ========================== */
 
         let html = `
 
             <div class="quiz-header">
 
                 <div>
+
                     <h2>
                         Practice Quiz
                     </h2>
@@ -204,13 +350,16 @@ document.addEventListener("DOMContentLoaded", () => {
                     <span class="quiz-meta">
                         ${difficulty} • ${quizType}
                     </span>
+
                 </div>
+
 
                 <span class="quiz-meta">
                     ${questionCount} questions
                 </span>
 
             </div>
+
         `;
 
 
@@ -237,6 +386,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     <h3>
                         ${current.question}
                     </h3>
+
             `;
 
 
@@ -266,7 +416,9 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
 
-        quizResult.innerHTML = html;
+        quizResult.innerHTML =
+            html;
+
 
         quizResult.scrollIntoView({
             behavior: "smooth",
@@ -274,5 +426,12 @@ document.addEventListener("DOMContentLoaded", () => {
         });
 
     }
+
+
+    /* =========================
+       INITIAL WORD COUNT
+    ========================== */
+
+    updateWordCount();
 
 });
