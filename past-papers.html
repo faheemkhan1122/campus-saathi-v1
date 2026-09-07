@@ -13,9 +13,11 @@
 
     <!-- SIDEBAR -->
     <aside class="sidebar">
-<button class="mobile-close-btn" id="mobileCloseBtn">
-    ×
-</button>
+
+        <button class="mobile-close-btn" id="mobileCloseBtn">
+            ×
+        </button>
+
         <a href="index.html" class="sidebar-logo">
             <span>CS</span>
             Campus Saathi
@@ -72,9 +74,11 @@
         </nav>
 
         <div class="sidebar-bottom">
+
             <a href="index.html" class="back-home">
                 ← Back to website
             </a>
+
         </div>
 
     </aside>
@@ -84,22 +88,31 @@
     <main class="app-main">
 
         <header class="topbar">
-<button class="mobile-menu-btn" id="mobileMenuBtn">
-    ☰
-</button>
+
+            <button class="mobile-menu-btn" id="mobileMenuBtn">
+                ☰
+            </button>
+
             <div class="mobile-brand">
                 Campus<span>Saathi</span>
             </div>
 
+
+            <!-- USER PROFILE -->
             <div class="user-profile">
 
-                <div class="avatar">
-                    LF
+                <div class="avatar" id="userAvatar">
+                    ST
                 </div>
 
                 <div>
-                    <strong>Laiba Fatima</strong>
-                    <small>Student</small>
+                    <strong id="userProfileName">
+                        Student
+                    </strong>
+
+                    <small>
+                        Student
+                    </small>
                 </div>
 
             </div>
@@ -108,6 +121,7 @@
 
 
         <section class="papers-content">
+
 
             <!-- HEADER -->
             <div class="page-header">
@@ -128,9 +142,17 @@
 
                 </div>
 
+
                 <div class="paper-stat-badge">
-                    <strong>1,240+</strong>
-                    <span>papers available</span>
+
+                    <strong>
+                        1,240+
+                    </strong>
+
+                    <span>
+                        papers available
+                    </span>
+
                 </div>
 
             </div>
@@ -141,7 +163,9 @@
 
                 <div class="search-box">
 
-                    <span>⌕</span>
+                    <span>
+                        ⌕
+                    </span>
 
                     <input
                         type="text"
@@ -151,7 +175,11 @@
 
                 </div>
 
-                <button class="search-btn" id="searchBtn">
+
+                <button
+                    class="search-btn"
+                    id="searchBtn"
+                >
                     Search Papers
                 </button>
 
@@ -160,6 +188,7 @@
 
             <!-- FILTERS -->
             <div class="filters-panel">
+
 
                 <div class="filter-group">
 
@@ -264,7 +293,10 @@
                 </div>
 
 
-                <button class="clear-filter" id="clearFilters">
+                <button
+                    class="clear-filter"
+                    id="clearFilters"
+                >
                     Clear filters
                 </button>
 
@@ -281,8 +313,15 @@
                     <div class="panel-heading">
 
                         <div>
-                            <small>AVAILABLE PAPERS</small>
-                            <h2>Explore past papers</h2>
+
+                            <small>
+                                AVAILABLE PAPERS
+                            </small>
+
+                            <h2>
+                                Explore past papers
+                            </h2>
+
                         </div>
 
                         <span id="paperCount">
@@ -292,10 +331,13 @@
                     </div>
 
 
-                    <div class="paper-list" id="paperList">
+                    <div
+                        class="paper-list"
+                        id="paperList"
+                    >
 
 
-                        <!-- PAPER -->
+                        <!-- PAPER 1 -->
                         <article
                             class="paper-card"
                             data-institution="university"
@@ -334,6 +376,7 @@
                         </article>
 
 
+                        <!-- PAPER 2 -->
                         <article
                             class="paper-card"
                             data-institution="university"
@@ -372,6 +415,7 @@
                         </article>
 
 
+                        <!-- PAPER 3 -->
                         <article
                             class="paper-card"
                             data-institution="college"
@@ -410,6 +454,7 @@
                         </article>
 
 
+                        <!-- PAPER 4 -->
                         <article
                             class="paper-card"
                             data-institution="university"
@@ -448,6 +493,7 @@
                         </article>
 
 
+                        <!-- PAPER 5 -->
                         <article
                             class="paper-card"
                             data-institution="college"
@@ -486,6 +532,7 @@
                         </article>
 
 
+                        <!-- PAPER 6 -->
                         <article
                             class="paper-card"
                             data-institution="school"
@@ -532,6 +579,7 @@
                 <aside class="paper-sidebar">
 
 
+                    <!-- STUDY CARD -->
                     <div class="study-card">
 
                         <span class="study-icon">
@@ -554,13 +602,21 @@
                     </div>
 
 
+                    <!-- RECENT CARD -->
                     <div class="recent-card">
 
                         <div class="side-title">
 
                             <div>
-                                <small>YOUR ACTIVITY</small>
-                                <h2>Recently viewed</h2>
+
+                                <small>
+                                    YOUR ACTIVITY
+                                </small>
+
+                                <h2>
+                                    Recently viewed
+                                </h2>
+
                             </div>
 
                         </div>
@@ -573,6 +629,7 @@
                             </span>
 
                             <div>
+
                                 <strong>
                                     Calculus Final
                                 </strong>
@@ -580,6 +637,7 @@
                                 <small>
                                     Viewed 10 min ago
                                 </small>
+
                             </div>
 
                         </div>
@@ -592,6 +650,7 @@
                             </span>
 
                             <div>
+
                                 <strong>
                                     Physics Annual
                                 </strong>
@@ -599,6 +658,7 @@
                                 <small>
                                     Viewed yesterday
                                 </small>
+
                             </div>
 
                         </div>
@@ -615,50 +675,72 @@
 
 
     <!-- VIEW PAPER MODAL -->
-    <div class="modal-overlay" id="paperModal">
+    <div
+        class="modal-overlay"
+        id="paperModal"
+    >
 
         <div class="modal">
 
-            <button class="close-modal" id="closePaper">
+            <button
+                class="close-modal"
+                id="closePaper"
+            >
                 ×
             </button>
+
 
             <div class="modal-icon">
                 PDF
             </div>
 
+
             <p class="modal-label">
                 PAPER PREVIEW
             </p>
+
 
             <h2 id="modalTitle">
                 Calculus — Final Exam
             </h2>
 
+
             <p id="modalDetails">
                 Mathematics • University • 2026
             </p>
 
+
             <div class="paper-preview">
 
                 <div class="preview-line large"></div>
+
                 <div class="preview-line"></div>
+
                 <div class="preview-line"></div>
+
                 <div class="preview-line short"></div>
+
 
                 <div class="preview-question">
                     Question 01
                 </div>
 
+
                 <div class="preview-lines">
+
                     <span></span>
                     <span></span>
                     <span></span>
+
                 </div>
 
             </div>
 
-            <button class="download-btn" id="downloadPaper">
+
+            <button
+                class="download-btn"
+                id="downloadPaper"
+            >
                 Download Paper
             </button>
 
@@ -667,8 +749,9 @@
     </div>
 
 
+    <!-- JAVASCRIPT -->
     <script src="js/script.js"></script>
-<script src="js/past-papers.js"></script>
+    <script src="js/past-papers.js"></script>
 
 </body>
 </html>
