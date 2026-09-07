@@ -1,6 +1,35 @@
 document.addEventListener("DOMContentLoaded", () => {
 
     /* =========================
+       CURRENT USER
+    ========================== */
+
+    const userId = localStorage.getItem("userId");
+
+    // Har user ka apna wellbeing data
+    const wellbeingStorageKey = userId
+        ? `wellbeing_${userId}`
+        : "wellbeing_guest";
+
+
+    let wellbeingData =
+        JSON.parse(localStorage.getItem(wellbeingStorageKey)) || {
+            silentMode: false,
+            mood: null
+        };
+
+
+    const saveWellbeingData = () => {
+
+        localStorage.setItem(
+            wellbeingStorageKey,
+            JSON.stringify(wellbeingData)
+        );
+
+    };
+
+
+    /* =========================
        SILENT STUDY MODE
     ========================== */
 
@@ -10,11 +39,42 @@ document.addEventListener("DOMContentLoaded", () => {
     const silentStatus =
         document.getElementById("silentStatus");
 
-    let silentMode = false;
+
+    let silentMode = wellbeingData.silentMode;
+
+
+    // Page open hone par saved mode restore karo
+    if (silentMode) {
+
+        document.body.classList.add("silent-active");
+
+        silentStatus.classList.add("on");
+
+        silentStatus.innerHTML =
+            "<span></span> Silent mode is on";
+
+        silentToggle.textContent =
+            "Turn off Silent Mode";
+
+    } else {
+
+        silentStatus.innerHTML =
+            "<span></span> Mode is off";
+
+        silentToggle.textContent =
+            "Turn on Silent Mode";
+
+    }
+
 
     silentToggle.addEventListener("click", () => {
 
         silentMode = !silentMode;
+
+        wellbeingData.silentMode = silentMode;
+
+        saveWellbeingData();
+
 
         if (silentMode) {
 
@@ -152,18 +212,47 @@ document.addEventListener("DOMContentLoaded", () => {
         document.getElementById("checkinResult");
 
 
+    // Saved mood restore karo
+    if (wellbeingData.mood) {
+
+        moodOptions.forEach(option => {
+
+            if (option.dataset.mood === wellbeingData.mood) {
+
+                option.classList.add("selected");
+
+            }
+
+        });
+
+        checkinResult.textContent =
+            `Your last check-in was "${wellbeingData.mood}". Be kind to yourself today.`;
+
+    }
+
+
     moodOptions.forEach(option => {
 
         option.addEventListener("click", () => {
 
             moodOptions.forEach(item => {
+
                 item.classList.remove("selected");
+
             });
+
 
             option.classList.add("selected");
 
+
             const mood =
                 option.dataset.mood;
+
+
+            // Current user's mood save karo
+            wellbeingData.mood = mood;
+
+            saveWellbeingData();
 
 
             checkinResult.textContent =
