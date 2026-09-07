@@ -1,4 +1,3 @@
-```javascript
 document.addEventListener("DOMContentLoaded", () => {
 
     /* =========================
@@ -7,11 +6,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const userId = localStorage.getItem("userId");
 
-    if (!userId) {
-        console.warn("No logged-in user found.");
-    }
-
-    // Har user ke tasks ki alag storage
     const taskStorageKey = userId
         ? `plannerTasks_${userId}`
         : "plannerTasks_guest";
@@ -37,32 +31,23 @@ document.addEventListener("DOMContentLoaded", () => {
     const userAvatar =
         document.getElementById("userAvatar");
 
-
-    // Show actual logged-in user's name
     if (userProfileName) {
         userProfileName.textContent = userName;
     }
 
-
-    // Create initials
     if (userAvatar) {
 
-        const nameParts =
-            userName.trim().split(/\s+/);
+        const nameParts = userName.trim().split(/\s+/);
 
         let initials = "ST";
 
         if (nameParts.length >= 2) {
-
             initials =
                 nameParts[0].charAt(0) +
                 nameParts[1].charAt(0);
-
         } else if (nameParts.length === 1) {
-
             initials =
                 nameParts[0].substring(0, 2);
-
         }
 
         userAvatar.textContent =
@@ -71,7 +56,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     /* =========================
-       TIMER
+       15-MINUTE TIMER
     ========================== */
 
     let timeLeft = 15 * 60;
@@ -88,28 +73,48 @@ document.addEventListener("DOMContentLoaded", () => {
         document.getElementById("resetTimer");
 
 
-    if (timerDisplay && startButton && resetButton) {
+    console.log("Timer elements:", {
+        timerDisplay,
+        startButton,
+        resetButton
+    });
 
-        function updateTimer() {
 
-            const minutes =
-                Math.floor(timeLeft / 60);
+    /* =========================
+       UPDATE TIMER DISPLAY
+    ========================== */
 
-            const seconds =
-                timeLeft % 60;
+    function updateTimer() {
+
+        const minutes =
+            Math.floor(timeLeft / 60);
+
+        const seconds =
+            timeLeft % 60;
+
+        if (timerDisplay) {
 
             timerDisplay.textContent =
                 `${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
         }
+    }
 
+
+    /* =========================
+       START / PAUSE TIMER
+    ========================== */
+
+    if (startButton && timerDisplay) {
 
         startButton.addEventListener("click", () => {
 
+            // PAUSE
             if (isRunning) {
 
                 clearInterval(timerInterval);
 
                 timerInterval = null;
+
                 isRunning = false;
 
                 startButton.textContent =
@@ -119,6 +124,14 @@ document.addEventListener("DOMContentLoaded", () => {
             }
 
 
+            // SESSION COMPLETE
+            if (timeLeft <= 0) {
+
+                return;
+            }
+
+
+            // START
             isRunning = true;
 
             startButton.textContent =
@@ -127,55 +140,66 @@ document.addEventListener("DOMContentLoaded", () => {
 
             timerInterval = setInterval(() => {
 
+                timeLeft--;
+
+                updateTimer();
+
+
+                // TIMER FINISHED
                 if (timeLeft <= 0) {
 
                     clearInterval(timerInterval);
 
                     timerInterval = null;
+
                     isRunning = false;
+
+                    timeLeft = 0;
+
+                    updateTimer();
 
                     startButton.textContent =
                         "Session Complete 🎉";
-
-                    return;
                 }
-
-
-                timeLeft--;
-
-                updateTimer();
 
             }, 1000);
 
         });
 
+    }
+
+
+    /* =========================
+       RESET TIMER
+    ========================== */
+
+    if (resetButton) {
 
         resetButton.addEventListener("click", () => {
 
             clearInterval(timerInterval);
 
             timerInterval = null;
+
             isRunning = false;
 
             timeLeft = 15 * 60;
 
             updateTimer();
 
-            startButton.textContent =
-                "Start Focus";
+            if (startButton) {
+
+                startButton.textContent =
+                    "Start Focus";
+            }
 
         });
 
-
-        updateTimer();
-
-    } else {
-
-        console.warn(
-            "Timer elements not found."
-        );
-
     }
+
+
+    // Initial timer display
+    updateTimer();
 
 
     /* =========================
@@ -194,17 +218,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (!taskForm || !taskList || !taskCounter) {
 
-        console.error(
-            "Task elements not found."
-        );
+        console.error("Task elements not found.");
 
         return;
-
     }
 
 
     /* =========================
-       LOAD USER TASKS
+       LOAD TASKS
     ========================== */
 
     let tasks = [];
@@ -224,12 +245,11 @@ document.addEventListener("DOMContentLoaded", () => {
         );
 
         tasks = [];
-
     }
 
 
     /* =========================
-       SAVE USER TASKS
+       SAVE TASKS
     ========================== */
 
     function saveTasks() {
@@ -238,12 +258,11 @@ document.addEventListener("DOMContentLoaded", () => {
             taskStorageKey,
             JSON.stringify(tasks)
         );
-
     }
 
 
     /* =========================
-       UPDATE COUNTER
+       TASK COUNTER
     ========================== */
 
     function updateTaskCounter() {
@@ -253,7 +272,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
         taskCounter.textContent =
             `${totalTasks} ${totalTasks === 1 ? "task" : "tasks"}`;
-
     }
 
 
@@ -265,7 +283,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
         taskList.innerHTML = "";
 
-
         tasks.forEach((task, index) => {
 
             const taskElement =
@@ -273,7 +290,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
             taskElement.className =
                 "planner-task";
-
 
             taskElement.innerHTML = `
                 <div class="task-check">
@@ -290,22 +306,14 @@ document.addEventListener("DOMContentLoaded", () => {
                 </span>
             `;
 
-
             taskElement
                 .querySelector("strong")
-                .textContent =
-                    task.title;
-
+                .textContent = task.title;
 
             taskElement
                 .querySelector("small")
                 .textContent =
                     `${task.type} • ${task.time}`;
-
-
-            /* =========================
-               TASK CLICK
-            ========================== */
 
             taskElement.addEventListener(
                 "click",
@@ -316,20 +324,14 @@ document.addEventListener("DOMContentLoaded", () => {
                     saveTasks();
 
                     renderTasks();
-
                 }
             );
 
-
-            taskList.appendChild(
-                taskElement
-            );
+            taskList.appendChild(taskElement);
 
         });
 
-
         updateTaskCounter();
-
     }
 
 
@@ -343,7 +345,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
             event.preventDefault();
 
-
             const titleInput =
                 document.getElementById("taskTitle");
 
@@ -352,7 +353,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
             const typeInput =
                 document.getElementById("taskType");
-
 
             const title =
                 titleInput.value.trim();
@@ -364,18 +364,13 @@ document.addEventListener("DOMContentLoaded", () => {
                 typeInput.value;
 
 
-            if (title === "") {
+            if (!title) {
 
                 titleInput.focus();
 
                 return;
-
             }
 
-
-            /* =========================
-               CREATE TASK
-            ========================== */
 
             const task = {
 
@@ -390,30 +385,11 @@ document.addEventListener("DOMContentLoaded", () => {
             };
 
 
-            /* =========================
-               ADD TO CURRENT USER
-            ========================== */
-
             tasks.push(task);
-
-
-            /* =========================
-               SAVE
-            ========================== */
 
             saveTasks();
 
-
-            /* =========================
-               DISPLAY
-            ========================== */
-
             renderTasks();
-
-
-            /* =========================
-               RESET FORM
-            ========================== */
 
             taskForm.reset();
 
@@ -428,4 +404,3 @@ document.addEventListener("DOMContentLoaded", () => {
     renderTasks();
 
 });
-```
