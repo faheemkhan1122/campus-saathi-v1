@@ -1,5 +1,22 @@
 document.addEventListener("DOMContentLoaded", () => {
 
+    /* =========================
+       CURRENT USER
+    ========================== */
+
+    const userId =
+        localStorage.getItem("userId");
+
+    // Current logged-in user ki unique ID
+    const pastPaperStorageKey = userId
+        ? `pastPapers_${userId}`
+        : "pastPapers_guest";
+
+
+    /* =========================
+       ELEMENTS
+    ========================== */
+
     const searchInput =
         document.getElementById("paperSearch");
 
@@ -41,6 +58,29 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     /* =========================
+       USER-SPECIFIC STORAGE
+    ========================== */
+
+    // Current user ke viewed papers
+    let userPaperData =
+        JSON.parse(
+            localStorage.getItem(pastPaperStorageKey)
+        ) || {
+            viewedPapers: []
+        };
+
+
+    function saveUserPaperData() {
+
+        localStorage.setItem(
+            pastPaperStorageKey,
+            JSON.stringify(userPaperData)
+        );
+
+    }
+
+
+    /* =========================
        FILTER PAPERS
     ========================== */
 
@@ -62,7 +102,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
         const cards =
-            paperList.querySelectorAll(".paper-card");
+            paperList.querySelectorAll(
+                ".paper-card"
+            );
 
         let visibleCount = 0;
 
@@ -87,15 +129,18 @@ document.addEventListener("DOMContentLoaded", () => {
 
             const matchesInstitution =
                 selectedInstitution === "all" ||
-                cardInstitution === selectedInstitution;
+                cardInstitution ===
+                selectedInstitution;
 
             const matchesSubject =
                 selectedSubject === "all" ||
-                cardSubject === selectedSubject;
+                cardSubject ===
+                selectedSubject;
 
             const matchesYear =
                 selectedYear === "all" ||
-                cardYear === selectedYear;
+                cardYear ===
+                selectedYear;
 
 
             const show =
@@ -110,14 +155,21 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
             if (show) {
+
                 visibleCount++;
+
             }
 
         });
 
 
         paperCount.textContent =
-            `${visibleCount} ${visibleCount === 1 ? "paper" : "papers"}`;
+            `${visibleCount} ${
+                visibleCount === 1
+                    ? "paper"
+                    : "papers"
+            }`;
+
     }
 
 
@@ -152,22 +204,25 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     /* =========================
-       CLEAR
+       CLEAR FILTERS
     ========================== */
 
-    clearFilters.addEventListener("click", () => {
+    clearFilters.addEventListener(
+        "click",
+        () => {
 
-        searchInput.value = "";
+            searchInput.value = "";
 
-        institution.value = "all";
+            institution.value = "all";
 
-        subject.value = "all";
+            subject.value = "all";
 
-        year.value = "all";
+            year.value = "all";
 
-        filterPapers();
+            filterPapers();
 
-    });
+        }
+    );
 
 
     /* =========================
@@ -179,15 +234,21 @@ document.addEventListener("DOMContentLoaded", () => {
         event => {
 
             const button =
-                event.target.closest(".view-paper");
+                event.target.closest(
+                    ".view-paper"
+                );
 
             if (!button) {
+
                 return;
+
             }
 
 
             const card =
-                button.closest(".paper-card");
+                button.closest(
+                    ".paper-card"
+                );
 
 
             const title =
@@ -204,9 +265,36 @@ document.addEventListener("DOMContentLoaded", () => {
                 + card.dataset.year;
 
 
-            modalTitle.textContent = title;
+            modalTitle.textContent =
+                title;
 
-            modalDetails.textContent = details;
+            modalDetails.textContent =
+                details;
+
+
+            /* =========================
+               SAVE VIEWED PAPER
+            ========================== */
+
+            const paperId =
+                card.dataset.id ||
+                `${title}_${card.dataset.year}`;
+
+
+            const alreadyViewed =
+                userPaperData.viewedPapers
+                    .includes(paperId);
+
+
+            if (!alreadyViewed) {
+
+                userPaperData.viewedPapers.push(
+                    paperId
+                );
+
+                saveUserPaperData();
+
+            }
 
 
             modal.classList.add("show");
@@ -215,10 +303,18 @@ document.addEventListener("DOMContentLoaded", () => {
     );
 
 
+    /* =========================
+       CLOSE PAPER MODAL
+    ========================== */
+
     closePaper.addEventListener(
         "click",
         () => {
-            modal.classList.remove("show");
+
+            modal.classList.remove(
+                "show"
+            );
+
         }
     );
 
@@ -228,7 +324,11 @@ document.addEventListener("DOMContentLoaded", () => {
         event => {
 
             if (event.target === modal) {
-                modal.classList.remove("show");
+
+                modal.classList.remove(
+                    "show"
+                );
+
             }
 
         }
@@ -249,5 +349,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
         }
     );
+
+
+    /* =========================
+       INITIAL FILTER
+    ========================== */
+
+    filterPapers();
 
 });
