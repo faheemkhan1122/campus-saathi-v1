@@ -56,7 +56,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     /* =========================
-       15-MINUTE TIMER
+       TIMER
     ========================== */
 
     let timeLeft = 15 * 60;
@@ -73,15 +73,8 @@ document.addEventListener("DOMContentLoaded", () => {
         document.getElementById("resetTimer");
 
 
-    console.log("Timer elements:", {
-        timerDisplay,
-        startButton,
-        resetButton
-    });
-
-
     /* =========================
-       UPDATE TIMER DISPLAY
+       UPDATE TIMER
     ========================== */
 
     function updateTimer() {
@@ -101,14 +94,35 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     /* =========================
-       START / PAUSE TIMER
+       SET TIMER
     ========================== */
 
-    if (startButton && timerDisplay) {
+    function setTimer(minutes) {
+
+        clearInterval(timerInterval);
+
+        timerInterval = null;
+
+        isRunning = false;
+
+        timeLeft = minutes * 60;
+
+        updateTimer();
+
+        if (startButton) {
+            startButton.textContent = "Start Focus";
+        }
+    }
+
+
+    /* =========================
+       START / PAUSE
+    ========================== */
+
+    if (startButton) {
 
         startButton.addEventListener("click", () => {
 
-            // PAUSE
             if (isRunning) {
 
                 clearInterval(timerInterval);
@@ -124,14 +138,11 @@ document.addEventListener("DOMContentLoaded", () => {
             }
 
 
-            // SESSION COMPLETE
             if (timeLeft <= 0) {
-
                 return;
             }
 
 
-            // START
             isRunning = true;
 
             startButton.textContent =
@@ -145,7 +156,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 updateTimer();
 
 
-                // TIMER FINISHED
                 if (timeLeft <= 0) {
 
                     clearInterval(timerInterval);
@@ -170,35 +180,20 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     /* =========================
-       RESET TIMER
+       RESET
     ========================== */
 
     if (resetButton) {
 
         resetButton.addEventListener("click", () => {
 
-            clearInterval(timerInterval);
-
-            timerInterval = null;
-
-            isRunning = false;
-
-            timeLeft = 15 * 60;
-
-            updateTimer();
-
-            if (startButton) {
-
-                startButton.textContent =
-                    "Start Focus";
-            }
+            setTimer(15);
 
         });
 
     }
 
 
-    // Initial timer display
     updateTimer();
 
 
@@ -276,6 +271,35 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     /* =========================
+       GET MINUTES FROM TASK
+    ========================== */
+
+    function getTaskMinutes(timeText) {
+
+        if (timeText.includes("15")) {
+            return 15;
+        }
+
+        if (timeText.includes("30")) {
+            return 30;
+        }
+
+        if (timeText.includes("45")) {
+            return 45;
+        }
+
+        if (
+            timeText.includes("60") ||
+            timeText.toLowerCase().includes("hour")
+        ) {
+            return 60;
+        }
+
+        return 15;
+    }
+
+
+    /* =========================
        DISPLAY TASKS
     ========================== */
 
@@ -290,6 +314,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             taskElement.className =
                 "planner-task";
+
 
             taskElement.innerHTML = `
                 <div class="task-check">
@@ -306,26 +331,59 @@ document.addEventListener("DOMContentLoaded", () => {
                 </span>
             `;
 
+
             taskElement
                 .querySelector("strong")
-                .textContent = task.title;
+                .textContent =
+                    task.title;
+
 
             taskElement
                 .querySelector("small")
                 .textContent =
                     `${task.type} • ${task.time}`;
 
+
+            /* =========================
+               TASK CLICK
+            ========================== */
+
             taskElement.addEventListener(
                 "click",
-                () => {
+                (event) => {
 
-                    tasks.splice(index, 1);
+                    // Don't start timer when deleting
+                    if (
+                        event.target.closest(".task-check")
+                    ) {
+                        tasks.splice(index, 1);
 
-                    saveTasks();
+                        saveTasks();
 
-                    renderTasks();
+                        renderTasks();
+
+                        return;
+                    }
+
+
+                    // Set timer according to task time
+                    const minutes =
+                        getTaskMinutes(task.time);
+
+                    setTimer(minutes);
+
+                    // Scroll to timer
+                    if (timerDisplay) {
+
+                        timerDisplay.scrollIntoView({
+                            behavior: "smooth",
+                            block: "center"
+                        });
+                    }
+
                 }
             );
+
 
             taskList.appendChild(taskElement);
 
@@ -345,6 +403,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             event.preventDefault();
 
+
             const titleInput =
                 document.getElementById("taskTitle");
 
@@ -353,6 +412,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             const typeInput =
                 document.getElementById("taskType");
+
 
             const title =
                 titleInput.value.trim();
