@@ -13,9 +13,11 @@
 
     <!-- SIDEBAR -->
     <aside class="sidebar">
-<button class="mobile-close-btn" id="mobileCloseBtn">
-    ×
-</button>
+
+        <button class="mobile-close-btn" id="mobileCloseBtn">
+            ×
+        </button>
+
         <a href="index.html" class="sidebar-logo">
             <span>CS</span>
             Campus Saathi
@@ -72,9 +74,11 @@
         </nav>
 
         <div class="sidebar-bottom">
+
             <a href="index.html" class="back-home">
                 ← Back to website
             </a>
+
         </div>
 
     </aside>
@@ -84,21 +88,27 @@
     <main class="app-main">
 
         <header class="topbar">
-<button class="mobile-menu-btn" id="mobileMenuBtn">
-    ☰
-</button>
+
+            <button class="mobile-menu-btn" id="mobileMenuBtn">
+                ☰
+            </button>
+
             <div class="mobile-brand">
                 Campus<span>Saathi</span>
             </div>
 
+            <!-- DYNAMIC USER PROFILE -->
             <div class="user-profile">
 
-                <div class="avatar">
-                    LF
+                <div class="avatar" id="userAvatar">
+                    ST
                 </div>
 
                 <div>
-                    <strong>Laiba Fatima</strong>
+                    <strong id="userProfileName">
+                        Student
+                    </strong>
+
                     <small>Student</small>
                 </div>
 
@@ -128,7 +138,10 @@
 
                 </div>
 
-                <button class="ask-btn" id="openModal">
+                <button
+                    class="ask-btn"
+                    id="openModal"
+                >
                     + Ask a doubt
                 </button>
 
@@ -153,15 +166,24 @@
 
                 <div class="filter-buttons">
 
-                    <button class="filter-btn active" data-filter="all">
+                    <button
+                        class="filter-btn active"
+                        data-filter="all"
+                    >
                         All
                     </button>
 
-                    <button class="filter-btn" data-filter="unanswered">
+                    <button
+                        class="filter-btn"
+                        data-filter="unanswered"
+                    >
                         Unanswered
                     </button>
 
-                    <button class="filter-btn" data-filter="answered">
+                    <button
+                        class="filter-btn"
+                        data-filter="answered"
+                    >
                         Answered
                     </button>
 
@@ -181,7 +203,10 @@
 
                         <div>
                             <small>COMMUNITY</small>
-                            <h2>Recent doubts</h2>
+
+                            <h2>
+                                Recent doubts
+                            </h2>
                         </div>
 
                         <span id="doubtCount">
@@ -203,11 +228,23 @@
                             <div class="doubt-top">
 
                                 <div class="anonymous-user">
-                                    <span>AN</span>
+
+                                    <span>
+                                        AN
+                                    </span>
+
                                     <div>
-                                        <strong>Anonymous Student</strong>
-                                        <small>Biology • 18 min ago</small>
+
+                                        <strong>
+                                            Anonymous Student
+                                        </strong>
+
+                                        <small>
+                                            Biology • 18 min ago
+                                        </small>
+
                                     </div>
+
                                 </div>
 
                                 <span class="answered-badge">
@@ -224,8 +261,15 @@
 
 
                             <div class="tags">
-                                <span>Biology</span>
-                                <span>Exam Prep</span>
+
+                                <span>
+                                    Biology
+                                </span>
+
+                                <span>
+                                    Exam Prep
+                                </span>
+
                             </div>
 
 
@@ -257,11 +301,23 @@
                             <div class="doubt-top">
 
                                 <div class="anonymous-user">
-                                    <span>AS</span>
+
+                                    <span>
+                                        AS
+                                    </span>
+
                                     <div>
-                                        <strong>Anonymous Student</strong>
-                                        <small>Mathematics • 32 min ago</small>
+
+                                        <strong>
+                                            Anonymous Student
+                                        </strong>
+
+                                        <small>
+                                            Mathematics • 32 min ago
+                                        </small>
+
                                     </div>
+
                                 </div>
 
                                 <span class="unanswered-badge">
@@ -279,8 +335,15 @@
 
 
                             <div class="tags">
-                                <span>Math</span>
-                                <span>Calculus</span>
+
+                                <span>
+                                    Math
+                                </span>
+
+                                <span>
+                                    Calculus
+                                </span>
+
                             </div>
 
 
@@ -312,11 +375,23 @@
                             <div class="doubt-top">
 
                                 <div class="anonymous-user">
-                                    <span>SS</span>
+
+                                    <span>
+                                        SS
+                                    </span>
+
                                     <div>
-                                        <strong>Anonymous Student</strong>
-                                        <small>Physics • 1 hr ago</small>
+
+                                        <strong>
+                                            Anonymous Student
+                                        </strong>
+
+                                        <small>
+                                            Physics • 1 hr ago
+                                        </small>
+
                                     </div>
+
                                 </div>
 
                                 <span class="answered-badge">
@@ -333,8 +408,15 @@
 
 
                             <div class="tags">
-                                <span>Physics</span>
-                                <span>Study Tips</span>
+
+                                <span>
+                                    Physics
+                                </span>
+
+                                <span>
+                                    Study Tips
+                                </span>
+
                             </div>
 
 
@@ -366,11 +448,23 @@
                             <div class="doubt-top">
 
                                 <div class="anonymous-user">
-                                    <span>MK</span>
+
+                                    <span>
+                                        MK
+                                    </span>
+
                                     <div>
-                                        <strong>Anonymous Student</strong>
-                                        <small>Computer Science • 2 hrs ago</small>
+
+                                        <strong>
+                                            Anonymous Student
+                                        </strong>
+
+                                        <small>
+                                            Computer Science • 2 hrs ago
+                                        </small>
+
                                     </div>
+
                                 </div>
 
                                 <span class="answered-badge">
@@ -387,8 +481,15 @@
 
 
                             <div class="tags">
-                                <span>JavaScript</span>
-                                <span>Programming</span>
+
+                                <span>
+                                    JavaScript
+                                </span>
+
+                                <span>
+                                    Programming
+                                </span>
+
                             </div>
 
 
@@ -440,13 +541,23 @@
                         <div class="community-stats">
 
                             <div>
-                                <strong>128</strong>
-                                <span>questions</span>
+                                <strong>
+                                    128
+                                </strong>
+
+                                <span>
+                                    questions
+                                </span>
                             </div>
 
                             <div>
-                                <strong>96</strong>
-                                <span>answered</span>
+                                <strong>
+                                    96
+                                </strong>
+
+                                <span>
+                                    answered
+                                </span>
                             </div>
 
                         </div>
@@ -459,31 +570,69 @@
                         <div class="panel-title">
 
                             <div>
-                                <small>POPULAR</small>
-                                <h2>Topics</h2>
+
+                                <small>
+                                    POPULAR
+                                </small>
+
+                                <h2>
+                                    Topics
+                                </h2>
+
                             </div>
 
                         </div>
 
 
                         <div class="topic-item">
-                            <span>Mathematics</span>
-                            <small>28</small>
+
+                            <span>
+                                Mathematics
+                            </span>
+
+                            <small>
+                                28
+                            </small>
+
                         </div>
 
-                        <div class="topic-item">
-                            <span>Biology</span>
-                            <small>21</small>
-                        </div>
 
                         <div class="topic-item">
-                            <span>Physics</span>
-                            <small>17</small>
+
+                            <span>
+                                Biology
+                            </span>
+
+                            <small>
+                                21
+                            </small>
+
                         </div>
 
+
                         <div class="topic-item">
-                            <span>Programming</span>
-                            <small>14</small>
+
+                            <span>
+                                Physics
+                            </span>
+
+                            <small>
+                                17
+                            </small>
+
+                        </div>
+
+
+                        <div class="topic-item">
+
+                            <span>
+                                Programming
+                            </span>
+
+                            <small>
+                                14
+                            </small>
+
                         </div>
 
                     </div>
@@ -500,7 +649,10 @@
 
     <!-- ASK DOUBT MODAL -->
 
-    <div class="modal-overlay" id="doubtModal">
+    <div
+        class="modal-overlay"
+        id="doubtModal"
+    >
 
         <div class="modal">
 
@@ -548,11 +700,25 @@
 
                 <select id="subjectInput">
 
-                    <option>Mathematics</option>
-                    <option>Biology</option>
-                    <option>Physics</option>
-                    <option>Computer Science</option>
-                    <option>Other</option>
+                    <option>
+                        Mathematics
+                    </option>
+
+                    <option>
+                        Biology
+                    </option>
+
+                    <option>
+                        Physics
+                    </option>
+
+                    <option>
+                        Computer Science
+                    </option>
+
+                    <option>
+                        Other
+                    </option>
 
                 </select>
 
@@ -571,8 +737,9 @@
     </div>
 
 
+    <!-- JAVASCRIPT -->
     <script src="js/script.js"></script>
-<script src="js/doubts.js"></script>
+    <script src="js/doubts.js"></script>
 
 </body>
 </html>
