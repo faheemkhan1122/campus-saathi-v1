@@ -41,7 +41,9 @@ document.addEventListener("DOMContentLoaded", () => {
     // =========================================
 
     function getStorage(key, fallback) {
+
         try {
+
             const data = localStorage.getItem(key);
 
             if (!data) {
@@ -51,7 +53,9 @@ document.addEventListener("DOMContentLoaded", () => {
             return JSON.parse(data);
 
         } catch (error) {
+
             console.error("Dashboard storage error:", error);
+
             return fallback;
         }
     }
@@ -61,18 +65,31 @@ document.addEventListener("DOMContentLoaded", () => {
     // GET DATA
     // =========================================
 
-    const plannerTasks = getStorage(plannerKey, []);
-    const assignments = getStorage(assignmentKey, []);
-    const projects = getStorage(projectKey, []);
-    const quizzes = getStorage(quizKey, []);
-    const pastPapers = getStorage(pastPaperKey, {
-        viewedPapers: []
-    });
-    const doubts = getStorage(doubtKey, []);
-    const wellbeing = getStorage(wellbeingKey, {
-        silentMode: false,
-        mood: null
-    });
+    const plannerTasks =
+        getStorage(plannerKey, []);
+
+    const assignments =
+        getStorage(assignmentKey, []);
+
+    const projects =
+        getStorage(projectKey, []);
+
+    const quizzes =
+        getStorage(quizKey, []);
+
+    const pastPapers =
+        getStorage(pastPaperKey, {
+            viewedPapers: []
+        });
+
+    const doubts =
+        getStorage(doubtKey, []);
+
+    const wellbeing =
+        getStorage(wellbeingKey, {
+            silentMode: false,
+            mood: null
+        });
 
 
     // =========================================
@@ -83,6 +100,7 @@ document.addEventListener("DOMContentLoaded", () => {
         document.getElementById("dashboardDate");
 
     if (dateElement) {
+
         const today = new Date();
 
         dateElement.textContent =
@@ -98,11 +116,13 @@ document.addEventListener("DOMContentLoaded", () => {
     // ASSIGNMENTS
     // =========================================
 
-    const totalAssignments = assignments.length;
+    const totalAssignments =
+        assignments.length;
 
     const completedAssignments =
         assignments.filter(
-            assignment => assignment.status === "completed"
+            assignment =>
+                assignment.status === "completed"
         ).length;
 
     const todayString =
@@ -124,26 +144,34 @@ document.addEventListener("DOMContentLoaded", () => {
     // PROJECTS
     // =========================================
 
-    const activeProjects = projects.length;
+    const activeProjects =
+        projects.length;
 
     let totalProjectTasks = 0;
+
     let completedProjectTasks = 0;
+
 
     projects.forEach(project => {
 
-        const tasks = Array.isArray(project.tasks)
-            ? project.tasks
-            : [];
+        const tasks =
+            Array.isArray(project.tasks)
+                ? project.tasks
+                : [];
 
         totalProjectTasks += tasks.length;
 
         completedProjectTasks +=
-            tasks.filter(task => task.completed === true).length;
+            tasks.filter(
+                task => task.completed === true
+            ).length;
 
     });
 
+
     const openProjectTasks =
-        totalProjectTasks - completedProjectTasks;
+        totalProjectTasks -
+        completedProjectTasks;
 
 
     // =========================================
@@ -151,17 +179,22 @@ document.addEventListener("DOMContentLoaded", () => {
     // =========================================
 
     const totalTrackable =
-        totalAssignments + totalProjectTasks;
+        totalAssignments +
+        totalProjectTasks;
 
     const completedTrackable =
-        completedAssignments + completedProjectTasks;
+        completedAssignments +
+        completedProjectTasks;
 
     let progress = 0;
 
+
     if (totalTrackable > 0) {
+
         progress =
             Math.round(
-                (completedTrackable / totalTrackable) * 100
+                (completedTrackable /
+                    totalTrackable) * 100
             );
     }
 
@@ -171,44 +204,93 @@ document.addEventListener("DOMContentLoaded", () => {
     // =========================================
 
     const overallProgress =
-        document.getElementById("overallProgress");
+        document.getElementById(
+            "overallProgress"
+        );
 
     const progressRingNumber =
-        document.getElementById("progressRingNumber");
+        document.getElementById(
+            "progressRingNumber"
+        );
 
     const progressMessage =
-        document.getElementById("progressMessage");
+        document.getElementById(
+            "progressMessage"
+        );
+
 
     if (overallProgress) {
-        overallProgress.textContent = `${progress}%`;
+
+        overallProgress.textContent =
+            `${progress}%`;
     }
 
+
     if (progressRingNumber) {
-        progressRingNumber.textContent = progress;
+
+        progressRingNumber.textContent =
+            progress;
     }
+
 
     if (progressMessage) {
 
         if (progress === 0) {
+
             progressMessage.textContent =
                 "Start completing your work!";
+
         }
         else if (progress < 40) {
+
             progressMessage.textContent =
                 "Good start! Keep going 💪";
+
         }
         else if (progress < 70) {
+
             progressMessage.textContent =
                 "You're making great progress! 🔥";
+
         }
         else if (progress < 100) {
+
             progressMessage.textContent =
                 "Almost there! Keep pushing! 🚀";
+
         }
         else {
+
             progressMessage.textContent =
                 "Amazing! Everything is completed! 🎉";
         }
+    }
+
+
+    // =========================================
+    // PROGRESS RING VISUAL UPDATE
+    // =========================================
+
+    const progressRing =
+        document.querySelector(".progress-ring");
+
+
+    if (progressRing) {
+
+        const progressDegrees =
+            Math.round(
+                (progress / 100) * 360
+            );
+
+
+        progressRing.style.background = `
+            conic-gradient(
+                #8a69ff 0deg,
+                #49a8ff ${progressDegrees}deg,
+                rgba(255, 255, 255, 0.06) ${progressDegrees}deg,
+                rgba(255, 255, 255, 0.06) 360deg
+            )
+        `;
     }
 
 
@@ -217,18 +299,29 @@ document.addEventListener("DOMContentLoaded", () => {
     // =========================================
 
     const dashboardTaskCount =
-        document.getElementById("dashboardTaskCount");
+        document.getElementById(
+            "dashboardTaskCount"
+        );
 
     const dashboardDueCount =
-        document.getElementById("dashboardDueCount");
+        document.getElementById(
+            "dashboardDueCount"
+        );
+
 
     if (dashboardTaskCount) {
+
         dashboardTaskCount.textContent =
-            String(plannerTasks.length).padStart(2, "0");
+            String(
+                plannerTasks.length
+            ).padStart(2, "0");
     }
 
+
     if (dashboardDueCount) {
-        dashboardDueCount.textContent = dueToday;
+
+        dashboardDueCount.textContent =
+            dueToday;
     }
 
 
@@ -242,13 +335,29 @@ document.addEventListener("DOMContentLoaded", () => {
             return 15;
         }
 
-        const text = String(timeText).toLowerCase();
+        const text =
+            String(timeText).toLowerCase();
 
-        if (text.includes("15")) return 15;
-        if (text.includes("30")) return 30;
-        if (text.includes("45")) return 45;
-        if (text.includes("60")) return 60;
-        if (text.includes("hour")) return 60;
+
+        if (text.includes("15")) {
+            return 15;
+        }
+
+        if (text.includes("30")) {
+            return 30;
+        }
+
+        if (text.includes("45")) {
+            return 45;
+        }
+
+        if (text.includes("60")) {
+            return 60;
+        }
+
+        if (text.includes("hour")) {
+            return 60;
+        }
 
         return 15;
     }
@@ -256,34 +365,51 @@ document.addEventListener("DOMContentLoaded", () => {
 
     let plannedMinutes = 0;
 
+
     plannerTasks.forEach(task => {
-        plannedMinutes += getTaskMinutes(task.time);
+
+        plannedMinutes +=
+            getTaskMinutes(task.time);
     });
 
 
     function formatStudyTime(minutes) {
 
         if (minutes < 60) {
+
             return `${minutes}m`;
         }
 
-        const hours = Math.floor(minutes / 60);
-        const remaining = minutes % 60;
+
+        const hours =
+            Math.floor(minutes / 60);
+
+        const remaining =
+            minutes % 60;
+
 
         if (remaining === 0) {
+
             return `${hours}h`;
         }
+
 
         return `${hours}h ${remaining}m`;
     }
 
 
     const dashboardStudyTime =
-        document.getElementById("dashboardStudyTime");
+        document.getElementById(
+            "dashboardStudyTime"
+        );
+
 
     if (dashboardStudyTime) {
+
         dashboardStudyTime.textContent =
-            formatStudyTime(plannedMinutes);
+            formatStudyTime(
+                plannedMinutes
+            );
     }
 
 
@@ -292,17 +418,27 @@ document.addEventListener("DOMContentLoaded", () => {
     // =========================================
 
     const dashboardProjectCount =
-        document.getElementById("dashboardProjectCount");
+        document.getElementById(
+            "dashboardProjectCount"
+        );
 
     const dashboardOpenProjectTasks =
-        document.getElementById("dashboardOpenProjectTasks");
+        document.getElementById(
+            "dashboardOpenProjectTasks"
+        );
+
 
     if (dashboardProjectCount) {
+
         dashboardProjectCount.textContent =
-            String(activeProjects).padStart(2, "0");
+            String(
+                activeProjects
+            ).padStart(2, "0");
     }
 
+
     if (dashboardOpenProjectTasks) {
+
         dashboardOpenProjectTasks.textContent =
             openProjectTasks;
     }
@@ -313,50 +449,103 @@ document.addEventListener("DOMContentLoaded", () => {
     // =========================================
 
     const dashboardTaskList =
-        document.getElementById("dashboardTaskList");
+        document.getElementById(
+            "dashboardTaskList"
+        );
+
 
     if (dashboardTaskList) {
 
         dashboardTaskList.innerHTML = "";
 
+
         if (plannerTasks.length === 0) {
 
             dashboardTaskList.innerHTML = `
-                <div class="dashboard-task">
-                    <div class="task-check">—</div>
 
-                    <div class="task-detail">
-                        <strong>No tasks planned yet</strong>
-                        <small>Add your first task from the planner.</small>
+                <div class="dashboard-task">
+
+                    <div class="task-check">
+                        —
                     </div>
 
-                    <span class="task-status">—</span>
+                    <div class="task-detail">
+
+                        <strong>
+                            No tasks planned yet
+                        </strong>
+
+                        <small>
+                            Add your first task from the planner.
+                        </small>
+
+                    </div>
+
+                    <span class="task-status">
+                        —
+                    </span>
+
                 </div>
+
             `;
 
-        } else {
+        }
+        else {
 
-            plannerTasks.slice(0, 4).forEach(task => {
+            plannerTasks
+                .slice(0, 4)
+                .forEach(task => {
 
-                const taskElement =
-                    document.createElement("div");
+                    const taskElement =
+                        document.createElement("div");
 
-                taskElement.className =
-                    "dashboard-task";
 
-                taskElement.innerHTML = `
-                    <div class="task-check">✓</div>
+                    taskElement.className =
+                        "dashboard-task";
 
-                    <div class="task-detail">
-                        <strong>${escapeHTML(task.title || "Study Task")}</strong>
-                        <small>${escapeHTML(task.type || "Study")} • ${escapeHTML(task.time || "15 minutes")}</small>
-                    </div>
 
-                    <span class="task-status">Planned</span>
-                `;
+                    taskElement.innerHTML = `
 
-                dashboardTaskList.appendChild(taskElement);
-            });
+                        <div class="task-check">
+                            ✓
+                        </div>
+
+                        <div class="task-detail">
+
+                            <strong>
+                                ${escapeHTML(
+                                    task.title ||
+                                    "Study Task"
+                                )}
+                            </strong>
+
+                            <small>
+                                ${escapeHTML(
+                                    task.type ||
+                                    "Study"
+                                )}
+                                •
+                                ${escapeHTML(
+                                    task.time ||
+                                    "15 minutes"
+                                )}
+                            </small>
+
+                        </div>
+
+                        <span class="task-status">
+                            Planned
+                        </span>
+
+                    `;
+
+
+                    dashboardTaskList
+                        .appendChild(
+                            taskElement
+                        );
+
+                });
         }
     }
 
@@ -366,15 +555,25 @@ document.addEventListener("DOMContentLoaded", () => {
     // =========================================
 
     const dashboardFocusMinutes =
-        document.getElementById("dashboardFocusMinutes");
+        document.getElementById(
+            "dashboardFocusMinutes"
+        );
+
 
     if (dashboardFocusMinutes) {
 
         if (plannerTasks.length > 0) {
+
             dashboardFocusMinutes.textContent =
-                getTaskMinutes(plannerTasks[0].time);
-        } else {
-            dashboardFocusMinutes.textContent = "15";
+                getTaskMinutes(
+                    plannerTasks[0].time
+                );
+
+        }
+        else {
+
+            dashboardFocusMinutes.textContent =
+                "15";
         }
     }
 
@@ -384,7 +583,10 @@ document.addEventListener("DOMContentLoaded", () => {
     // =========================================
 
     const dashboardDeadlines =
-        document.getElementById("dashboardDeadlines");
+        document.getElementById(
+            "dashboardDeadlines"
+        );
+
 
     if (dashboardDeadlines) {
 
@@ -395,87 +597,164 @@ document.addEventListener("DOMContentLoaded", () => {
                     assignment.date
                 )
                 .sort((a, b) =>
-                    new Date(a.date) - new Date(b.date)
+                    new Date(a.date) -
+                    new Date(b.date)
                 )
                 .slice(0, 3);
 
 
-        dashboardDeadlines.innerHTML = "";
+        dashboardDeadlines.innerHTML =
+            "";
+
 
         if (upcomingAssignments.length === 0) {
 
             dashboardDeadlines.innerHTML = `
+
                 <div class="deadline-item">
+
                     <div>
-                        <strong>No upcoming deadlines</strong>
-                        <small>You're all clear! 🎉</small>
+
+                        <strong>
+                            No upcoming deadlines
+                        </strong>
+
+                        <small>
+                            You're all clear! 🎉
+                        </small>
+
                     </div>
+
                 </div>
+
             `;
 
-        } else {
+        }
+        else {
 
-            upcomingAssignments.forEach(assignment => {
+            upcomingAssignments
+                .forEach(assignment => {
 
-                const deadlineDate =
-                    new Date(assignment.date);
-
-                const formattedDate =
-                    deadlineDate.toLocaleDateString("en-US", {
-                        month: "short",
-                        day: "2-digit"
-                    }).toUpperCase();
+                    const deadlineDate =
+                        new Date(
+                            assignment.date
+                        );
 
 
-                const today = new Date();
+                    const formattedDate =
+                        deadlineDate
+                            .toLocaleDateString(
+                                "en-US",
+                                {
+                                    month: "short",
+                                    day: "2-digit"
+                                }
+                            )
+                            .toUpperCase();
 
-                today.setHours(0, 0, 0, 0);
 
-                deadlineDate.setHours(0, 0, 0, 0);
+                    const today =
+                        new Date();
 
-                const difference =
-                    Math.ceil(
-                        (deadlineDate - today) /
-                        (1000 * 60 * 60 * 24)
+                    today.setHours(
+                        0, 0, 0, 0
                     );
 
 
-                let remainingText;
-
-                if (difference < 0) {
-                    remainingText = "Overdue";
-                }
-                else if (difference === 0) {
-                    remainingText = "Due today";
-                }
-                else if (difference === 1) {
-                    remainingText = "Due tomorrow";
-                }
-                else {
-                    remainingText =
-                        `${difference} days left`;
-                }
+                    deadlineDate.setHours(
+                        0, 0, 0, 0
+                    );
 
 
-                const deadlineElement =
-                    document.createElement("div");
+                    const difference =
+                        Math.ceil(
+                            (
+                                deadlineDate -
+                                today
+                            ) /
+                            (
+                                1000 *
+                                60 *
+                                60 *
+                                24
+                            )
+                        );
 
-                deadlineElement.className =
-                    "deadline-item";
 
-                deadlineElement.innerHTML = `
-                    <div>
-                        <strong>${escapeHTML(assignment.title || "Assignment")}</strong>
-                        <small>${formattedDate} • ${remainingText}</small>
-                    </div>
+                    let remainingText;
 
-                    <span class="deadline-priority">
-                        ${escapeHTML(assignment.subject || "Task")}
-                    </span>
-                `;
 
-                dashboardDeadlines.appendChild(deadlineElement);
-            });
+                    if (difference < 0) {
+
+                        remainingText =
+                            "Overdue";
+
+                    }
+                    else if (difference === 0) {
+
+                        remainingText =
+                            "Due today";
+
+                    }
+                    else if (difference === 1) {
+
+                        remainingText =
+                            "Due tomorrow";
+
+                    }
+                    else {
+
+                        remainingText =
+                            `${difference} days left`;
+                    }
+
+
+                    const deadlineElement =
+                        document.createElement(
+                            "div"
+                        );
+
+
+                    deadlineElement.className =
+                        "deadline-item";
+
+
+                    deadlineElement.innerHTML = `
+
+                        <div>
+                            <strong>
+                                ${escapeHTML(
+                                    assignment.title ||
+                                    "Assignment"
+                                )}
+                            </strong>
+
+                            <small>
+                                ${formattedDate}
+                                •
+                                ${remainingText}
+                            </small>
+
+                        </div>
+
+                        <span class="deadline-priority">
+
+                            ${escapeHTML(
+                                assignment.subject ||
+                                "Task"
+                            )}
+
+                        </span>
+
+                    `;
+
+
+                    dashboardDeadlines
+                        .appendChild(
+                            deadlineElement
+                        );
+
+                });
         }
     }
 
@@ -485,22 +764,33 @@ document.addEventListener("DOMContentLoaded", () => {
     // =========================================
 
     const dashboardDataSummary =
-        document.getElementById("dashboardDataSummary");
+        document.getElementById(
+            "dashboardDataSummary"
+        );
+
 
     const viewedPapers =
-        Array.isArray(pastPapers.viewedPapers)
+        Array.isArray(
+            pastPapers.viewedPapers
+        )
             ? pastPapers.viewedPapers.length
             : 0;
 
+
     const unansweredDoubts =
         doubts.filter(
-            doubt => doubt.status === "unanswered"
+            doubt =>
+                doubt.status === "unanswered"
         ).length;
+
 
     const totalQuestions =
         quizzes.reduce(
             (total, quiz) =>
-                total + Number(quiz.questionCount || 0),
+                total +
+                Number(
+                    quiz.questionCount || 0
+                ),
             0
         );
 
@@ -508,35 +798,86 @@ document.addEventListener("DOMContentLoaded", () => {
     if (dashboardDataSummary) {
 
         dashboardDataSummary.innerHTML = `
-            <div>
-                <strong>${quizzes.length}</strong>
-                <span>Quizzes</span>
-            </div>
 
             <div>
-                <strong>${totalQuestions}</strong>
-                <span>Quiz Questions</span>
+
+                <strong>
+                    ${quizzes.length}
+                </strong>
+
+                <span>
+                    Quizzes
+                </span>
+
             </div>
 
-            <div>
-                <strong>${viewedPapers}</strong>
-                <span>Papers Viewed</span>
-            </div>
 
             <div>
-                <strong>${doubts.length}</strong>
-                <span>Doubts Asked</span>
+
+                <strong>
+                    ${totalQuestions}
+                </strong>
+
+                <span>
+                    Quiz Questions
+                </span>
+
             </div>
 
-            <div>
-                <strong>${unansweredDoubts}</strong>
-                <span>Unanswered</span>
-            </div>
 
             <div>
-                <strong>${wellbeing.silentMode ? "ON" : "OFF"}</strong>
-                <span>Silent Mode</span>
+
+                <strong>
+                    ${viewedPapers}
+                </strong>
+
+                <span>
+                    Papers Viewed
+                </span>
+
             </div>
+
+
+            <div>
+
+                <strong>
+                    ${doubts.length}
+                </strong>
+
+                <span>
+                    Doubts Asked
+                </span>
+
+            </div>
+
+
+            <div>
+
+                <strong>
+                    ${unansweredDoubts}
+                </strong>
+
+                <span>
+                    Unanswered
+                </span>
+
+            </div>
+
+
+            <div>
+
+                <strong>
+                    ${wellbeing.silentMode
+                        ? "ON"
+                        : "OFF"}
+                </strong>
+
+                <span>
+                    Silent Mode
+                </span>
+
+            </div>
+
         `;
     }
 
@@ -546,34 +887,75 @@ document.addEventListener("DOMContentLoaded", () => {
     // =========================================
 
     const focusButton =
-        document.querySelector(".focus-btn");
+        document.querySelector(
+            ".focus-btn"
+        );
 
-    if (focusButton && plannerTasks.length > 0) {
 
-        focusButton.addEventListener("click", () => {
+    if (
+        focusButton &&
+        plannerTasks.length > 0
+    ) {
 
-            const minutes =
-                getTaskMinutes(plannerTasks[0].time);
+        focusButton.addEventListener(
+            "click",
+            () => {
 
-            const focusMinutes =
-                document.getElementById(
-                    "dashboardFocusMinutes"
-                );
+                const minutes =
+                    getTaskMinutes(
+                        plannerTasks[0].time
+                    );
 
-            if (focusMinutes) {
-                focusMinutes.textContent = minutes;
+
+                const focusMinutes =
+                    document.getElementById(
+                        "dashboardFocusMinutes"
+                    );
+
+
+                if (focusMinutes) {
+
+                    focusMinutes.textContent =
+                        minutes;
+                }
+
             }
-
-        });
+        );
     }
 
 
-    console.log("Campus Saathi Dashboard updated successfully.");
-    console.log("Progress:", progress + "%");
-    console.log("Planner Tasks:", plannerTasks.length);
-    console.log("Assignments:", assignments.length);
-    console.log("Projects:", projects.length);
-    console.log("Quizzes:", quizzes.length);
+    // =========================================
+    // CONSOLE INFORMATION
+    // =========================================
+
+    console.log(
+        "Campus Saathi Dashboard updated successfully."
+    );
+
+    console.log(
+        "Progress:",
+        progress + "%"
+    );
+
+    console.log(
+        "Planner Tasks:",
+        plannerTasks.length
+    );
+
+    console.log(
+        "Assignments:",
+        assignments.length
+    );
+
+    console.log(
+        "Projects:",
+        projects.length
+    );
+
+    console.log(
+        "Quizzes:",
+        quizzes.length
+    );
 
 
     // =========================================
@@ -583,11 +965,31 @@ document.addEventListener("DOMContentLoaded", () => {
     function escapeHTML(value) {
 
         return String(value)
-            .replace(/&/g, "&amp;")
-            .replace(/</g, "&lt;")
-            .replace(/>/g, "&gt;")
-            .replace(/"/g, "&quot;")
-            .replace(/'/g, "&#039;");
+
+            .replace(
+                /&/g,
+                "&amp;"
+            )
+
+            .replace(
+                /</g,
+                "&lt;"
+            )
+
+            .replace(
+                />/g,
+                "&gt;"
+            )
+
+            .replace(
+                /"/g,
+                "&quot;"
+            )
+
+            .replace(
+                /'/g,
+                "&#039;"
+            );
     }
 
 });
