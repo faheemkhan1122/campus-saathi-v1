@@ -1,5 +1,7 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,10 +16,13 @@
     <!-- =========================
          SIDEBAR
     ========================== -->
+
     <aside class="sidebar">
-<button class="mobile-close-btn" id="mobileCloseBtn">
-    ×
-</button>
+
+        <button class="mobile-close-btn" id="mobileCloseBtn">
+            ×
+        </button>
+
         <a href="index.html" class="sidebar-logo">
             <span>CS</span>
             Campus Saathi
@@ -47,7 +52,9 @@
                 Doubt Board
             </a>
 
-            <p class="nav-title second-title">ORGANIZE</p>
+            <p class="nav-title second-title">
+                ORGANIZE
+            </p>
 
             <a href="assignments.html" class="nav-link">
                 <span>□</span>
@@ -64,7 +71,9 @@
                 Group Projects
             </a>
 
-            <p class="nav-title second-title">WELLBEING</p>
+            <p class="nav-title second-title">
+                WELLBEING
+            </p>
 
             <a href="wellbeing.html" class="nav-link">
                 <span>◌</span>
@@ -87,25 +96,36 @@
     <!-- =========================
          MAIN
     ========================== -->
+
     <main class="app-main">
 
         <header class="topbar">
-<button class="mobile-menu-btn" id="mobileMenuBtn">
-    ☰
-</button>
+
+            <button class="mobile-menu-btn" id="mobileMenuBtn">
+                ☰
+            </button>
+
             <div class="mobile-brand">
                 Campus<span>Saathi</span>
             </div>
 
+
+            <!-- DYNAMIC USER PROFILE -->
+
             <div class="user-profile">
 
-                <div class="avatar">
-                    LF
+                <div class="avatar" id="userAvatar">
+                    ST
                 </div>
 
                 <div>
-                    <strong>Laiba Fatima</strong>
-                    <small>Student</small>
+                    <strong id="userProfileName">
+                        Student
+                    </strong>
+
+                    <small>
+                        Student
+                    </small>
                 </div>
 
             </div>
@@ -115,12 +135,15 @@
 
         <section class="planner-content">
 
+
             <!-- =========================
                  HEADER
             ========================== -->
+
             <div class="page-header">
 
                 <div>
+
                     <p class="eyebrow">
                         STUDY PILLAR
                     </p>
@@ -130,13 +153,22 @@
                     </h1>
 
                     <p>
-                        Don't plan your whole day. Just plan your next 15 minutes.
+                        Don't plan your whole day.
+                        Just plan your next 15 minutes.
                     </p>
+
                 </div>
 
                 <div class="date-card">
-                    <span>Today</span>
-                    <strong>01 SEP</strong>
+
+                    <span>
+                        Today
+                    </span>
+
+                    <strong>
+                        01 SEP
+                    </strong>
+
                 </div>
 
             </div>
@@ -145,17 +177,26 @@
             <!-- =========================
                  FOCUS AREA
             ========================== -->
+
             <div class="focus-layout">
 
 
                 <!-- TIMER -->
+
                 <div class="focus-panel">
 
                     <div class="focus-panel-top">
 
                         <div>
-                            <small>FOCUS SESSION</small>
-                            <h2>Your next 15 minutes</h2>
+
+                            <small>
+                                FOCUS SESSION
+                            </small>
+
+                            <h2>
+                                Your next 15 minutes
+                            </h2>
+
                         </div>
 
                         <span class="ready-badge">
@@ -188,11 +229,19 @@
 
                     <div class="timer-actions">
 
-                        <button class="start-btn" id="startTimer">
+                        <button
+                            class="start-btn"
+                            id="startTimer"
+                            type="button"
+                        >
                             Start Focus
                         </button>
 
-                        <button class="reset-btn" id="resetTimer">
+                        <button
+                            class="reset-btn"
+                            id="resetTimer"
+                            type="button"
+                        >
                             Reset
                         </button>
 
@@ -208,13 +257,21 @@
 
 
                 <!-- QUICK ADD -->
+
                 <div class="add-panel">
 
                     <div class="panel-heading">
 
                         <div>
-                            <small>PLAN YOUR NEXT STEP</small>
-                            <h2>Add a task</h2>
+
+                            <small>
+                                PLAN YOUR NEXT STEP
+                            </small>
+
+                            <h2>
+                                Add a task
+                            </h2>
+
                         </div>
 
                     </div>
@@ -284,7 +341,10 @@
                         </select>
 
 
-                        <button type="submit" class="add-btn">
+                        <button
+                            type="submit"
+                            class="add-btn"
+                        >
                             + Add to today's plan
                         </button>
 
@@ -298,23 +358,37 @@
             <!-- =========================
                  TODAY PLAN
             ========================== -->
+
             <div class="plan-panel">
 
                 <div class="panel-heading">
 
                     <div>
-                        <small>TODAY</small>
-                        <h2>Your plan</h2>
+
+                        <small>
+                            TODAY
+                        </small>
+
+                        <h2>
+                            Your plan
+                        </h2>
+
                     </div>
 
-                    <span class="task-counter" id="taskCounter">
+                    <span
+                        class="task-counter"
+                        id="taskCounter"
+                    >
                         3 tasks
                     </span>
 
                 </div>
 
 
-                <div class="task-list" id="taskList">
+                <div
+                    class="task-list"
+                    id="taskList"
+                >
 
                     <div class="planner-task completed">
 
@@ -398,11 +472,15 @@
             <!-- =========================
                  MOTIVATION
             ========================== -->
+
             <div class="planner-message">
 
-                <span>✦</span>
+                <span>
+                    ✦
+                </span>
 
                 <div>
+
                     <strong>
                         One small step is enough.
                     </strong>
@@ -411,6 +489,7 @@
                         You don't need to finish everything today.
                         Just decide what deserves your next 15 minutes.
                     </p>
+
                 </div>
 
             </div>
@@ -420,8 +499,17 @@
     </main>
 
 
+    <!-- =========================
+         SCRIPTS
+    ========================== -->
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
     <script src="js/script.js"></script>
-<script src="js/planner.js"></script>
+
+    <script src="js/planner.js"></script>
 
 </body>
+
 </html>
+```
