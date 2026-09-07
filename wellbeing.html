@@ -13,9 +13,11 @@
 
     <!-- SIDEBAR -->
     <aside class="sidebar">
-<button class="mobile-close-btn" id="mobileCloseBtn">
-    ×
-</button>
+
+        <button class="mobile-close-btn" id="mobileCloseBtn">
+            ×
+        </button>
+
         <a href="index.html" class="sidebar-logo">
             <span>CS</span>
             Campus Saathi
@@ -72,9 +74,11 @@
         </nav>
 
         <div class="sidebar-bottom">
+
             <a href="index.html" class="back-home">
                 ← Back to website
             </a>
+
         </div>
 
     </aside>
@@ -84,22 +88,31 @@
     <main class="app-main">
 
         <header class="topbar">
-<button class="mobile-menu-btn" id="mobileMenuBtn">
-    ☰
-</button>
+
+            <button class="mobile-menu-btn" id="mobileMenuBtn">
+                ☰
+            </button>
+
             <div class="mobile-brand">
                 Campus<span>Saathi</span>
             </div>
 
+
+            <!-- USER PROFILE -->
             <div class="user-profile">
 
-                <div class="avatar">
-                    LF
+                <div class="avatar" id="userAvatar">
+                    ST
                 </div>
 
                 <div>
-                    <strong>Laiba Fatima</strong>
-                    <small>Student</small>
+                    <strong id="userProfileName">
+                        Student
+                    </strong>
+
+                    <small>
+                        Student
+                    </small>
                 </div>
 
             </div>
@@ -108,6 +121,7 @@
 
 
         <section class="wellbeing-content">
+
 
             <!-- HEADER -->
             <div class="page-header">
@@ -198,8 +212,10 @@
                     </p>
 
                     <div class="mode-status" id="silentStatus">
+
                         <span></span>
                         Mode is off
+
                     </div>
 
                     <button
@@ -240,9 +256,13 @@
                         before returning to your work.
                     </p>
 
-                    <div class="breathing-circle" id="breathingCircle">
+                    <div
+                        class="breathing-circle"
+                        id="breathingCircle"
+                    >
 
                         <div>
+
                             <strong id="breathingText">
                                 Ready
                             </strong>
@@ -250,6 +270,7 @@
                             <small>
                                 breathe
                             </small>
+
                         </div>
 
                     </div>
@@ -299,6 +320,7 @@
                         </span>
 
                         <div>
+
                             <strong>
                                 You're not alone.
                             </strong>
@@ -306,6 +328,7 @@
                             <small>
                                 Share what's on your mind.
                             </small>
+
                         </div>
 
                     </div>
@@ -344,27 +367,42 @@
 
                 <div class="mood-options">
 
-                    <button class="mood-option" data-mood="Great">
+                    <button
+                        class="mood-option"
+                        data-mood="Great"
+                    >
                         <span>😊</span>
                         Great
                     </button>
 
-                    <button class="mood-option" data-mood="Good">
+                    <button
+                        class="mood-option"
+                        data-mood="Good"
+                    >
                         <span>🙂</span>
                         Good
                     </button>
 
-                    <button class="mood-option" data-mood="Okay">
+                    <button
+                        class="mood-option"
+                        data-mood="Okay"
+                    >
                         <span>😐</span>
                         Okay
                     </button>
 
-                    <button class="mood-option" data-mood="Low">
+                    <button
+                        class="mood-option"
+                        data-mood="Low"
+                    >
                         <span>😔</span>
                         Low
                     </button>
 
-                    <button class="mood-option" data-mood="Stressed">
+                    <button
+                        class="mood-option"
+                        data-mood="Stressed"
+                    >
                         <span>😣</span>
                         Stressed
                     </button>
@@ -372,7 +410,10 @@
                 </div>
 
 
-                <div class="checkin-result" id="checkinResult">
+                <div
+                    class="checkin-result"
+                    id="checkinResult"
+                >
                     Choose a mood to check in.
                 </div>
 
@@ -407,7 +448,10 @@
 
 
     <!-- SUPPORT MODAL -->
-    <div class="modal-overlay" id="supportModal">
+    <div
+        class="modal-overlay"
+        id="supportModal"
+    >
 
         <div class="modal">
 
@@ -455,7 +499,9 @@
 
     </div>
 
-<script src="js/script.js"></script>
+
+    <!-- JAVASCRIPT -->
+    <script src="js/script.js"></script>
     <script src="js/wellbeing.js"></script>
 
 </body>
