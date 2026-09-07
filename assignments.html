@@ -13,9 +13,11 @@
 
     <!-- SIDEBAR -->
     <aside class="sidebar">
-<button class="mobile-close-btn" id="mobileCloseBtn">
-    ×
-</button>
+
+        <button class="mobile-close-btn" id="mobileCloseBtn">
+            ×
+        </button>
+
         <a href="index.html" class="sidebar-logo">
             <span>CS</span>
             Campus Saathi
@@ -86,21 +88,27 @@
     <main class="app-main">
 
         <header class="topbar">
-<button class="mobile-menu-btn" id="mobileMenuBtn">
-    ☰
-</button>
+
+            <button class="mobile-menu-btn" id="mobileMenuBtn">
+                ☰
+            </button>
+
             <div class="mobile-brand">
                 Campus<span>Saathi</span>
             </div>
 
+            <!-- DYNAMIC USER PROFILE -->
             <div class="user-profile">
 
-                <div class="avatar">
-                    LF
+                <div class="avatar" id="userAvatar">
+                    ST
                 </div>
 
                 <div>
-                    <strong>Laiba Fatima</strong>
+                    <strong id="userProfileName">
+                        Student
+                    </strong>
+
                     <small>Student</small>
                 </div>
 
@@ -130,7 +138,10 @@
 
                 </div>
 
-                <button class="add-assignment-btn" id="openAssignmentModal">
+                <button
+                    class="add-assignment-btn"
+                    id="openAssignmentModal"
+                >
                     + Add assignment
                 </button>
 
@@ -141,46 +152,78 @@
             <div class="summary-grid">
 
                 <div class="summary-card">
-                    <span class="summary-icon purple">□</span>
+
+                    <span class="summary-icon purple">
+                        □
+                    </span>
 
                     <small>TOTAL</small>
 
-                    <strong id="totalAssignments">6</strong>
+                    <strong id="totalAssignments">
+                        6
+                    </strong>
 
-                    <p>all assignments</p>
+                    <p>
+                        all assignments
+                    </p>
+
                 </div>
 
 
                 <div class="summary-card">
-                    <span class="summary-icon red">!</span>
+
+                    <span class="summary-icon red">
+                        !
+                    </span>
 
                     <small>DUE SOON</small>
 
-                    <strong id="dueSoon">2</strong>
+                    <strong id="dueSoon">
+                        2
+                    </strong>
 
-                    <p>within 3 days</p>
+                    <p>
+                        within 3 days
+                    </p>
+
                 </div>
 
 
                 <div class="summary-card">
-                    <span class="summary-icon blue">◷</span>
+
+                    <span class="summary-icon blue">
+                        ◷
+                    </span>
 
                     <small>IN PROGRESS</small>
 
-                    <strong id="inProgress">3</strong>
+                    <strong id="inProgress">
+                        3
+                    </strong>
 
-                    <p>currently working</p>
+                    <p>
+                        currently working
+                    </p>
+
                 </div>
 
 
                 <div class="summary-card">
-                    <span class="summary-icon green">✓</span>
+
+                    <span class="summary-icon green">
+                        ✓
+                    </span>
 
                     <small>COMPLETED</small>
 
-                    <strong id="completedCount">1</strong>
+                    <strong id="completedCount">
+                        1
+                    </strong>
 
-                    <p>finished assignments</p>
+                    <p>
+                        finished assignments
+                    </p>
+
                 </div>
 
             </div>
@@ -204,19 +247,31 @@
 
                 <div class="filter-buttons">
 
-                    <button class="filter-btn active" data-filter="all">
+                    <button
+                        class="filter-btn active"
+                        data-filter="all"
+                    >
                         All
                     </button>
 
-                    <button class="filter-btn" data-filter="pending">
+                    <button
+                        class="filter-btn"
+                        data-filter="pending"
+                    >
                         Pending
                     </button>
 
-                    <button class="filter-btn" data-filter="progress">
+                    <button
+                        class="filter-btn"
+                        data-filter="progress"
+                    >
                         In Progress
                     </button>
 
-                    <button class="filter-btn" data-filter="completed">
+                    <button
+                        class="filter-btn"
+                        data-filter="completed"
+                    >
                         Completed
                     </button>
 
@@ -232,7 +287,9 @@
 
                     <div>
 
-                        <small>YOUR WORK</small>
+                        <small>
+                            YOUR WORK
+                        </small>
 
                         <h2>
                             Upcoming assignments
@@ -260,7 +317,6 @@
                             PHY
                         </div>
 
-
                         <div class="assignment-info">
 
                             <strong>
@@ -272,7 +328,6 @@
                             </span>
 
                         </div>
-
 
                         <div class="deadline">
 
@@ -290,18 +345,18 @@
 
                         </div>
 
-
                         <span class="status pending">
                             Pending
                         </span>
 
-
-                        <button class="complete-btn" title="Mark complete">
+                        <button
+                            class="complete-btn"
+                            title="Mark complete"
+                        >
                             ✓
                         </button>
 
                     </article>
-
 
 
                     <!-- ASSIGNMENT 2 -->
@@ -314,7 +369,6 @@
                             MTH
                         </div>
 
-
                         <div class="assignment-info">
 
                             <strong>
@@ -326,7 +380,6 @@
                             </span>
 
                         </div>
-
 
                         <div class="deadline">
 
@@ -344,18 +397,18 @@
 
                         </div>
 
-
                         <span class="status progress">
                             In Progress
                         </span>
 
-
-                        <button class="complete-btn" title="Mark complete">
+                        <button
+                            class="complete-btn"
+                            title="Mark complete"
+                        >
                             ✓
                         </button>
 
                     </article>
-
 
 
                     <!-- ASSIGNMENT 3 -->
@@ -368,7 +421,6 @@
                             BIO
                         </div>
 
-
                         <div class="assignment-info">
 
                             <strong>
@@ -380,7 +432,6 @@
                             </span>
 
                         </div>
-
 
                         <div class="deadline">
 
@@ -398,18 +449,18 @@
 
                         </div>
 
-
                         <span class="status pending">
                             Pending
                         </span>
 
-
-                        <button class="complete-btn" title="Mark complete">
+                        <button
+                            class="complete-btn"
+                            title="Mark complete"
+                        >
                             ✓
                         </button>
 
                     </article>
-
 
 
                     <!-- ASSIGNMENT 4 -->
@@ -422,7 +473,6 @@
                             CS
                         </div>
 
-
                         <div class="assignment-info">
 
                             <strong>
@@ -434,7 +484,6 @@
                             </span>
 
                         </div>
-
 
                         <div class="deadline">
 
@@ -452,18 +501,18 @@
 
                         </div>
 
-
                         <span class="status progress">
                             In Progress
                         </span>
 
-
-                        <button class="complete-btn" title="Mark complete">
+                        <button
+                            class="complete-btn"
+                            title="Mark complete"
+                        >
                             ✓
                         </button>
 
                     </article>
-
 
 
                     <!-- ASSIGNMENT 5 -->
@@ -476,7 +525,6 @@
                             ENG
                         </div>
 
-
                         <div class="assignment-info">
 
                             <strong>
@@ -488,7 +536,6 @@
                             </span>
 
                         </div>
-
 
                         <div class="deadline">
 
@@ -506,18 +553,17 @@
 
                         </div>
 
-
                         <span class="status completed">
                             Completed
                         </span>
 
-
-                        <button class="complete-btn checked">
+                        <button
+                            class="complete-btn checked"
+                        >
                             ✓
                         </button>
 
                     </article>
-
 
 
                     <!-- ASSIGNMENT 6 -->
@@ -530,7 +576,6 @@
                             CHE
                         </div>
 
-
                         <div class="assignment-info">
 
                             <strong>
@@ -542,7 +587,6 @@
                             </span>
 
                         </div>
-
 
                         <div class="deadline">
 
@@ -560,11 +604,9 @@
 
                         </div>
 
-
                         <span class="status progress">
                             In Progress
                         </span>
-
 
                         <button class="complete-btn">
                             ✓
@@ -580,7 +622,9 @@
             <!-- TIP -->
             <div class="assignment-tip">
 
-                <span>✦</span>
+                <span>
+                    ✦
+                </span>
 
                 <div>
 
@@ -603,7 +647,10 @@
 
 
     <!-- MODAL -->
-    <div class="modal-overlay" id="assignmentModal">
+    <div
+        class="modal-overlay"
+        id="assignmentModal"
+    >
 
         <div class="modal">
 
@@ -708,8 +755,9 @@
     </div>
 
 
+    <!-- JAVASCRIPT -->
     <script src="js/script.js"></script>
-<script src="js/assignments.js"></script>
+    <script src="js/assignments.js"></script>
 
 </body>
 </html>
