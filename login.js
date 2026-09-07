@@ -52,12 +52,18 @@ document.addEventListener("DOMContentLoaded", () => {
             }
 
 
-            // Get user's name from Supabase
+            // Get logged-in user
             const user = data.user;
 
+
+            // Get user's name from Supabase
             const userName =
                 user?.user_metadata?.full_name || "Student";
 
+
+            // =========================================
+            // SAVE CURRENT USER INFORMATION
+            // =========================================
 
             // Save user's name
             localStorage.setItem(
@@ -66,13 +72,39 @@ document.addEventListener("DOMContentLoaded", () => {
             );
 
 
+            // Save UNIQUE Supabase User ID
+            // This ID is different for every account
+            if (user?.id) {
+
+                localStorage.setItem(
+                    "userId",
+                    user.id
+                );
+
+            }
+
+
+            // Save user's email
+            if (user?.email) {
+
+                localStorage.setItem(
+                    "userEmail",
+                    user.email
+                );
+
+            }
+
+
             loginMessage.textContent =
                 "Login successful! Opening dashboard...";
 
             loginMessage.style.color = "#16a34a";
 
 
-            // Open Dashboard
+            // =========================================
+            // OPEN DASHBOARD
+            // =========================================
+
             setTimeout(() => {
 
                 window.location.href =
