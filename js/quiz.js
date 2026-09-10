@@ -96,9 +96,7 @@ document.addEventListener("DOMContentLoaded", () => {
         button.addEventListener("click", () => {
 
             difficultyButtons.forEach(item => {
-
                 item.classList.remove("active");
-
             });
 
             button.classList.add("active");
@@ -152,7 +150,7 @@ document.addEventListener("DOMContentLoaded", () => {
        GENERATE QUIZ
     ========================== */
 
-    generateQuiz.addEventListener("click", () => {
+    generateQuiz.addEventListener("click", async () => {
 
         const notes =
             notesInput.value.trim();
@@ -197,145 +195,194 @@ document.addEventListener("DOMContentLoaded", () => {
             ).value;
 
 
+        /* =========================
+           LOADING
+        ========================== */
+
+        generateQuiz.disabled = true;
+
         generateQuiz.textContent =
-            "Generating...";
+            "Generating with AI...";
 
 
-        setTimeout(() => {
+        quizResult.innerHTML = `
+            <div class="quiz-header">
+                <div>
+                    <h2>Creating your quiz...</h2>
+                    <span class="quiz-meta">
+                        Gemini AI is reading your notes
+                    </span>
+                </div>
+            </div>
+        `;
+
+
+        try {
+
+            /* =========================
+               SEND NOTES TO VERCEL API
+            ========================== */
+
+            const response =
+                await fetch(
+                    "/api/generate-quiz",
+                    {
+                        method: "POST",
+
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+
+                        body: JSON.stringify({
+
+                            notes: notes,
+
+                            questionCount:
+                                questionCount,
+
+                            difficulty:
+                                difficulty,
+
+                            quizType:
+                                quizType
+
+                        })
+
+                    }
+                );
+
+
+            const data =
+                await response.json();
+
+
+            /* =========================
+               ERROR CHECK
+            ========================== */
+
+            if (!response.ok) {
+
+                console.error(
+                    "API Error:",
+                    data
+                );
+
+                throw new Error(
+                    data.error ||
+                    "Could not generate quiz."
+                );
+
+            }
+
+
+            if (
+                !data.questions ||
+                !Array.isArray(data.questions) ||
+                data.questions.length === 0
+            ) {
+
+                throw new Error(
+                    "AI did not return any questions."
+                );
+
+            }
+
+
+            /* =========================
+               SAVE QUIZ
+            ========================== */
+
+            const quizData = {
+
+                id: Date.now(),
+
+                notes: notes,
+
+                questionCount:
+                    data.questions.length,
+
+                difficulty:
+                    difficulty,
+
+                quizType:
+                    quizType,
+
+                questions:
+                    data.questions,
+
+                createdAt:
+                    new Date().toISOString()
+
+            };
+
+
+            saveQuiz(quizData);
+
+
+            /* =========================
+               DISPLAY QUIZ
+            ========================== */
+
+            createQuiz(
+                data.questions,
+                difficulty,
+                quizType
+            );
+
+
+        } catch (error) {
+
+            console.error(
+                "Quiz generation error:",
+                error
+            );
+
+
+            quizResult.innerHTML = `
+
+                <div class="quiz-header">
+
+                    <div>
+
+                        <h2>
+                            Unable to generate quiz
+                        </h2>
+
+                        <span class="quiz-meta">
+                            ${error.message}
+                        </span>
+
+                    </div>
+
+                </div>
+
+            `;
+
+            alert(
+                "AI quiz generate nahi ho saka. Please try again."
+            );
+
+        } finally {
+
+            generateQuiz.disabled = false;
 
             generateQuiz.textContent =
                 "✦ Generate Quiz";
 
-
-            createQuiz(
-                questionCount,
-                difficulty,
-                quizType,
-                notes
-            );
-
-        }, 700);
+        }
 
     });
 
 
     /* =========================
-       CREATE QUIZ
+       CREATE QUIZ HTML
     ========================== */
 
     function createQuiz(
-        questionCount,
+        questions,
         difficulty,
-        quizType,
-        notes
+        quizType
     ) {
-
-        const sampleQuestions = [
-
-            {
-                question:
-                    "What is the main topic of the notes you are studying?",
-
-                answers: [
-                    "The concept explained in the notes",
-                    "A completely unrelated topic",
-                    "None of the above",
-                    "All of the above"
-                ]
-
-            },
-
-
-            {
-                question:
-                    "Which statement best describes the key idea?",
-
-                answers: [
-                    "It explains the main concept",
-                    "It is unrelated",
-                    "It only gives an example",
-                    "It is a question"
-                ]
-
-            },
-
-
-            {
-                question:
-                    "Why is this topic important?",
-
-                answers: [
-                    "It helps understand the subject",
-                    "It has no purpose",
-                    "It replaces every other topic",
-                    "It is only for memorization"
-                ]
-
-            },
-
-
-            {
-                question:
-                    "Which option is most likely connected to your notes?",
-
-                answers: [
-                    "A key concept",
-                    "Random information",
-                    "An unrelated event",
-                    "None"
-                ]
-
-            },
-
-
-            {
-                question:
-                    "What should you do after reviewing these notes?",
-
-                answers: [
-                    "Practice and test your understanding",
-                    "Ignore the material",
-                    "Delete the notes",
-                    "Stop studying completely"
-                ]
-
-            }
-
-        ];
-
-
-        /* =========================
-           QUIZ DATA
-        ========================== */
-
-        const quizData = {
-
-            id: Date.now(),
-
-            notes: notes,
-
-            questionCount: questionCount,
-
-            difficulty: difficulty,
-
-            quizType: quizType,
-
-            createdAt:
-                new Date().toISOString()
-
-        };
-
-
-        /* =========================
-           SAVE FOR CURRENT USER
-        ========================== */
-
-        saveQuiz(quizData);
-
-
-        /* =========================
-           QUIZ HTML
-        ========================== */
 
         let html = `
 
@@ -344,7 +391,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 <div>
 
                     <h2>
-                        Practice Quiz
+                        AI Practice Quiz
                     </h2>
 
                     <span class="quiz-meta">
@@ -355,7 +402,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
                 <span class="quiz-meta">
-                    ${questionCount} questions
+                    ${questions.length} questions
                 </span>
 
             </div>
@@ -363,17 +410,7 @@ document.addEventListener("DOMContentLoaded", () => {
         `;
 
 
-        for (
-            let i = 0;
-            i < questionCount;
-            i++
-        ) {
-
-            const current =
-                sampleQuestions[
-                    i % sampleQuestions.length
-                ];
-
+        questions.forEach((current, i) => {
 
             html += `
 
@@ -384,36 +421,48 @@ document.addEventListener("DOMContentLoaded", () => {
                     </small>
 
                     <h3>
-                        ${current.question}
+                        ${escapeHTML(
+                            current.question || ""
+                        )}
                     </h3>
 
             `;
 
 
-            current.answers.forEach(answer => {
+            if (
+                current.answers &&
+                Array.isArray(current.answers)
+            ) {
 
-                html += `
+                current.answers.forEach(answer => {
 
-                    <label class="answer-option">
+                    html += `
 
-                        <input
-                            type="radio"
-                            name="question-${i}"
-                            hidden
-                        >
+                        <label class="answer-option">
 
-                        ${answer}
+                            <input
+                                type="radio"
+                                name="question-${i}"
+                            >
 
-                    </label>
+                            ${escapeHTML(answer)}
 
-                `;
+                        </label>
 
-            });
+                    `;
+
+                });
+
+            }
 
 
-            html += `</div>`;
+            html += `
 
-        }
+                </div>
+
+            `;
+
+        });
 
 
         quizResult.innerHTML =
@@ -424,6 +473,23 @@ document.addEventListener("DOMContentLoaded", () => {
             behavior: "smooth",
             block: "start"
         });
+
+    }
+
+
+    /* =========================
+       SECURITY
+       ESCAPE AI TEXT
+    ========================== */
+
+    function escapeHTML(text) {
+
+        return String(text)
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;")
+            .replace(/'/g, "&#039;");
 
     }
 
