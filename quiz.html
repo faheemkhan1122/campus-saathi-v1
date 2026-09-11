@@ -1,126 +1,82 @@
-```html
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
+    <title>Notes → Quiz | Campus Saathi</title>
 
-    <title>Notes to Quiz | Campus Saathi</title>
-
-    <link
-        rel="stylesheet"
-        href="css/quiz.css"
-    >
-
+    <link rel="stylesheet" href="css/quiz.css">
 </head>
 
 <body>
 
-    <!-- =========================================
-         SIDEBAR
-    ========================================== -->
-
+    <!-- SIDEBAR -->
     <aside class="sidebar">
 
-        <div class="sidebar-logo">
-            <div class="logo-icon">C</div>
+        <button class="mobile-close-btn" id="mobileCloseBtn">
+            ×
+        </button>
 
-            <div>
-                <h2>Campus Saathi</h2>
-                <span>Student Hub</span>
-            </div>
-        </div>
-
-
-        <!-- USER PROFILE -->
-
-        <div class="sidebar-profile">
-
-            <div
-                class="profile-avatar"
-                id="userAvatar"
-            >
-                U
-            </div>
-
-            <div class="profile-info">
-
-                <strong id="userProfileName">
-                    Student
-                </strong>
-
-                <span>
-                    Student
-                </span>
-
-            </div>
-
-        </div>
-
-
-        <!-- NAVIGATION -->
+        <a href="index.html" class="sidebar-logo">
+            <span>CS</span>
+            Campus Saathi
+        </a>
 
         <nav class="sidebar-nav">
 
-            <a href="dashboard.html">
-                <span>🏠</span>
+            <p class="nav-title">MAIN</p>
+
+            <a href="dashboard.html" class="nav-link">
+                <span>⌂</span>
                 Dashboard
             </a>
 
-            <a href="planner.html">
-                <span>📅</span>
-                15 Min Planner
+            <a href="planner.html" class="nav-link">
+                <span>✓</span>
+                15-Min Planner
             </a>
 
-            <a
-                href="quiz.html"
-                class="active"
-            >
-                <span>🧠</span>
-                Notes to Quiz
+            <a href="quiz.html" class="nav-link active">
+                <span>◫</span>
+                Notes → Quiz
             </a>
 
-            <a href="doubt.html">
-                <span>💬</span>
+            <a href="doubts.html" class="nav-link">
+                <span>?</span>
                 Doubt Board
             </a>
 
-            <a href="assignments.html">
-                <span>📋</span>
+            <p class="nav-title second-title">ORGANIZE</p>
+
+            <a href="assignments.html" class="nav-link">
+                <span>□</span>
                 Assignments
             </a>
 
-            <a href="past-papers.html">
-                <span>📚</span>
+            <a href="past-papers.html" class="nav-link">
+                <span>▤</span>
                 Past Papers
             </a>
 
-            <a href="project.html">
-                <span>👥</span>
+            <a href="projects.html" class="nav-link">
+                <span>◈</span>
                 Group Projects
             </a>
 
-            <a href="wellbeing.html">
-                <span>🌱</span>
+            <p class="nav-title second-title">WELLBEING</p>
+
+            <a href="wellbeing.html" class="nav-link">
+                <span>◌</span>
                 Wellbeing
             </a>
 
         </nav>
 
-
-        <!-- SIDEBAR BOTTOM -->
-
         <div class="sidebar-bottom">
 
-            <a href="index.html">
-                <span>🚪</span>
-                Logout
+            <a href="index.html" class="back-home">
+                ← Back to website
             </a>
 
         </div>
@@ -128,157 +84,160 @@
     </aside>
 
 
-    <!-- =========================================
-         MOBILE HEADER
-    ========================================== -->
+    <!-- MAIN -->
+    <main class="app-main">
 
-    <header class="mobile-header">
+        <header class="topbar">
 
-        <button
-            id="mobileMenuBtn"
-            type="button"
-        >
-            ☰
-        </button>
+            <button class="mobile-menu-btn" id="mobileMenuBtn">
+                ☰
+            </button>
 
-        <strong>
-            Campus Saathi
-        </strong>
-
-        <button
-            id="mobileCloseBtn"
-            type="button"
-        >
-            ✕
-        </button>
-
-    </header>
-
-
-    <!-- =========================================
-         MAIN CONTENT
-    ========================================== -->
-
-    <main class="main-content">
-
-
-        <!-- PAGE HEADER -->
-
-        <section class="page-header">
-
-            <div>
-
-                <div class="page-kicker">
-                    STUDY SMART
-                </div>
-
-                <h1>
-                    Notes to Quiz
-                </h1>
-
-                <p>
-                    Turn your study notes into a smart
-                    practice quiz with AI.
-                </p>
-
+            <div class="mobile-brand">
+                Campus<span>Saathi</span>
             </div>
 
-        </section>
 
+            <!-- DYNAMIC USER PROFILE -->
+            <div class="user-profile">
 
-        <!-- =====================================
-             NOTES SECTION
-        ====================================== -->
-
-        <section class="quiz-builder">
-
-
-            <!-- NOTES CARD -->
-
-            <div class="notes-card">
-
-                <div class="section-title-row">
-
-                    <div>
-
-                        <h2>
-                            📝 Your Notes
-                        </h2>
-
-                        <p>
-                            Paste the notes you want
-                            to practice.
-                        </p>
-
-                    </div>
-
-                    <span
-                        id="wordCount"
-                        class="word-count"
-                    >
-                        0 words
-                    </span>
-
+                <div class="avatar" id="userAvatar">
+                    ST
                 </div>
 
+                <div>
 
-                <textarea
-                    id="notesInput"
-                    placeholder="Paste your notes here..."
-                    spellcheck="false"
-                ></textarea>
+                    <strong id="userProfileName">
+                        Student
+                    </strong>
 
-
-                <div class="notes-footer">
-
-                    <button
-                        type="button"
-                        id="clearNotes"
-                    >
-                        Clear notes
-                    </button>
+                    <small>
+                        Student
+                    </small>
 
                 </div>
 
             </div>
 
+        </header>
 
-            <!-- =================================
-                 SETTINGS CARD
-            ================================== -->
 
-            <div class="settings-card">
+        <section class="quiz-content">
 
-                <div class="section-title-row">
+            <!-- PAGE HEADER -->
+            <div class="page-header">
 
-                    <div>
+                <div>
 
-                        <h2>
-                            ⚙️ Quiz Settings
-                        </h2>
+                    <p class="eyebrow">
+                        STUDY PILLAR
+                    </p>
 
-                        <p>
-                            Customize your challenge.
-                        </p>
+                    <h1>
+                        Notes → Quiz
+                    </h1>
 
-                    </div>
+                    <p>
+                        Turn your notes into practice questions in seconds.
+                    </p>
 
                 </div>
 
+                <div class="ai-badge">
+                    ✦ Smart Quiz Maker
+                </div>
 
-                <!-- QUESTION COUNT -->
+            </div>
 
-                <div class="setting-group">
 
-                    <label
-                        for="questionCount"
-                    >
-                        Number of Questions
+            <!-- MAIN BUILDER -->
+            <div class="builder-grid">
+
+                <!-- NOTES INPUT -->
+                <div class="panel notes-panel">
+
+                    <div class="panel-heading">
+
+                        <div>
+
+                            <small>
+                                STEP 01
+                            </small>
+
+                            <h2>
+                                Add your notes
+                            </h2>
+
+                        </div>
+
+                        <span>
+                            📝
+                        </span>
+
+                    </div>
+
+
+                    <label for="notesInput">
+                        Paste your study notes
                     </label>
 
-                    <select
-                        id="questionCount"
-                    >
+                    <textarea
+                        id="notesInput"
+                        placeholder="Paste your notes here...
+
+Example:
+Photosynthesis is the process by which green plants convert light energy into chemical energy..."
+                    ></textarea>
+
+
+                    <div class="notes-footer">
+
+                        <span id="wordCount">
+                            0 words
+                        </span>
+
+                        <button
+                            type="button"
+                            id="clearNotes"
+                            class="text-btn"
+                        >
+                            Clear
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+                <!-- QUIZ SETTINGS -->
+                <div class="panel settings-panel">
+
+                    <div class="panel-heading">
+
+                        <div>
+
+                            <small>
+                                STEP 02
+                            </small>
+
+                            <h2>
+                                Quiz settings
+                            </h2>
+
+                        </div>
+
+                        <span>
+                            ⚙
+                        </span>
+
+                    </div>
+
+
+                    <label for="questionCount">
+                        Number of questions
+                    </label>
+
+                    <select id="questionCount">
 
                         <option value="5">
                             5 Questions
@@ -294,18 +253,12 @@
 
                     </select>
 
-                </div>
 
-
-                <!-- DIFFICULTY -->
-
-                <div class="setting-group">
-
-                    <label>
+                    <label for="difficulty">
                         Difficulty
                     </label>
 
-                    <div class="difficulty-row">
+                    <div class="difficulty-options">
 
                         <button
                             type="button"
@@ -333,22 +286,12 @@
 
                     </div>
 
-                </div>
 
-
-                <!-- QUIZ TYPE -->
-
-                <div class="setting-group">
-
-                    <label
-                        for="quizType"
-                    >
-                        Quiz Type
+                    <label for="quizType">
+                        Question type
                     </label>
 
-                    <select
-                        id="quizType"
-                    >
+                    <select id="quizType">
 
                         <option value="multiple">
                             Multiple Choice
@@ -359,95 +302,36 @@
                         </option>
 
                         <option value="mixed">
-                            Mixed
+                            Mixed Questions
                         </option>
 
                     </select>
 
+
+                    <button
+                        type="button"
+                        id="generateQuiz"
+                        class="generate-btn"
+                    >
+                        ✦ Generate Quiz
+                    </button>
+
                 </div>
 
-
-                <!-- GENERATE -->
-
-                <button
-                    type="button"
-                    id="generateQuiz"
-                    class="generate-btn"
-                >
-                    ✨ Generate Quiz
-                </button>
-
-            </div>
-
-        </section>
-
-
-        <!-- =========================================
-             QUIZ RESULT
-        ========================================== -->
-
-        <section
-            id="quizResult"
-            class="quiz-result"
-        >
-
-            <div class="result-empty">
-
-                <div class="empty-icon">
-                    🧠
-                </div>
-
-                <h2>
-                    Your quiz will appear here
-                </h2>
-
-                <p>
-                    Add your notes and generate
-                    a quiz to start practicing.
-                </p>
-
-            </div>
-
-        </section>
-
-
-        <!-- =========================================
-             AI QUIZ LAB / HOW IT WORKS
-        ========================================== -->
-
-        <section class="how-it-works">
-
-            <div class="section-heading">
-
-                <span>
-                    AI QUIZ LAB
-                </span>
-
-                <h2>
-                    Your Quiz Journey
-                </h2>
-
-                <p>
-                    Every quiz you create adds to
-                    your study journey.
-                </p>
-
             </div>
 
 
+            <!-- HOW IT WORKS -->
             <div class="info-strip">
 
-
-                <!-- NOTES -->
-
                 <div class="info-step">
 
                     <span>
-                        00
+                        01
                     </span>
 
                     <p>
-                        Notes explored
+                        Paste notes
                     </p>
 
                 </div>
@@ -458,16 +342,14 @@
                 </div>
 
 
-                <!-- SETTINGS -->
-
                 <div class="info-step">
 
                     <span>
-                        00
+                        02
                     </span>
 
                     <p>
-                        Setups prepared
+                        Choose settings
                     </p>
 
                 </div>
@@ -478,16 +360,43 @@
                 </div>
 
 
-                <!-- QUIZZES -->
-
                 <div class="info-step">
 
                     <span>
-                        00
+                        03
                     </span>
 
                     <p>
-                        Quizzes created
+                        Generate quiz
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <!-- QUIZ AREA -->
+            <div
+                class="quiz-result panel"
+                id="quizResult"
+            >
+
+                <div class="result-empty">
+
+                    <div class="empty-icon">
+                        ✦
+                    </div>
+
+                    <h2>
+                        Your quiz will appear here
+                    </h2>
+
+                    <p>
+                        Add your notes and click
+                        <strong>
+                            Generate Quiz
+                        </strong>
+                        to create your practice test.
                     </p>
 
                 </div>
@@ -495,24 +404,13 @@
             </div>
 
         </section>
-
 
     </main>
 
 
-    <!-- =========================================
-         SCRIPTS
-    ========================================== -->
-
-    <script
-        src="js/script.js"
-    ></script>
-
-    <script
-        src="js/quiz.js"
-    ></script>
+    <!-- JAVASCRIPT -->
+    <script src="js/script.js"></script>
+    <script src="js/quiz.js"></script>
 
 </body>
-
 </html>
-```
