@@ -1,4 +1,3 @@
-```javascript
 document.addEventListener("DOMContentLoaded", () => {
 
     /* =========================
@@ -350,7 +349,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         </h2>
 
                         <span class="quiz-meta">
-                            ${escapeHTML(error.message)}
+                            ${error.message}
                         </span>
 
                     </div>
@@ -396,10 +395,11 @@ document.addEventListener("DOMContentLoaded", () => {
                     </h2>
 
                     <span class="quiz-meta">
-                        ${escapeHTML(difficulty)} • ${escapeHTML(quizType)}
+                        ${difficulty} • ${quizType}
                     </span>
 
                 </div>
+
 
                 <span class="quiz-meta">
                     ${questions.length} questions
@@ -414,10 +414,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             html += `
 
-                <div
-                    class="question-card"
-                    data-question-index="${i}"
-                >
+                <div class="question-card">
 
                     <small>
                         QUESTION ${i + 1}
@@ -437,20 +434,15 @@ document.addEventListener("DOMContentLoaded", () => {
                 Array.isArray(current.answers)
             ) {
 
-                current.answers.forEach((answer, answerIndex) => {
+                current.answers.forEach(answer => {
 
                     html += `
 
-                        <label
-                            class="answer-option"
-                            data-answer-index="${answerIndex}"
-                            style="display:block; cursor:pointer;"
-                        >
+                        <label class="answer-option">
 
                             <input
                                 type="radio"
                                 name="question-${i}"
-                                value="${answerIndex}"
                             >
 
                             ${escapeHTML(answer)}
@@ -473,368 +465,14 @@ document.addEventListener("DOMContentLoaded", () => {
         });
 
 
-        /* =========================
-           SUBMIT BUTTON
-        ========================== */
-
-        html += `
-
-            <div
-                style="
-                    margin-top:25px;
-                    text-align:center;
-                "
-            >
-
-                <button
-                    type="button"
-                    id="submitQuiz"
-                    style="
-                        padding:12px 28px;
-                        border:none;
-                        border-radius:10px;
-                        cursor:pointer;
-                        font-weight:600;
-                        font-size:15px;
-                    "
-                >
-                    ✓ Submit Quiz
-                </button>
-
-            </div>
-
-            <div
-                id="quizScore"
-                style="
-                    display:none;
-                    margin-top:20px;
-                    padding:20px;
-                    border-radius:12px;
-                    text-align:center;
-                "
-            ></div>
-
-        `;
-
-
         quizResult.innerHTML =
             html;
-
-
-        /* =========================
-           SUBMIT EVENT
-        ========================== */
-
-        const submitQuiz =
-            document.getElementById(
-                "submitQuiz"
-            );
-
-
-        submitQuiz.addEventListener(
-            "click",
-            () => {
-
-                checkQuiz(
-                    questions
-                );
-
-            }
-        );
 
 
         quizResult.scrollIntoView({
             behavior: "smooth",
             block: "start"
         });
-
-    }
-
-
-    /* =========================
-       CHECK QUIZ
-    ========================== */
-
-    function checkQuiz(questions) {
-
-        let score = 0;
-
-        let answered = 0;
-
-
-        questions.forEach((question, index) => {
-
-            const card =
-                quizResult.querySelector(
-                    `[data-question-index="${index}"]`
-                );
-
-
-            if (!card) {
-                return;
-            }
-
-
-            const options =
-                card.querySelectorAll(
-                    ".answer-option"
-                );
-
-
-            const selected =
-                card.querySelector(
-                    `input[name="question-${index}"]:checked`
-                );
-
-
-            /* =========================
-               FIND CORRECT ANSWER
-            ========================== */
-
-            const correctAnswer =
-                String(
-                    question.correctAnswer || ""
-                ).trim();
-
-
-            /* =========================
-               SHOW CORRECT ANSWER
-            ========================== */
-
-            options.forEach((option, optionIndex) => {
-
-                const input =
-                    option.querySelector("input");
-
-
-                const answerText =
-                    option.textContent.trim();
-
-
-                option.style.background = "";
-                option.style.border = "";
-
-
-                if (
-                    answerText.toLowerCase() ===
-                    correctAnswer.toLowerCase()
-                ) {
-
-                    option.style.background =
-                        "rgba(34, 197, 94, 0.15)";
-
-                    option.style.border =
-                        "2px solid #22c55e";
-
-                }
-
-
-                /* =========================
-                   WRONG SELECTED ANSWER
-                ========================== */
-
-                if (
-                    selected &&
-                    input &&
-                    input.checked &&
-                    optionIndex ===
-                    Number(input.value) &&
-                    answerText.toLowerCase() !==
-                    correctAnswer.toLowerCase()
-                ) {
-
-                    option.style.background =
-                        "rgba(239, 68, 68, 0.15)";
-
-                    option.style.border =
-                        "2px solid #ef4444";
-
-                }
-
-            });
-
-
-            /* =========================
-               CHECK SCORE
-            ========================== */
-
-            if (selected) {
-
-                answered++;
-
-                const selectedOption =
-                    selected.closest(
-                        ".answer-option"
-                    );
-
-
-                const selectedText =
-                    selectedOption
-                        ? selectedOption.textContent.trim()
-                        : "";
-
-
-                if (
-                    selectedText.toLowerCase() ===
-                    correctAnswer.toLowerCase()
-                ) {
-
-                    score++;
-
-                }
-
-            }
-
-        });
-
-
-        /* =========================
-           SCORE
-        ========================== */
-
-        const total =
-            questions.length;
-
-
-        const percentage =
-            Math.round(
-                (score / total) * 100
-            );
-
-
-        let message =
-            "Keep practicing! 💪";
-
-
-        if (percentage === 100) {
-
-            message =
-                "Perfect score! 🎉";
-
-        } else if (percentage >= 80) {
-
-            message =
-                "Excellent work! 🔥";
-
-        } else if (percentage >= 60) {
-
-            message =
-                "Good job! 👍";
-
-        }
-
-
-        const scoreBox =
-            document.getElementById(
-                "quizScore"
-            );
-
-
-        scoreBox.style.display =
-            "block";
-
-
-        scoreBox.innerHTML = `
-
-            <h2>
-                Your Score
-            </h2>
-
-            <div
-                style="
-                    font-size:32px;
-                    font-weight:700;
-                    margin:10px 0;
-                "
-            >
-                ${score} / ${total}
-            </div>
-
-            <div>
-                ${percentage}%
-            </div>
-
-            <p>
-                ${message}
-            </p>
-
-            <p>
-                ${answered} of ${total} questions answered
-            </p>
-
-            <button
-                type="button"
-                id="retryQuiz"
-                style="
-                    margin-top:10px;
-                    padding:10px 22px;
-                    border:none;
-                    border-radius:8px;
-                    cursor:pointer;
-                "
-            >
-                ↻ Try Again
-            </button>
-
-        `;
-
-
-        /* =========================
-           DISABLE SUBMIT
-        ========================== */
-
-        const submitQuiz =
-            document.getElementById(
-                "submitQuiz"
-            );
-
-
-        if (submitQuiz) {
-
-            submitQuiz.disabled = true;
-
-            submitQuiz.textContent =
-                "✓ Quiz Submitted";
-
-        }
-
-
-        /* =========================
-           TRY AGAIN
-        ========================== */
-
-        const retryQuiz =
-            document.getElementById(
-                "retryQuiz"
-            );
-
-
-        if (retryQuiz) {
-
-            retryQuiz.addEventListener(
-                "click",
-                () => {
-
-                    createQuiz(
-                        questions,
-
-                        document.querySelector(
-                            ".difficulty.active"
-                        )
-                            ? document.querySelector(
-                                ".difficulty.active"
-                            ).dataset.level
-                            : "Easy",
-
-                        document.getElementById(
-                            "quizType"
-                        ).value
-                    );
-
-                }
-            );
-
-        }
 
     }
 
@@ -863,4 +501,3 @@ document.addEventListener("DOMContentLoaded", () => {
     updateWordCount();
 
 });
-```
