@@ -444,6 +444,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         <label
                             class="answer-option"
                             data-answer-index="${answerIndex}"
+                            style="display:block; cursor:pointer;"
                         >
 
                             <input
@@ -452,9 +453,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                 value="${answerIndex}"
                             >
 
-                            <span>
-                                ${escapeHTML(answer)}
-                            </span>
+                            ${escapeHTML(answer)}
 
                         </label>
 
@@ -480,12 +479,24 @@ document.addEventListener("DOMContentLoaded", () => {
 
         html += `
 
-            <div class="quiz-submit-area">
+            <div
+                style="
+                    margin-top:25px;
+                    text-align:center;
+                "
+            >
 
                 <button
                     type="button"
                     id="submitQuiz"
-                    class="submit-quiz-btn"
+                    style="
+                        padding:12px 28px;
+                        border:none;
+                        border-radius:10px;
+                        cursor:pointer;
+                        font-weight:600;
+                        font-size:15px;
+                    "
                 >
                     ✓ Submit Quiz
                 </button>
@@ -494,8 +505,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
             <div
                 id="quizScore"
-                class="quiz-score"
-                style="display:none;"
+                style="
+                    display:none;
+                    margin-top:20px;
+                    padding:20px;
+                    border-radius:12px;
+                    text-align:center;
+                "
             ></div>
 
         `;
@@ -510,23 +526,21 @@ document.addEventListener("DOMContentLoaded", () => {
         ========================== */
 
         const submitQuiz =
-            document.getElementById("submitQuiz");
-
-
-        if (submitQuiz) {
-
-            submitQuiz.addEventListener(
-                "click",
-                () => {
-
-                    checkQuizAnswers(
-                        questions
-                    );
-
-                }
+            document.getElementById(
+                "submitQuiz"
             );
 
-        }
+
+        submitQuiz.addEventListener(
+            "click",
+            () => {
+
+                checkQuiz(
+                    questions
+                );
+
+            }
+        );
 
 
         quizResult.scrollIntoView({
@@ -538,38 +552,38 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     /* =========================
-       CHECK QUIZ ANSWERS
+       CHECK QUIZ
     ========================== */
 
-    function checkQuizAnswers(questions) {
+    function checkQuiz(questions) {
 
         let score = 0;
 
         let answered = 0;
 
 
-        questions.forEach((current, questionIndex) => {
+        questions.forEach((question, index) => {
 
-            const questionCard =
+            const card =
                 quizResult.querySelector(
-                    `[data-question-index="${questionIndex}"]`
+                    `[data-question-index="${index}"]`
                 );
 
 
-            if (!questionCard) {
+            if (!card) {
                 return;
             }
 
 
-            const selected =
-                questionCard.querySelector(
-                    `input[name="question-${questionIndex}"]:checked`
+            const options =
+                card.querySelectorAll(
+                    ".answer-option"
                 );
 
 
-            const answerOptions =
-                questionCard.querySelectorAll(
-                    ".answer-option"
+            const selected =
+                card.querySelector(
+                    `input[name="question-${index}"]:checked`
                 );
 
 
@@ -578,49 +592,62 @@ document.addEventListener("DOMContentLoaded", () => {
             ========================== */
 
             const correctAnswer =
-                getCorrectAnswer(current);
+                String(
+                    question.correctAnswer || ""
+                ).trim();
 
 
             /* =========================
-               REMOVE OLD RESULTS
+               SHOW CORRECT ANSWER
             ========================== */
 
-            answerOptions.forEach(option => {
+            options.forEach((option, optionIndex) => {
 
-                option.classList.remove(
-                    "correct-answer",
-                    "wrong-answer"
-                );
+                const input =
+                    option.querySelector("input");
 
-            });
-
-
-            /* =========================
-               MARK CORRECT ANSWER
-            ========================== */
-
-            answerOptions.forEach((option, index) => {
 
                 const answerText =
-                    getAnswerText(
-                        option
-                    );
+                    option.textContent.trim();
 
 
-                const isCorrect =
-                    isCorrectAnswer(
-                        current,
-                        correctAnswer,
-                        answerText,
-                        index
-                    );
+                option.style.background = "";
+                option.style.border = "";
 
 
-                if (isCorrect) {
+                if (
+                    answerText.toLowerCase() ===
+                    correctAnswer.toLowerCase()
+                ) {
 
-                    option.classList.add(
-                        "correct-answer"
-                    );
+                    option.style.background =
+                        "rgba(34, 197, 94, 0.15)";
+
+                    option.style.border =
+                        "2px solid #22c55e";
+
+                }
+
+
+                /* =========================
+                   WRONG SELECTED ANSWER
+                ========================== */
+
+                if (
+                    selected &&
+                    input &&
+                    input.checked &&
+                    optionIndex ===
+                    Number(input.value) &&
+                    answerText.toLowerCase() !==
+                    correctAnswer.toLowerCase()
+                ) {
+
+                    option.style.background =
+                        "rgba(239, 68, 68, 0.15)";
+
+                    option.style.border =
+                        "2px solid #ef4444";
 
                 }
 
@@ -628,68 +655,33 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
             /* =========================
-               USER DID NOT ANSWER
+               CHECK SCORE
             ========================== */
 
-            if (!selected) {
-                return;
-            }
+            if (selected) {
+
+                answered++;
+
+                const selectedOption =
+                    selected.closest(
+                        ".answer-option"
+                    );
 
 
-            answered++;
+                const selectedText =
+                    selectedOption
+                        ? selectedOption.textContent.trim()
+                        : "";
 
 
-            const selectedIndex =
-                Number(
-                    selected.value
-                );
+                if (
+                    selectedText.toLowerCase() ===
+                    correctAnswer.toLowerCase()
+                ) {
 
+                    score++;
 
-            const selectedOption =
-                selected.closest(
-                    ".answer-option"
-                );
-
-
-            const selectedText =
-                selectedOption
-                    ? getAnswerText(selectedOption)
-                    : "";
-
-
-            const userIsCorrect =
-                isCorrectAnswer(
-                    current,
-                    correctAnswer,
-                    selectedText,
-                    selectedIndex
-                );
-
-
-            /* =========================
-               CORRECT
-            ========================== */
-
-            if (userIsCorrect) {
-
-                score++;
-
-                selectedOption.classList.add(
-                    "correct-answer"
-                );
-
-            }
-
-
-            /* =========================
-               WRONG
-            ========================== */
-
-            else {
-
-                selectedOption.classList.add(
-                    "wrong-answer"
-                );
+                }
 
             }
 
@@ -697,8 +689,40 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
         /* =========================
-           SHOW SCORE
+           SCORE
         ========================== */
+
+        const total =
+            questions.length;
+
+
+        const percentage =
+            Math.round(
+                (score / total) * 100
+            );
+
+
+        let message =
+            "Keep practicing! 💪";
+
+
+        if (percentage === 100) {
+
+            message =
+                "Perfect score! 🎉";
+
+        } else if (percentage >= 80) {
+
+            message =
+                "Excellent work! 🔥";
+
+        } else if (percentage >= 60) {
+
+            message =
+                "Good job! 👍";
+
+        }
+
 
         const scoreBox =
             document.getElementById(
@@ -706,103 +730,57 @@ document.addEventListener("DOMContentLoaded", () => {
             );
 
 
-        if (scoreBox) {
-
-            const total =
-                questions.length;
+        scoreBox.style.display =
+            "block";
 
 
-            const percentage =
-                Math.round(
-                    (score / total) * 100
-                );
+        scoreBox.innerHTML = `
 
+            <h2>
+                Your Score
+            </h2>
 
-            let message =
-                "Keep practicing! 💪";
+            <div
+                style="
+                    font-size:32px;
+                    font-weight:700;
+                    margin:10px 0;
+                "
+            >
+                ${score} / ${total}
+            </div>
 
+            <div>
+                ${percentage}%
+            </div>
 
-            if (percentage === 100) {
+            <p>
+                ${message}
+            </p>
 
-                message =
-                    "Perfect score! 🎉";
+            <p>
+                ${answered} of ${total} questions answered
+            </p>
 
-            } else if (percentage >= 80) {
+            <button
+                type="button"
+                id="retryQuiz"
+                style="
+                    margin-top:10px;
+                    padding:10px 22px;
+                    border:none;
+                    border-radius:8px;
+                    cursor:pointer;
+                "
+            >
+                ↻ Try Again
+            </button>
 
-                message =
-                    "Excellent work! 🔥";
-
-            } else if (percentage >= 60) {
-
-                message =
-                    "Good job! Keep going! 👍";
-
-            }
-
-
-            scoreBox.style.display =
-                "block";
-
-
-            scoreBox.innerHTML = `
-
-                <div class="score-number">
-                    ${score} / ${total}
-                </div>
-
-                <div class="score-percentage">
-                    ${percentage}%
-                </div>
-
-                <div class="score-message">
-                    ${message}
-                </div>
-
-                <div class="answered-count">
-                    ${answered} of ${total} answered
-                </div>
-
-                <button
-                    type="button"
-                    id="retryQuiz"
-                    class="retry-quiz-btn"
-                >
-                    ↻ Try Again
-                </button>
-
-            `;
-
-
-            const retryQuiz =
-                document.getElementById(
-                    "retryQuiz"
-                );
-
-
-            if (retryQuiz) {
-
-                retryQuiz.addEventListener(
-                    "click",
-                    () => {
-
-                        createQuiz(
-                            questions,
-                            document.querySelector(".quiz-meta")
-                                ? ""
-                                : "",
-                            ""
-                        );
-
-                    }
-                );
-
-            }
-
-        }
+        `;
 
 
         /* =========================
-           DISABLE SUBMIT AFTER CHECK
+           DISABLE SUBMIT
         ========================== */
 
         const submitQuiz =
@@ -820,196 +798,43 @@ document.addEventListener("DOMContentLoaded", () => {
 
         }
 
-    }
 
+        /* =========================
+           TRY AGAIN
+        ========================== */
 
-    /* =========================
-       GET CORRECT ANSWER
-       SUPPORT MULTIPLE AI FORMATS
-    ========================== */
-
-    function getCorrectAnswer(question) {
-
-        if (
-            question.correctAnswer !== undefined
-        ) {
-            return question.correctAnswer;
-        }
-
-
-        if (
-            question.correct_answer !== undefined
-        ) {
-            return question.correct_answer;
-        }
-
-
-        if (
-            question.correct !== undefined
-        ) {
-            return question.correct;
-        }
-
-
-        if (
-            question.answer !== undefined
-        ) {
-            return question.answer;
-        }
-
-
-        if (
-            question.correctIndex !== undefined
-        ) {
-            return question.correctIndex;
-        }
-
-
-        if (
-            question.correct_index !== undefined
-        ) {
-            return question.correct_index;
-        }
-
-
-        if (
-            question.answerIndex !== undefined
-        ) {
-            return question.answerIndex;
-        }
-
-
-        if (
-            question.answer_index !== undefined
-        ) {
-            return question.answer_index;
-        }
-
-
-        return null;
-
-    }
-
-
-    /* =========================
-       GET ANSWER TEXT
-    ========================== */
-
-    function getAnswerText(option) {
-
-        const span =
-            option.querySelector("span");
-
-
-        if (span) {
-
-            return span.textContent.trim();
-
-        }
-
-
-        return option.textContent.trim();
-
-    }
-
-
-    /* =========================
-       CHECK CORRECT ANSWER
-    ========================== */
-
-    function isCorrectAnswer(
-        question,
-        correctAnswer,
-        answerText,
-        answerIndex
-    ) {
-
-        if (correctAnswer === null) {
-            return false;
-        }
-
-
-        /* Correct answer is index */
-
-        if (
-            typeof correctAnswer === "number"
-        ) {
-
-            return (
-                answerIndex === correctAnswer
-            );
-
-        }
-
-
-        const correctString =
-            String(
-                correctAnswer
-            ).trim();
-
-
-        /* Correct answer is answer text */
-
-        if (
-            correctString.toLowerCase() ===
-            answerText.toLowerCase()
-        ) {
-
-            return true;
-
-        }
-
-
-        /* Correct answer is A/B/C/D */
-
-        const letters =
-            ["A", "B", "C", "D", "E", "F"];
-
-
-        const letterIndex =
-            letters.indexOf(
-                correctString.toUpperCase()
+        const retryQuiz =
+            document.getElementById(
+                "retryQuiz"
             );
 
 
-        if (
-            letterIndex !== -1 &&
-            letterIndex === answerIndex
-        ) {
+        if (retryQuiz) {
 
-            return true;
+            retryQuiz.addEventListener(
+                "click",
+                () => {
 
-        }
+                    createQuiz(
+                        questions,
 
+                        document.querySelector(
+                            ".difficulty.active"
+                        )
+                            ? document.querySelector(
+                                ".difficulty.active"
+                            ).dataset.level
+                            : "Easy",
 
-        /* Correct answer may be "Option 1" etc. */
+                        document.getElementById(
+                            "quizType"
+                        ).value
+                    );
 
-        const optionMatch =
-            correctString.match(
-                /(?:option|answer)\s*(\d+)/i
+                }
             );
 
-
-        if (optionMatch) {
-
-            const correctIndex =
-                Number(
-                    optionMatch[1]
-                ) - 1;
-
-
-            if (
-                correctIndex === answerIndex
-            ) {
-
-                return true;
-
-            }
-
         }
-
-
-        return false;
 
     }
 
