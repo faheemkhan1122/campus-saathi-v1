@@ -1,82 +1,126 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Notes → Quiz | Campus Saathi</title>
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
-    <link rel="stylesheet" href="css/quiz.css">
+    <title>Notes to Quiz | Campus Saathi</title>
+
+    <link
+        rel="stylesheet"
+        href="css/quiz.css"
+    >
+
 </head>
 
 <body>
 
-    <!-- SIDEBAR -->
+    <!-- =========================================
+         SIDEBAR
+    ========================================== -->
+
     <aside class="sidebar">
 
-        <button class="mobile-close-btn" id="mobileCloseBtn">
-            ×
-        </button>
+        <div class="sidebar-logo">
+            <div class="logo-icon">C</div>
 
-        <a href="index.html" class="sidebar-logo">
-            <span>CS</span>
-            Campus Saathi
-        </a>
+            <div>
+                <h2>Campus Saathi</h2>
+                <span>Student Hub</span>
+            </div>
+        </div>
+
+
+        <!-- USER PROFILE -->
+
+        <div class="sidebar-profile">
+
+            <div
+                class="profile-avatar"
+                id="userAvatar"
+            >
+                U
+            </div>
+
+            <div class="profile-info">
+
+                <strong id="userProfileName">
+                    Student
+                </strong>
+
+                <span>
+                    Student
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <!-- NAVIGATION -->
 
         <nav class="sidebar-nav">
 
-            <p class="nav-title">MAIN</p>
-
-            <a href="dashboard.html" class="nav-link">
-                <span>⌂</span>
+            <a href="dashboard.html">
+                <span>🏠</span>
                 Dashboard
             </a>
 
-            <a href="planner.html" class="nav-link">
-                <span>✓</span>
-                15-Min Planner
+            <a href="planner.html">
+                <span>📅</span>
+                15 Min Planner
             </a>
 
-            <a href="quiz.html" class="nav-link active">
-                <span>◫</span>
-                Notes → Quiz
+            <a
+                href="quiz.html"
+                class="active"
+            >
+                <span>🧠</span>
+                Notes to Quiz
             </a>
 
-            <a href="doubts.html" class="nav-link">
-                <span>?</span>
+            <a href="doubt.html">
+                <span>💬</span>
                 Doubt Board
             </a>
 
-            <p class="nav-title second-title">ORGANIZE</p>
-
-            <a href="assignments.html" class="nav-link">
-                <span>□</span>
+            <a href="assignments.html">
+                <span>📋</span>
                 Assignments
             </a>
 
-            <a href="past-papers.html" class="nav-link">
-                <span>▤</span>
+            <a href="past-papers.html">
+                <span>📚</span>
                 Past Papers
             </a>
 
-            <a href="projects.html" class="nav-link">
-                <span>◈</span>
+            <a href="project.html">
+                <span>👥</span>
                 Group Projects
             </a>
 
-            <p class="nav-title second-title">WELLBEING</p>
-
-            <a href="wellbeing.html" class="nav-link">
-                <span>◌</span>
+            <a href="wellbeing.html">
+                <span>🌱</span>
                 Wellbeing
             </a>
 
         </nav>
 
+
+        <!-- SIDEBAR BOTTOM -->
+
         <div class="sidebar-bottom">
 
-            <a href="index.html" class="back-home">
-                ← Back to website
+            <a href="index.html">
+                <span>🚪</span>
+                Logout
             </a>
 
         </div>
@@ -84,160 +128,157 @@
     </aside>
 
 
-    <!-- MAIN -->
-    <main class="app-main">
+    <!-- =========================================
+         MOBILE HEADER
+    ========================================== -->
 
-        <header class="topbar">
+    <header class="mobile-header">
 
-            <button class="mobile-menu-btn" id="mobileMenuBtn">
-                ☰
-            </button>
+        <button
+            id="mobileMenuBtn"
+            type="button"
+        >
+            ☰
+        </button>
 
-            <div class="mobile-brand">
-                Campus<span>Saathi</span>
-            </div>
+        <strong>
+            Campus Saathi
+        </strong>
+
+        <button
+            id="mobileCloseBtn"
+            type="button"
+        >
+            ✕
+        </button>
+
+    </header>
 
 
-            <!-- DYNAMIC USER PROFILE -->
-            <div class="user-profile">
+    <!-- =========================================
+         MAIN CONTENT
+    ========================================== -->
 
-                <div class="avatar" id="userAvatar">
-                    ST
+    <main class="main-content">
+
+
+        <!-- PAGE HEADER -->
+
+        <section class="page-header">
+
+            <div>
+
+                <div class="page-kicker">
+                    STUDY SMART
                 </div>
 
-                <div>
+                <h1>
+                    Notes to Quiz
+                </h1>
 
-                    <strong id="userProfileName">
-                        Student
-                    </strong>
-
-                    <small>
-                        Student
-                    </small>
-
-                </div>
-
-            </div>
-
-        </header>
-
-
-        <section class="quiz-content">
-
-            <!-- PAGE HEADER -->
-            <div class="page-header">
-
-                <div>
-
-                    <p class="eyebrow">
-                        STUDY PILLAR
-                    </p>
-
-                    <h1>
-                        Notes → Quiz
-                    </h1>
-
-                    <p>
-                        Turn your notes into practice questions in seconds.
-                    </p>
-
-                </div>
-
-                <div class="ai-badge">
-                    ✦ Smart Quiz Maker
-                </div>
+                <p>
+                    Turn your study notes into a smart
+                    practice quiz with AI.
+                </p>
 
             </div>
 
+        </section>
 
-            <!-- MAIN BUILDER -->
-            <div class="builder-grid">
 
-                <!-- NOTES INPUT -->
-                <div class="panel notes-panel">
+        <!-- =====================================
+             NOTES SECTION
+        ====================================== -->
 
-                    <div class="panel-heading">
+        <section class="quiz-builder">
 
-                        <div>
 
-                            <small>
-                                STEP 01
-                            </small>
+            <!-- NOTES CARD -->
 
-                            <h2>
-                                Add your notes
-                            </h2>
+            <div class="notes-card">
 
-                        </div>
+                <div class="section-title-row">
 
-                        <span>
-                            📝
-                        </span>
+                    <div>
+
+                        <h2>
+                            📝 Your Notes
+                        </h2>
+
+                        <p>
+                            Paste the notes you want
+                            to practice.
+                        </p>
 
                     </div>
 
+                    <span
+                        id="wordCount"
+                        class="word-count"
+                    >
+                        0 words
+                    </span>
 
-                    <label for="notesInput">
-                        Paste your study notes
+                </div>
+
+
+                <textarea
+                    id="notesInput"
+                    placeholder="Paste your notes here..."
+                    spellcheck="false"
+                ></textarea>
+
+
+                <div class="notes-footer">
+
+                    <button
+                        type="button"
+                        id="clearNotes"
+                    >
+                        Clear notes
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================
+                 SETTINGS CARD
+            ================================== -->
+
+            <div class="settings-card">
+
+                <div class="section-title-row">
+
+                    <div>
+
+                        <h2>
+                            ⚙️ Quiz Settings
+                        </h2>
+
+                        <p>
+                            Customize your challenge.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <!-- QUESTION COUNT -->
+
+                <div class="setting-group">
+
+                    <label
+                        for="questionCount"
+                    >
+                        Number of Questions
                     </label>
 
-                    <textarea
-                        id="notesInput"
-                        placeholder="Paste your notes here...
-
-Example:
-Photosynthesis is the process by which green plants convert light energy into chemical energy..."
-                    ></textarea>
-
-
-                    <div class="notes-footer">
-
-                        <span id="wordCount">
-                            0 words
-                        </span>
-
-                        <button
-                            type="button"
-                            id="clearNotes"
-                            class="text-btn"
-                        >
-                            Clear
-                        </button>
-
-                    </div>
-
-                </div>
-
-
-                <!-- QUIZ SETTINGS -->
-                <div class="panel settings-panel">
-
-                    <div class="panel-heading">
-
-                        <div>
-
-                            <small>
-                                STEP 02
-                            </small>
-
-                            <h2>
-                                Quiz settings
-                            </h2>
-
-                        </div>
-
-                        <span>
-                            ⚙
-                        </span>
-
-                    </div>
-
-
-                    <label for="questionCount">
-                        Number of questions
-                    </label>
-
-                    <select id="questionCount">
+                    <select
+                        id="questionCount"
+                    >
 
                         <option value="5">
                             5 Questions
@@ -253,12 +294,18 @@ Photosynthesis is the process by which green plants convert light energy into ch
 
                     </select>
 
+                </div>
 
-                    <label for="difficulty">
+
+                <!-- DIFFICULTY -->
+
+                <div class="setting-group">
+
+                    <label>
                         Difficulty
                     </label>
 
-                    <div class="difficulty-options">
+                    <div class="difficulty-row">
 
                         <button
                             type="button"
@@ -286,12 +333,22 @@ Photosynthesis is the process by which green plants convert light energy into ch
 
                     </div>
 
+                </div>
 
-                    <label for="quizType">
-                        Question type
+
+                <!-- QUIZ TYPE -->
+
+                <div class="setting-group">
+
+                    <label
+                        for="quizType"
+                    >
+                        Quiz Type
                     </label>
 
-                    <select id="quizType">
+                    <select
+                        id="quizType"
+                    >
 
                         <option value="multiple">
                             Multiple Choice
@@ -302,36 +359,95 @@ Photosynthesis is the process by which green plants convert light energy into ch
                         </option>
 
                         <option value="mixed">
-                            Mixed Questions
+                            Mixed
                         </option>
 
                     </select>
 
-
-                    <button
-                        type="button"
-                        id="generateQuiz"
-                        class="generate-btn"
-                    >
-                        ✦ Generate Quiz
-                    </button>
-
                 </div>
+
+
+                <!-- GENERATE -->
+
+                <button
+                    type="button"
+                    id="generateQuiz"
+                    class="generate-btn"
+                >
+                    ✨ Generate Quiz
+                </button>
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================================
+             QUIZ RESULT
+        ========================================== -->
+
+        <section
+            id="quizResult"
+            class="quiz-result"
+        >
+
+            <div class="result-empty">
+
+                <div class="empty-icon">
+                    🧠
+                </div>
+
+                <h2>
+                    Your quiz will appear here
+                </h2>
+
+                <p>
+                    Add your notes and generate
+                    a quiz to start practicing.
+                </p>
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================================
+             AI QUIZ LAB / HOW IT WORKS
+        ========================================== -->
+
+        <section class="how-it-works">
+
+            <div class="section-heading">
+
+                <span>
+                    AI QUIZ LAB
+                </span>
+
+                <h2>
+                    Your Quiz Journey
+                </h2>
+
+                <p>
+                    Every quiz you create adds to
+                    your study journey.
+                </p>
 
             </div>
 
 
-            <!-- HOW IT WORKS -->
             <div class="info-strip">
 
+
+                <!-- NOTES -->
+
                 <div class="info-step">
 
                     <span>
-                        01
+                        00
                     </span>
 
                     <p>
-                        Paste notes
+                        Notes explored
                     </p>
 
                 </div>
@@ -342,14 +458,16 @@ Photosynthesis is the process by which green plants convert light energy into ch
                 </div>
 
 
+                <!-- SETTINGS -->
+
                 <div class="info-step">
 
                     <span>
-                        02
+                        00
                     </span>
 
                     <p>
-                        Choose settings
+                        Setups prepared
                     </p>
 
                 </div>
@@ -360,43 +478,16 @@ Photosynthesis is the process by which green plants convert light energy into ch
                 </div>
 
 
+                <!-- QUIZZES -->
+
                 <div class="info-step">
 
                     <span>
-                        03
+                        00
                     </span>
 
                     <p>
-                        Generate quiz
-                    </p>
-
-                </div>
-
-            </div>
-
-
-            <!-- QUIZ AREA -->
-            <div
-                class="quiz-result panel"
-                id="quizResult"
-            >
-
-                <div class="result-empty">
-
-                    <div class="empty-icon">
-                        ✦
-                    </div>
-
-                    <h2>
-                        Your quiz will appear here
-                    </h2>
-
-                    <p>
-                        Add your notes and click
-                        <strong>
-                            Generate Quiz
-                        </strong>
-                        to create your practice test.
+                        Quizzes created
                     </p>
 
                 </div>
@@ -405,12 +496,23 @@ Photosynthesis is the process by which green plants convert light energy into ch
 
         </section>
 
+
     </main>
 
 
-    <!-- JAVASCRIPT -->
-    <script src="js/script.js"></script>
-    <script src="js/quiz.js"></script>
+    <!-- =========================================
+         SCRIPTS
+    ========================================== -->
+
+    <script
+        src="js/script.js"
+    ></script>
+
+    <script
+        src="js/quiz.js"
+    ></script>
 
 </body>
+
 </html>
+```
