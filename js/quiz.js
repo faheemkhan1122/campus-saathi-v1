@@ -1,3 +1,4 @@
+```javascript
 document.addEventListener("DOMContentLoaded", () => {
 
     /* =========================
@@ -349,7 +350,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         </h2>
 
                         <span class="quiz-meta">
-                            ${error.message}
+                            ${escapeHTML(error.message)}
                         </span>
 
                     </div>
@@ -395,11 +396,10 @@ document.addEventListener("DOMContentLoaded", () => {
                     </h2>
 
                     <span class="quiz-meta">
-                        ${difficulty} • ${quizType}
+                        ${escapeHTML(difficulty)} • ${escapeHTML(quizType)}
                     </span>
 
                 </div>
-
 
                 <span class="quiz-meta">
                     ${questions.length} questions
@@ -414,7 +414,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
             html += `
 
-                <div class="question-card">
+                <div
+                    class="question-card"
+                    data-question-index="${i}"
+                >
 
                     <small>
                         QUESTION ${i + 1}
@@ -434,18 +437,24 @@ document.addEventListener("DOMContentLoaded", () => {
                 Array.isArray(current.answers)
             ) {
 
-                current.answers.forEach(answer => {
+                current.answers.forEach((answer, answerIndex) => {
 
                     html += `
 
-                        <label class="answer-option">
+                        <label
+                            class="answer-option"
+                            data-answer-index="${answerIndex}"
+                        >
 
                             <input
                                 type="radio"
                                 name="question-${i}"
+                                value="${answerIndex}"
                             >
 
-                            ${escapeHTML(answer)}
+                            <span>
+                                ${escapeHTML(answer)}
+                            </span>
 
                         </label>
 
@@ -465,14 +474,542 @@ document.addEventListener("DOMContentLoaded", () => {
         });
 
 
+        /* =========================
+           SUBMIT BUTTON
+        ========================== */
+
+        html += `
+
+            <div class="quiz-submit-area">
+
+                <button
+                    type="button"
+                    id="submitQuiz"
+                    class="submit-quiz-btn"
+                >
+                    ✓ Submit Quiz
+                </button>
+
+            </div>
+
+            <div
+                id="quizScore"
+                class="quiz-score"
+                style="display:none;"
+            ></div>
+
+        `;
+
+
         quizResult.innerHTML =
             html;
+
+
+        /* =========================
+           SUBMIT EVENT
+        ========================== */
+
+        const submitQuiz =
+            document.getElementById("submitQuiz");
+
+
+        if (submitQuiz) {
+
+            submitQuiz.addEventListener(
+                "click",
+                () => {
+
+                    checkQuizAnswers(
+                        questions
+                    );
+
+                }
+            );
+
+        }
 
 
         quizResult.scrollIntoView({
             behavior: "smooth",
             block: "start"
         });
+
+    }
+
+
+    /* =========================
+       CHECK QUIZ ANSWERS
+    ========================== */
+
+    function checkQuizAnswers(questions) {
+
+        let score = 0;
+
+        let answered = 0;
+
+
+        questions.forEach((current, questionIndex) => {
+
+            const questionCard =
+                quizResult.querySelector(
+                    `[data-question-index="${questionIndex}"]`
+                );
+
+
+            if (!questionCard) {
+                return;
+            }
+
+
+            const selected =
+                questionCard.querySelector(
+                    `input[name="question-${questionIndex}"]:checked`
+                );
+
+
+            const answerOptions =
+                questionCard.querySelectorAll(
+                    ".answer-option"
+                );
+
+
+            /* =========================
+               FIND CORRECT ANSWER
+            ========================== */
+
+            const correctAnswer =
+                getCorrectAnswer(current);
+
+
+            /* =========================
+               REMOVE OLD RESULTS
+            ========================== */
+
+            answerOptions.forEach(option => {
+
+                option.classList.remove(
+                    "correct-answer",
+                    "wrong-answer"
+                );
+
+            });
+
+
+            /* =========================
+               MARK CORRECT ANSWER
+            ========================== */
+
+            answerOptions.forEach((option, index) => {
+
+                const answerText =
+                    getAnswerText(
+                        option
+                    );
+
+
+                const isCorrect =
+                    isCorrectAnswer(
+                        current,
+                        correctAnswer,
+                        answerText,
+                        index
+                    );
+
+
+                if (isCorrect) {
+
+                    option.classList.add(
+                        "correct-answer"
+                    );
+
+                }
+
+            });
+
+
+            /* =========================
+               USER DID NOT ANSWER
+            ========================== */
+
+            if (!selected) {
+                return;
+            }
+
+
+            answered++;
+
+
+            const selectedIndex =
+                Number(
+                    selected.value
+                );
+
+
+            const selectedOption =
+                selected.closest(
+                    ".answer-option"
+                );
+
+
+            const selectedText =
+                selectedOption
+                    ? getAnswerText(selectedOption)
+                    : "";
+
+
+            const userIsCorrect =
+                isCorrectAnswer(
+                    current,
+                    correctAnswer,
+                    selectedText,
+                    selectedIndex
+                );
+
+
+            /* =========================
+               CORRECT
+            ========================== */
+
+            if (userIsCorrect) {
+
+                score++;
+
+                selectedOption.classList.add(
+                    "correct-answer"
+                );
+
+            }
+
+
+            /* =========================
+               WRONG
+            ========================== */
+
+            else {
+
+                selectedOption.classList.add(
+                    "wrong-answer"
+                );
+
+            }
+
+        });
+
+
+        /* =========================
+           SHOW SCORE
+        ========================== */
+
+        const scoreBox =
+            document.getElementById(
+                "quizScore"
+            );
+
+
+        if (scoreBox) {
+
+            const total =
+                questions.length;
+
+
+            const percentage =
+                Math.round(
+                    (score / total) * 100
+                );
+
+
+            let message =
+                "Keep practicing! 💪";
+
+
+            if (percentage === 100) {
+
+                message =
+                    "Perfect score! 🎉";
+
+            } else if (percentage >= 80) {
+
+                message =
+                    "Excellent work! 🔥";
+
+            } else if (percentage >= 60) {
+
+                message =
+                    "Good job! Keep going! 👍";
+
+            }
+
+
+            scoreBox.style.display =
+                "block";
+
+
+            scoreBox.innerHTML = `
+
+                <div class="score-number">
+                    ${score} / ${total}
+                </div>
+
+                <div class="score-percentage">
+                    ${percentage}%
+                </div>
+
+                <div class="score-message">
+                    ${message}
+                </div>
+
+                <div class="answered-count">
+                    ${answered} of ${total} answered
+                </div>
+
+                <button
+                    type="button"
+                    id="retryQuiz"
+                    class="retry-quiz-btn"
+                >
+                    ↻ Try Again
+                </button>
+
+            `;
+
+
+            const retryQuiz =
+                document.getElementById(
+                    "retryQuiz"
+                );
+
+
+            if (retryQuiz) {
+
+                retryQuiz.addEventListener(
+                    "click",
+                    () => {
+
+                        createQuiz(
+                            questions,
+                            document.querySelector(".quiz-meta")
+                                ? ""
+                                : "",
+                            ""
+                        );
+
+                    }
+                );
+
+            }
+
+        }
+
+
+        /* =========================
+           DISABLE SUBMIT AFTER CHECK
+        ========================== */
+
+        const submitQuiz =
+            document.getElementById(
+                "submitQuiz"
+            );
+
+
+        if (submitQuiz) {
+
+            submitQuiz.disabled = true;
+
+            submitQuiz.textContent =
+                "✓ Quiz Submitted";
+
+        }
+
+    }
+
+
+    /* =========================
+       GET CORRECT ANSWER
+       SUPPORT MULTIPLE AI FORMATS
+    ========================== */
+
+    function getCorrectAnswer(question) {
+
+        if (
+            question.correctAnswer !== undefined
+        ) {
+            return question.correctAnswer;
+        }
+
+
+        if (
+            question.correct_answer !== undefined
+        ) {
+            return question.correct_answer;
+        }
+
+
+        if (
+            question.correct !== undefined
+        ) {
+            return question.correct;
+        }
+
+
+        if (
+            question.answer !== undefined
+        ) {
+            return question.answer;
+        }
+
+
+        if (
+            question.correctIndex !== undefined
+        ) {
+            return question.correctIndex;
+        }
+
+
+        if (
+            question.correct_index !== undefined
+        ) {
+            return question.correct_index;
+        }
+
+
+        if (
+            question.answerIndex !== undefined
+        ) {
+            return question.answerIndex;
+        }
+
+
+        if (
+            question.answer_index !== undefined
+        ) {
+            return question.answer_index;
+        }
+
+
+        return null;
+
+    }
+
+
+    /* =========================
+       GET ANSWER TEXT
+    ========================== */
+
+    function getAnswerText(option) {
+
+        const span =
+            option.querySelector("span");
+
+
+        if (span) {
+
+            return span.textContent.trim();
+
+        }
+
+
+        return option.textContent.trim();
+
+    }
+
+
+    /* =========================
+       CHECK CORRECT ANSWER
+    ========================== */
+
+    function isCorrectAnswer(
+        question,
+        correctAnswer,
+        answerText,
+        answerIndex
+    ) {
+
+        if (correctAnswer === null) {
+            return false;
+        }
+
+
+        /* Correct answer is index */
+
+        if (
+            typeof correctAnswer === "number"
+        ) {
+
+            return (
+                answerIndex === correctAnswer
+            );
+
+        }
+
+
+        const correctString =
+            String(
+                correctAnswer
+            ).trim();
+
+
+        /* Correct answer is answer text */
+
+        if (
+            correctString.toLowerCase() ===
+            answerText.toLowerCase()
+        ) {
+
+            return true;
+
+        }
+
+
+        /* Correct answer is A/B/C/D */
+
+        const letters =
+            ["A", "B", "C", "D", "E", "F"];
+
+
+        const letterIndex =
+            letters.indexOf(
+                correctString.toUpperCase()
+            );
+
+
+        if (
+            letterIndex !== -1 &&
+            letterIndex === answerIndex
+        ) {
+
+            return true;
+
+        }
+
+
+        /* Correct answer may be "Option 1" etc. */
+
+        const optionMatch =
+            correctString.match(
+                /(?:option|answer)\s*(\d+)/i
+            );
+
+
+        if (optionMatch) {
+
+            const correctIndex =
+                Number(
+                    optionMatch[1]
+                ) - 1;
+
+
+            if (
+                correctIndex === answerIndex
+            ) {
+
+                return true;
+
+            }
+
+        }
+
+
+        return false;
 
     }
 
@@ -501,3 +1038,4 @@ document.addEventListener("DOMContentLoaded", () => {
     updateWordCount();
 
 });
+```
