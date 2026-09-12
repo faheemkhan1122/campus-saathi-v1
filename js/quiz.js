@@ -1,3 +1,4 @@
+```javascript
 // =========================================
 // CAMPUS SAATHI - NOTES TO QUIZ
 // =========================================
@@ -152,12 +153,50 @@ function updateQuizLabCounters() {
             counter.textContent =
                 formatCounter(counters[index]);
 
-            counter.style.display = "inline-flex";
-            counter.style.alignItems = "center";
-            counter.style.justifyContent = "center";
-            counter.style.minWidth = "28px";
+            counter.style.display =
+                "inline-flex";
+
+            counter.style.alignItems =
+                "center";
+
+            counter.style.justifyContent =
+                "center";
+
+            counter.style.minWidth =
+                "38px";
+
+            counter.style.height =
+                "28px";
+
+            counter.style.padding =
+                "0 9px";
+
+            counter.style.borderRadius =
+                "999px";
+
+            counter.style.background =
+                "linear-gradient(135deg, rgba(128,92,255,0.18), rgba(66,157,255,0.14))";
+
+            counter.style.border =
+                "1px solid rgba(128,92,255,0.35)";
+
+            counter.style.color =
+                "#ffffff";
+
+            counter.style.fontSize =
+                "12px";
+
+            counter.style.fontWeight =
+                "800";
+
+            counter.style.letterSpacing =
+                "1px";
+
+            counter.style.boxShadow =
+                "0 0 12px rgba(128,92,255,0.15)";
+
             counter.style.transition =
-                "transform 0.25s ease";
+                "transform 0.35s cubic-bezier(.2,.8,.2,1), box-shadow 0.35s ease, background 0.35s ease";
 
         }
 
@@ -174,7 +213,7 @@ function updateQuizLabCounters() {
 
 
 // =========================================
-// COUNTER ANIMATION
+// WOW COUNTER ANIMATION
 // =========================================
 
 function animateCounter(index) {
@@ -193,18 +232,58 @@ function animateCounter(index) {
         return;
     }
 
+
     counter.style.transition =
-        "transform 0.25s ease";
+        "none";
 
     counter.style.transform =
-        "scale(1.4)";
+        "scale(0.82) translateY(3px)";
+
+    counter.style.opacity =
+        "0.65";
+
+    counter.style.boxShadow =
+        "0 0 0 rgba(128,92,255,0)";
+
+
+    requestAnimationFrame(() => {
+
+        requestAnimationFrame(() => {
+
+            counter.style.transition =
+                "transform 0.45s cubic-bezier(.16,1,.3,1), opacity 0.35s ease, box-shadow 0.45s ease";
+
+            counter.style.transform =
+                "scale(1.18) translateY(-2px)";
+
+            counter.style.opacity =
+                "1";
+
+            counter.style.boxShadow =
+                "0 0 10px rgba(128,92,255,0.45), 0 0 25px rgba(66,157,255,0.22)";
+
+        });
+
+    });
+
 
     setTimeout(() => {
 
         counter.style.transform =
-            "scale(1)";
+            "scale(0.96) translateY(0)";
 
-    }, 250);
+    }, 300);
+
+
+    setTimeout(() => {
+
+        counter.style.transform =
+            "scale(1) translateY(0)";
+
+        counter.style.boxShadow =
+            "0 0 12px rgba(128,92,255,0.15)";
+
+    }, 480);
 
 }
 
@@ -1894,3 +1973,4 @@ setTimeout(() => {
     updateQuizLabCounters();
 
 }, 100);
+```
