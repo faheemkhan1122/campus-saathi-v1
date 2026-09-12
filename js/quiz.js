@@ -12,6 +12,7 @@ const quizStatsKey = userId
     ? `quizLabStats_${userId}`
     : "quizLabStats_guest";
 
+
 // =========================================
 // ELEMENTS
 // =========================================
@@ -29,6 +30,7 @@ const questionCountElement =
 const quizTypeElement =
     document.getElementById("quizType");
 
+
 // =========================================
 // QUIZ LAB STATS
 // =========================================
@@ -40,6 +42,11 @@ let quizStats = {
     lastNotesSignature: "",
     lastSettingsSignature: ""
 };
+
+
+// =========================================
+// LOAD STATS
+// =========================================
 
 function loadQuizStats() {
 
@@ -70,6 +77,11 @@ function loadQuizStats() {
 
 }
 
+
+// =========================================
+// SAVE STATS
+// =========================================
+
 function saveQuizStats() {
 
     try {
@@ -90,11 +102,17 @@ function saveQuizStats() {
 
 }
 
+
+// =========================================
+// FORMAT COUNTER
+// =========================================
+
 function formatCounter(number) {
 
     return String(number).padStart(2, "0");
 
 }
+
 
 // =========================================
 // QUIZ LAB COUNTERS
@@ -115,37 +133,71 @@ function updateQuizLabCounters() {
         quizStats.quizzes
     ];
 
+    const labels = [
+        "Notes explored",
+        "Setups prepared",
+        "Quizzes created"
+    ];
+
     infoSteps.forEach((step, index) => {
 
         const counter =
             step.querySelector("span");
 
-        if (!counter) return;
+        const label =
+            step.querySelector("p");
 
-        counter.textContent =
-            formatCounter(counters[index]);
+        if (counter) {
+
+            counter.textContent =
+                formatCounter(counters[index]);
+
+            counter.style.display = "inline-flex";
+            counter.style.alignItems = "center";
+            counter.style.justifyContent = "center";
+            counter.style.minWidth = "28px";
+            counter.style.transition =
+                "transform 0.25s ease";
+
+        }
+
+        if (label && labels[index]) {
+
+            label.textContent =
+                labels[index];
+
+        }
 
     });
 
 }
+
+
+// =========================================
+// COUNTER ANIMATION
+// =========================================
 
 function animateCounter(index) {
 
     const infoSteps =
         document.querySelectorAll(".info-step");
 
-    if (!infoSteps[index]) return;
+    if (!infoSteps[index]) {
+        return;
+    }
 
     const counter =
         infoSteps[index].querySelector("span");
 
-    if (!counter) return;
-
-    counter.style.transform =
-        "scale(1.35)";
+    if (!counter) {
+        return;
+    }
 
     counter.style.transition =
         "transform 0.25s ease";
+
+    counter.style.transform =
+        "scale(1.4)";
 
     setTimeout(() => {
 
@@ -156,6 +208,7 @@ function animateCounter(index) {
 
 }
 
+
 // =========================================
 // INITIAL STATS
 // =========================================
@@ -163,13 +216,16 @@ function animateCounter(index) {
 loadQuizStats();
 updateQuizLabCounters();
 
+
 // =========================================
 // WORD COUNT
 // =========================================
 
 function updateWordCount() {
 
-    if (!notesInput || !wordCount) return;
+    if (!notesInput || !wordCount) {
+        return;
+    }
 
     const text =
         notesInput.value.trim();
@@ -196,10 +252,107 @@ if (notesInput) {
 
     notesInput.addEventListener(
         "input",
-        updateWordCount
+        function () {
+
+            updateWordCount();
+            updateNotesGlow();
+
+        }
     );
 
 }
+
+
+// =========================================
+// NOTES GLOW ANIMATION
+// =========================================
+
+function startNotesGlow() {
+
+    if (!notesInput) {
+        return;
+    }
+
+    notesInput.style.setProperty(
+        "border-color",
+        "#805cff",
+        "important"
+    );
+
+    notesInput.style.setProperty(
+        "box-shadow",
+        "0 0 0 2px rgba(128,92,255,0.15), 0 0 28px rgba(128,92,255,0.30)",
+        "important"
+    );
+
+    notesInput.style.setProperty(
+        "transition",
+        "border-color 0.35s ease, box-shadow 0.35s ease",
+        "important"
+    );
+
+}
+
+function stopNotesGlow() {
+
+    if (!notesInput) {
+        return;
+    }
+
+    notesInput.style.removeProperty(
+        "box-shadow"
+    );
+
+    notesInput.style.removeProperty(
+        "border-color"
+    );
+
+}
+
+function updateNotesGlow() {
+
+    if (!notesInput) {
+        return;
+    }
+
+    if (notesInput.value.trim()) {
+
+        startNotesGlow();
+
+    } else {
+
+        stopNotesGlow();
+
+    }
+
+}
+
+if (notesInput) {
+
+    notesInput.addEventListener(
+        "focus",
+        function () {
+
+            if (notesInput.value.trim()) {
+                startNotesGlow();
+            }
+
+        }
+    );
+
+    notesInput.addEventListener(
+        "blur",
+        function () {
+
+            if (!notesInput.value.trim()) {
+                stopNotesGlow();
+            }
+
+        }
+    );
+
+}
+
 
 // =========================================
 // COUNT NOTES ACTIVITY
@@ -207,12 +360,16 @@ if (notesInput) {
 
 function countNotesActivity() {
 
-    if (!notesInput) return;
+    if (!notesInput) {
+        return;
+    }
 
     const notes =
         notesInput.value.trim();
 
-    if (!notes) return;
+    if (!notes) {
+        return;
+    }
 
     const signature =
         notes
@@ -239,6 +396,7 @@ function countNotesActivity() {
 
 }
 
+
 // =========================================
 // PASTE NOTES
 // =========================================
@@ -252,7 +410,7 @@ if (notesInput) {
             setTimeout(() => {
 
                 updateWordCount();
-
+                updateNotesGlow();
                 countNotesActivity();
 
             }, 50);
@@ -261,6 +419,7 @@ if (notesInput) {
     );
 
 }
+
 
 // =========================================
 // CLEAR NOTES
@@ -272,21 +431,27 @@ if (clearNotes) {
         "click",
         function () {
 
-            notesInput.value = "";
+            if (notesInput) {
 
-            quizStats.lastNotesSignature =
-                "";
+                notesInput.value = "";
 
-            saveQuizStats();
+                quizStats.lastNotesSignature =
+                    "";
 
-            updateWordCount();
+                saveQuizStats();
 
-            notesInput.focus();
+                updateWordCount();
+                stopNotesGlow();
+
+                notesInput.focus();
+
+            }
 
         }
     );
 
 }
+
 
 // =========================================
 // DIFFICULTY
@@ -314,6 +479,7 @@ difficultyButtons.forEach((button) => {
     );
 
 });
+
 
 // =========================================
 // SETTINGS SIGNATURE
@@ -345,6 +511,7 @@ function getSettingsSignature() {
 
 }
 
+
 // =========================================
 // COUNT SETTINGS ACTIVITY
 // =========================================
@@ -374,6 +541,7 @@ function countSettingsActivity() {
 
 }
 
+
 // =========================================
 // SETTINGS CHANGE EVENTS
 // =========================================
@@ -395,6 +563,7 @@ if (quizTypeElement) {
     );
 
 }
+
 
 // =========================================
 // SAVE QUIZ
@@ -436,6 +605,7 @@ function saveQuiz(quiz) {
 
 }
 
+
 // =========================================
 // AI LOADING EXPERIENCE
 // =========================================
@@ -464,9 +634,16 @@ const loadingStages = [
 
 ];
 
+
+// =========================================
+// SHOW QUIZ LOADING
+// =========================================
+
 function showQuizLoading() {
 
-    if (!quizResult) return;
+    if (!quizResult) {
+        return;
+    }
 
     let currentStage = 0;
 
@@ -596,26 +773,35 @@ function showQuizLoading() {
         </div>
 
         <style>
+
             @keyframes quizBrainPulse {
 
                 0%, 100% {
+
                     transform:scale(1);
+
                     box-shadow:
                         0 0 25px
                         rgba(128,92,255,0.20);
+
                 }
 
                 50% {
+
                     transform:scale(1.08);
+
                     box-shadow:
                         0 0 45px
                         rgba(66,157,255,0.38);
+
                 }
 
             }
+
         </style>
 
     `;
+
 
     function renderStage(stageIndex) {
 
@@ -676,11 +862,13 @@ function showQuizLoading() {
 
     }
 
+
     renderStage(0);
 
-    // -----------------------------------------
-    // Every stage MUST appear
-    // -----------------------------------------
+
+    // =========================================
+    // EVERY STAGE MUST APPEAR
+    // =========================================
 
     loadingInterval =
         setInterval(() => {
@@ -699,6 +887,11 @@ function showQuizLoading() {
 
 }
 
+
+// =========================================
+// FINISH LOADING
+// =========================================
+
 function finishQuizLoading() {
 
     if (loadingInterval) {
@@ -713,6 +906,7 @@ function finishQuizLoading() {
 
 }
 
+
 // =========================================
 // GENERATE QUIZ
 // =========================================
@@ -724,7 +918,9 @@ if (generateQuiz) {
         async function () {
 
             const notes =
-                notesInput.value.trim();
+                notesInput
+                    ? notesInput.value.trim()
+                    : "";
 
             if (!notes) {
 
@@ -732,17 +928,27 @@ if (generateQuiz) {
                     "Please enter your notes first."
                 );
 
-                notesInput.focus();
+                if (notesInput) {
+                    notesInput.focus();
+                }
 
                 return;
-
             }
 
-            // Count typed notes too
+
+            // =========================================
+            // COUNT NOTES
+            // =========================================
+
             countNotesActivity();
 
-            // Count current settings
+
+            // =========================================
+            // COUNT SETTINGS
+            // =========================================
+
             countSettingsActivity();
+
 
             const questionCount =
                 questionCountElement
@@ -764,8 +970,10 @@ if (generateQuiz) {
                     ? quizTypeElement.value
                     : "multiple";
 
+
             const oldButtonText =
                 generateQuiz.textContent;
+
 
             generateQuiz.disabled =
                 true;
@@ -773,21 +981,24 @@ if (generateQuiz) {
             generateQuiz.textContent =
                 "Creating your challenge...";
 
-            // -----------------------------------------
-            // Start AI animation
-            // -----------------------------------------
+
+            // =========================================
+            // START AI ANIMATION
+            // =========================================
 
             showQuizLoading();
 
-            // -----------------------------------------
-            // Minimum complete animation
-            // -----------------------------------------
+
+            // =========================================
+            // MINIMUM COMPLETE ANIMATION
+            // =========================================
 
             const animationStart =
                 Date.now();
 
             const minimumAnimationTime =
                 6000;
+
 
             try {
 
@@ -805,7 +1016,8 @@ if (generateQuiz) {
 
                             body: JSON.stringify({
 
-                                notes: notes,
+                                notes:
+                                    notes,
 
                                 questionCount:
                                     Number(
@@ -823,8 +1035,10 @@ if (generateQuiz) {
                         }
                     );
 
+
                 const data =
                     await response.json();
+
 
                 if (!response.ok) {
 
@@ -834,6 +1048,7 @@ if (generateQuiz) {
                     );
 
                 }
+
 
                 if (
                     !data.questions ||
@@ -849,9 +1064,10 @@ if (generateQuiz) {
 
                 }
 
-                // -----------------------------------------
-                // Make sure all 3 animation stages finish
-                // -----------------------------------------
+
+                // =========================================
+                // MAKE SURE ALL 3 STAGES FINISH
+                // =========================================
 
                 const elapsed =
                     Date.now() -
@@ -863,6 +1079,7 @@ if (generateQuiz) {
                         minimumAnimationTime -
                         elapsed
                     );
+
 
                 if (remaining > 0) {
 
@@ -876,11 +1093,13 @@ if (generateQuiz) {
 
                 }
 
+
                 finishQuizLoading();
 
-                // -----------------------------------------
-                // Count generated quiz
-                // -----------------------------------------
+
+                // =========================================
+                // COUNT GENERATED QUIZ
+                // =========================================
 
                 quizStats.quizzes++;
 
@@ -890,9 +1109,10 @@ if (generateQuiz) {
 
                 animateCounter(2);
 
-                // -----------------------------------------
-                // Save quiz
-                // -----------------------------------------
+
+                // =========================================
+                // SAVE QUIZ
+                // =========================================
 
                 saveQuiz({
 
@@ -910,15 +1130,17 @@ if (generateQuiz) {
 
                 });
 
-                // -----------------------------------------
-                // Show quiz
-                // -----------------------------------------
+
+                // =========================================
+                // SHOW QUIZ
+                // =========================================
 
                 createQuiz(
                     data.questions,
                     difficulty,
                     quizType
                 );
+
 
             } catch (error) {
 
@@ -928,6 +1150,7 @@ if (generateQuiz) {
                     "Quiz generation error:",
                     error
                 );
+
 
                 quizResult.innerHTML = `
 
@@ -965,6 +1188,7 @@ if (generateQuiz) {
     );
 
 }
+
 
 // =========================================
 // CREATE QUIZ
@@ -1021,8 +1245,12 @@ function createQuiz(
 
     `;
 
+
     questions.forEach(
-        (question, questionIndex) => {
+        (
+            question,
+            questionIndex
+        ) => {
 
             html += `
 
@@ -1053,6 +1281,7 @@ function createQuiz(
                     </h3>
 
             `;
+
 
             if (
                 question.answers &&
@@ -1091,6 +1320,8 @@ function createQuiz(
                                         );
                                     font-size:9px;
                                     cursor:pointer;
+                                    transition:
+                                        all 0.2s ease;
                                 "
                             >
 
@@ -1115,6 +1346,7 @@ function createQuiz(
 
             }
 
+
             html += `
 
                 </div>
@@ -1123,6 +1355,7 @@ function createQuiz(
 
         }
     );
+
 
     // =========================================
     // SUBMIT AREA
@@ -1174,6 +1407,7 @@ function createQuiz(
 
         </div>
 
+
         <div
             id="quizScore"
             style="
@@ -1199,8 +1433,71 @@ function createQuiz(
 
     `;
 
+
     quizResult.innerHTML =
         html;
+
+
+    // =========================================
+    // ANSWER SELECTION EFFECT
+    // =========================================
+
+    const answerOptions =
+        quizResult.querySelectorAll(
+            ".answer-option"
+        );
+
+    answerOptions.forEach(
+        (label) => {
+
+            label.addEventListener(
+                "click",
+                function () {
+
+                    const questionCard =
+                        this.closest(
+                            ".question-card"
+                        );
+
+                    if (!questionCard) {
+                        return;
+                    }
+
+                    const allOptions =
+                        questionCard.querySelectorAll(
+                            ".answer-option"
+                        );
+
+                    allOptions.forEach(
+                        (option) => {
+
+                            option.style.background =
+                                "rgba(255,255,255,0.025)";
+
+                            option.style.border =
+                                "1px solid rgba(255,255,255,0.045)";
+
+                            option.style.color =
+                                "#7d879b";
+
+                        }
+                    );
+
+                    this.style.background =
+                        "rgba(128,92,255,0.14)";
+
+                    this.style.border =
+                        "2px solid #805cff";
+
+                    this.style.color =
+                        "#ffffff";
+
+                }
+            );
+
+        }
+    );
+
 
     // =========================================
     // SUBMIT BUTTON
@@ -1210,6 +1507,7 @@ function createQuiz(
         document.getElementById(
             "submitQuiz"
         );
+
 
     if (submitQuiz) {
 
@@ -1232,6 +1530,7 @@ function createQuiz(
 
     }
 
+
     // =========================================
     // SCROLL
     // =========================================
@@ -1252,6 +1551,7 @@ function createQuiz(
 
 }
 
+
 // =========================================
 // CHECK QUIZ
 // =========================================
@@ -1259,6 +1559,7 @@ function createQuiz(
 function checkQuiz(questions) {
 
     let score = 0;
+
 
     questions.forEach(
         (
@@ -1271,19 +1572,27 @@ function checkQuiz(questions) {
                     `input[name="question-${questionIndex}"]:checked`
                 );
 
+
             const questionCard =
                 document.querySelector(
                     `[data-question-index="${questionIndex}"]`
                 );
 
-            if (!questionCard) return;
+
+            if (!questionCard) {
+                return;
+            }
+
 
             const answerLabels =
                 questionCard.querySelectorAll(
                     ".answer-option"
                 );
 
-            // Reset styles
+
+            // =========================================
+            // RESET STYLES
+            // =========================================
 
             answerLabels.forEach(
                 (label) => {
@@ -1294,10 +1603,16 @@ function checkQuiz(questions) {
                     label.style.border =
                         "1px solid rgba(255,255,255,0.045)";
 
+                    label.style.color =
+                        "#7d879b";
+
                 }
             );
 
-            // Show correct answer
+
+            // =========================================
+            // SHOW CORRECT ANSWER
+            // =========================================
 
             answerLabels.forEach(
                 (label) => {
@@ -1311,6 +1626,7 @@ function checkQuiz(questions) {
                             question.correctAnswer ||
                             ""
                         );
+
 
                     if (
                         answer
@@ -1335,7 +1651,10 @@ function checkQuiz(questions) {
                 }
             );
 
-            // Check selected answer
+
+            // =========================================
+            // CHECK SELECTED ANSWER
+            // =========================================
 
             if (selected) {
 
@@ -1343,6 +1662,7 @@ function checkQuiz(questions) {
                     selected.closest(
                         ".answer-option"
                     );
+
 
                 if (selectedLabel) {
 
@@ -1356,6 +1676,7 @@ function checkQuiz(questions) {
                             ""
                         );
 
+
                     const correct =
                         selectedAnswer
                             .trim()
@@ -1363,6 +1684,7 @@ function checkQuiz(questions) {
                         correctAnswer
                             .trim()
                             .toLowerCase();
+
 
                     if (correct) {
 
@@ -1388,12 +1710,14 @@ function checkQuiz(questions) {
         }
     );
 
+
     // =========================================
     // SCORE
     // =========================================
 
     const total =
         questions.length;
+
 
     const percentage =
         total > 0
@@ -1402,14 +1726,17 @@ function checkQuiz(questions) {
             )
             : 0;
 
+
     const scoreBox =
         document.getElementById(
             "quizScore"
         );
 
+
     if (scoreBox) {
 
         let message;
+
 
         if (percentage === 100) {
 
@@ -1433,6 +1760,7 @@ function checkQuiz(questions) {
 
         }
 
+
         scoreBox.innerHTML = `
 
             <div
@@ -1448,6 +1776,7 @@ function checkQuiz(questions) {
 
             </div>
 
+
             <div
                 style="
                     font-size:18px;
@@ -1458,6 +1787,7 @@ function checkQuiz(questions) {
                 ${percentage}%
 
             </div>
+
 
             <div
                 style="
@@ -1472,10 +1802,12 @@ function checkQuiz(questions) {
 
         `;
 
+
         scoreBox.style.display =
             "block";
 
     }
+
 
     // =========================================
     // DISABLE SUBMIT
@@ -1485,6 +1817,7 @@ function checkQuiz(questions) {
         document.getElementById(
             "submitQuiz"
         );
+
 
     if (submitQuiz) {
 
@@ -1503,6 +1836,7 @@ function checkQuiz(questions) {
     }
 
 }
+
 
 // =========================================
 // ESCAPE HTML
@@ -1539,8 +1873,24 @@ function escapeHTML(value) {
 
 }
 
+
 // =========================================
 // INITIAL WORD COUNT
 // =========================================
 
 updateWordCount();
+
+updateNotesGlow();
+
+
+// =========================================
+// FINAL INITIAL COUNTER REFRESH
+// =========================================
+
+setTimeout(() => {
+
+    loadQuizStats();
+
+    updateQuizLabCounters();
+
+}, 100);
