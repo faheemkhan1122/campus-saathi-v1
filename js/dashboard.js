@@ -1,8 +1,14 @@
+```javascript
 // =========================================
 // CAMPUS SAATHI - DYNAMIC DASHBOARD
+// SAFE V1 UPDATE
 // =========================================
 
 document.addEventListener("DOMContentLoaded", () => {
+
+    // =========================================
+    // USER
+    // =========================================
 
     const userId = localStorage.getItem("userId");
 
@@ -50,11 +56,16 @@ document.addEventListener("DOMContentLoaded", () => {
                 return fallback;
             }
 
-            return JSON.parse(data);
+            const parsed = JSON.parse(data);
+
+            return parsed ?? fallback;
 
         } catch (error) {
 
-            console.error("Dashboard storage error:", error);
+            console.error(
+                `Dashboard storage error for ${key}:`,
+                error
+            );
 
             return fallback;
         }
@@ -92,8 +103,62 @@ document.addEventListener("DOMContentLoaded", () => {
         });
 
 
+    // Make sure arrays are actually arrays.
+    const safePlannerTasks =
+        Array.isArray(plannerTasks)
+            ? plannerTasks
+            : [];
+
+    const safeAssignments =
+        Array.isArray(assignments)
+            ? assignments
+            : [];
+
+    const safeProjects =
+        Array.isArray(projects)
+            ? projects
+            : [];
+
+    const safeQuizzes =
+        Array.isArray(quizzes)
+            ? quizzes
+            : [];
+
+    const safeDoubts =
+        Array.isArray(doubts)
+            ? doubts
+            : [];
+
+
     // =========================================
-    // DATE
+    // DATE HELPERS
+    // =========================================
+
+    function getLocalDateString(date = new Date()) {
+
+        const year =
+            date.getFullYear();
+
+        const month =
+            String(
+                date.getMonth() + 1
+            ).padStart(2, "0");
+
+        const day =
+            String(
+                date.getDate()
+            ).padStart(2, "0");
+
+        return `${year}-${month}-${day}`;
+    }
+
+
+    const todayString =
+        getLocalDateString();
+
+
+    // =========================================
+    // DASHBOARD DATE
     // =========================================
 
     const dateElement =
@@ -104,11 +169,98 @@ document.addEventListener("DOMContentLoaded", () => {
         const today = new Date();
 
         dateElement.textContent =
-            today.toLocaleDateString("en-US", {
-                weekday: "long",
-                month: "long",
-                day: "numeric"
-            }).toUpperCase();
+            today.toLocaleDateString(
+                "en-US",
+                {
+                    weekday: "long",
+                    month: "long",
+                    day: "numeric"
+                }
+            ).toUpperCase();
+    }
+
+
+    // =========================================
+    // USER NAME
+    // =========================================
+
+    function getStoredUserName() {
+
+        const possibleKeys = [
+            "userName",
+            "studentName",
+            "fullName",
+            "name"
+        ];
+
+        for (const key of possibleKeys) {
+
+            const value =
+                localStorage.getItem(key);
+
+            if (
+                value &&
+                value.trim()
+            ) {
+                return value.trim();
+            }
+        }
+
+        return "Student";
+    }
+
+
+    const userName =
+        getStoredUserName();
+
+
+    const userGreetingName =
+        document.getElementById(
+            "userGreetingName"
+        );
+
+    const userProfileName =
+        document.getElementById(
+            "userProfileName"
+        );
+
+    const userAvatar =
+        document.getElementById(
+            "userAvatar"
+        );
+
+
+    if (userGreetingName) {
+
+        userGreetingName.textContent =
+            userName;
+    }
+
+
+    if (userProfileName) {
+
+        userProfileName.textContent =
+            userName;
+    }
+
+
+    if (userAvatar) {
+
+        const initials =
+            userName
+                .split(/\s+/)
+                .filter(Boolean)
+                .slice(0, 2)
+                .map(
+                    word =>
+                        word
+                            .charAt(0)
+                            .toUpperCase()
+                )
+                .join("");
+
+        userAvatar.textContent =
+            initials || "ST";
     }
 
 
@@ -117,27 +269,35 @@ document.addEventListener("DOMContentLoaded", () => {
     // =========================================
 
     const totalAssignments =
-        assignments.length;
+        safeAssignments.length;
 
     const completedAssignments =
-        assignments.filter(
+        safeAssignments.filter(
             assignment =>
-                assignment.status === "completed"
+                String(
+                    assignment.status || ""
+                ).toLowerCase() === "completed"
         ).length;
 
-    const todayString =
-        new Date().toISOString().split("T")[0];
 
     const dueToday =
-        assignments.filter(assignment => {
+        safeAssignments.filter(
+            assignment => {
 
-            if (assignment.status === "completed") {
-                return false;
+                if (
+                    String(
+                        assignment.status || ""
+                    ).toLowerCase() === "completed"
+                ) {
+                    return false;
+                }
+
+                return (
+                    assignment.date ===
+                    todayString
+                );
             }
-
-            return assignment.date === todayString;
-
-        }).length;
+        ).length;
 
 
     // =========================================
@@ -145,37 +305,81 @@ document.addEventListener("DOMContentLoaded", () => {
     // =========================================
 
     const activeProjects =
-        projects.length;
+        safeProjects.length;
 
     let totalProjectTasks = 0;
 
     let completedProjectTasks = 0;
 
 
-    projects.forEach(project => {
+    safeProjects.forEach(project => {
 
         const tasks =
             Array.isArray(project.tasks)
                 ? project.tasks
                 : [];
 
-        totalProjectTasks += tasks.length;
+
+        totalProjectTasks +=
+            tasks.length;
+
 
         completedProjectTasks +=
             tasks.filter(
-                task => task.completed === true
+                task =>
+                    task &&
+                    (
+                        task.completed === true ||
+                        task.status === "completed"
+                    )
             ).length;
 
     });
 
 
     const openProjectTasks =
-        totalProjectTasks -
-        completedProjectTasks;
+        Math.max(
+            0,
+            totalProjectTasks -
+            completedProjectTasks
+        );
+
+
+    // =========================================
+    // PLANNER TASK STATUS
+    // =========================================
+
+    function isTaskCompleted(task) {
+
+        if (!task) {
+            return false;
+        }
+
+        return (
+            task.completed === true ||
+            task.status === "completed" ||
+            task.isCompleted === true
+        );
+    }
+
+
+    const completedPlannerTasks =
+        safePlannerTasks.filter(
+            task =>
+                isTaskCompleted(task)
+        ).length;
 
 
     // =========================================
     // REAL OVERALL PROGRESS
+    // =========================================
+    //
+    // Keep existing dashboard logic:
+    // Assignments + Project tasks.
+    //
+    // Planner tasks are not added here because
+    // the planner may represent study planning
+    // rather than completed academic work.
     // =========================================
 
     const totalTrackable =
@@ -193,10 +397,22 @@ document.addEventListener("DOMContentLoaded", () => {
 
         progress =
             Math.round(
-                (completedTrackable /
-                    totalTrackable) * 100
+                (
+                    completedTrackable /
+                    totalTrackable
+                ) * 100
             );
     }
+
+
+    progress =
+        Math.min(
+            100,
+            Math.max(
+                0,
+                progress
+            )
+        );
 
 
     // =========================================
@@ -268,29 +484,62 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     // =========================================
-    // PROGRESS RING VISUAL UPDATE
+    // PROGRESS RING VISUAL
     // =========================================
 
     const progressRing =
-        document.querySelector(".progress-ring");
+        document.querySelector(
+            ".progress-ring"
+        );
 
 
     if (progressRing) {
 
         const progressDegrees =
             Math.round(
-                (progress / 100) * 360
+                (
+                    progress /
+                    100
+                ) * 360
             );
 
 
-        progressRing.style.background = `
-            conic-gradient(
-                #8a69ff 0deg,
-                #49a8ff ${progressDegrees}deg,
-                rgba(255, 255, 255, 0.06) ${progressDegrees}deg,
-                rgba(255, 255, 255, 0.06) 360deg
-            )
-        `;
+        if (progress === 0) {
+
+            progressRing.style.background =
+                `
+                conic-gradient(
+                    rgba(255, 255, 255, 0.06) 0deg,
+                    rgba(255, 255, 255, 0.06) 360deg
+                )
+                `;
+
+        }
+        else if (progress === 100) {
+
+            progressRing.style.background =
+                `
+                conic-gradient(
+                    #8a69ff 0deg,
+                    #49a8ff 360deg
+                )
+                `;
+
+        }
+        else {
+
+            progressRing.style.background =
+                `
+                conic-gradient(
+                    #8a69ff 0deg,
+                    #49a8ff ${progressDegrees}deg,
+                    rgba(255, 255, 255, 0.06)
+                    ${progressDegrees}deg,
+                    rgba(255, 255, 255, 0.06)
+                    360deg
+                )
+                `;
+        }
     }
 
 
@@ -313,7 +562,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         dashboardTaskCount.textContent =
             String(
-                plannerTasks.length
+                safePlannerTasks.length
             ).padStart(2, "0");
     }
 
@@ -335,29 +584,48 @@ document.addEventListener("DOMContentLoaded", () => {
             return 15;
         }
 
+
         const text =
-            String(timeText).toLowerCase();
+            String(timeText)
+                .toLowerCase()
+                .trim();
 
 
-        if (text.includes("15")) {
-            return 15;
+        const numberMatch =
+            text.match(
+                /(\d+)\s*(?:min|minute|minutes|m|hour|hours|h)?/
+            );
+
+
+        if (numberMatch) {
+
+            const value =
+                Number(
+                    numberMatch[1]
+                );
+
+
+            if (
+                text.includes("hour") ||
+                text.includes("hours") ||
+                text.endsWith("h")
+            ) {
+
+                return value * 60;
+            }
+
+
+            if (value > 0) {
+
+                return value;
+            }
         }
 
-        if (text.includes("30")) {
-            return 30;
-        }
-
-        if (text.includes("45")) {
-            return 45;
-        }
-
-        if (text.includes("60")) {
-            return 60;
-        }
 
         if (text.includes("hour")) {
             return 60;
         }
+
 
         return 15;
     }
@@ -366,14 +634,23 @@ document.addEventListener("DOMContentLoaded", () => {
     let plannedMinutes = 0;
 
 
-    plannerTasks.forEach(task => {
+    safePlannerTasks.forEach(task => {
 
         plannedMinutes +=
-            getTaskMinutes(task.time);
+            getTaskMinutes(
+                task.time
+            );
     });
 
 
     function formatStudyTime(minutes) {
+
+        minutes =
+            Math.max(
+                0,
+                Number(minutes) || 0
+            );
+
 
         if (minutes < 60) {
 
@@ -382,7 +659,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
         const hours =
-            Math.floor(minutes / 60);
+            Math.floor(
+                minutes / 60
+            );
 
         const remaining =
             minutes % 60;
@@ -404,12 +683,34 @@ document.addEventListener("DOMContentLoaded", () => {
         );
 
 
+    const studyTimeMessage =
+        document.getElementById(
+            "studyTimeMessage"
+        );
+
+
     if (dashboardStudyTime) {
 
         dashboardStudyTime.textContent =
             formatStudyTime(
                 plannedMinutes
             );
+    }
+
+
+    if (studyTimeMessage) {
+
+        if (plannedMinutes === 0) {
+
+            studyTimeMessage.textContent =
+                "No study time planned yet";
+
+        }
+        else {
+
+            studyTimeMessage.textContent =
+                "From your planner";
+        }
     }
 
 
@@ -459,7 +760,9 @@ document.addEventListener("DOMContentLoaded", () => {
         dashboardTaskList.innerHTML = "";
 
 
-        if (plannerTasks.length === 0) {
+        if (
+            safePlannerTasks.length === 0
+        ) {
 
             dashboardTaskList.innerHTML = `
 
@@ -492,22 +795,30 @@ document.addEventListener("DOMContentLoaded", () => {
         }
         else {
 
-            plannerTasks
+            safePlannerTasks
                 .slice(0, 4)
                 .forEach(task => {
 
                     const taskElement =
-                        document.createElement("div");
+                        document.createElement(
+                            "div"
+                        );
+
+
+                    const completed =
+                        isTaskCompleted(task);
 
 
                     taskElement.className =
-                        "dashboard-task";
+                        completed
+                            ? "dashboard-task completed"
+                            : "dashboard-task";
 
 
                     taskElement.innerHTML = `
 
                         <div class="task-check">
-                            ✓
+                            ${completed ? "✓" : "○"}
                         </div>
 
                         <div class="task-detail">
@@ -533,8 +844,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
                         </div>
 
-                        <span class="task-status">
-                            Planned
+                        <span class="task-status ${
+                            completed
+                                ? ""
+                                : "current"
+                        }">
+                            ${
+                                completed
+                                    ? "Completed"
+                                    : "Planned"
+                            }
                         </span>
 
                     `;
@@ -562,11 +881,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (dashboardFocusMinutes) {
 
-        if (plannerTasks.length > 0) {
+        if (
+            safePlannerTasks.length > 0
+        ) {
 
             dashboardFocusMinutes.textContent =
                 getTaskMinutes(
-                    plannerTasks[0].time
+                    safePlannerTasks[0].time
                 );
 
         }
@@ -591,14 +912,27 @@ document.addEventListener("DOMContentLoaded", () => {
     if (dashboardDeadlines) {
 
         const upcomingAssignments =
-            assignments
-                .filter(assignment =>
-                    assignment.status !== "completed" &&
-                    assignment.date
+            safeAssignments
+                .filter(
+                    assignment =>
+                        String(
+                            assignment.status || ""
+                        ).toLowerCase() !==
+                            "completed" &&
+                        assignment.date
                 )
-                .sort((a, b) =>
-                    new Date(a.date) -
-                    new Date(b.date)
+                .sort(
+                    (a, b) => {
+
+                        return (
+                            new Date(
+                                a.date
+                            ) -
+                            new Date(
+                                b.date
+                            )
+                        );
+                    }
                 )
                 .slice(0, 3);
 
@@ -607,7 +941,9 @@ document.addEventListener("DOMContentLoaded", () => {
             "";
 
 
-        if (upcomingAssignments.length === 0) {
+        if (
+            upcomingAssignments.length === 0
+        ) {
 
             dashboardDeadlines.innerHTML = `
 
@@ -641,6 +977,15 @@ document.addEventListener("DOMContentLoaded", () => {
                         );
 
 
+                    if (
+                        Number.isNaN(
+                            deadlineDate.getTime()
+                        )
+                    ) {
+                        return;
+                    }
+
+
                     const formattedDate =
                         deadlineDate
                             .toLocaleDateString(
@@ -657,12 +1002,18 @@ document.addEventListener("DOMContentLoaded", () => {
                         new Date();
 
                     today.setHours(
-                        0, 0, 0, 0
+                        0,
+                        0,
+                        0,
+                        0
                     );
 
 
                     deadlineDate.setHours(
-                        0, 0, 0, 0
+                        0,
+                        0,
+                        0,
+                        0
                     );
 
 
@@ -690,13 +1041,17 @@ document.addEventListener("DOMContentLoaded", () => {
                             "Overdue";
 
                     }
-                    else if (difference === 0) {
+                    else if (
+                        difference === 0
+                    ) {
 
                         remainingText =
                             "Due today";
 
                     }
-                    else if (difference === 1) {
+                    else if (
+                        difference === 1
+                    ) {
 
                         remainingText =
                             "Due tomorrow";
@@ -719,9 +1074,35 @@ document.addEventListener("DOMContentLoaded", () => {
                         "deadline-item";
 
 
+                    const priorityClass =
+                        difference <= 1
+                            ? "deadline-priority"
+                            : "deadline-normal";
+
+
                     deadlineElement.innerHTML = `
 
+                        <div class="deadline-date">
+
+                            <strong>
+                                ${deadlineDate.getDate()}
+                            </strong>
+
+                            <span>
+                                ${deadlineDate
+                                    .toLocaleDateString(
+                                        "en-US",
+                                        {
+                                            month: "short"
+                                        }
+                                    )
+                                    .toUpperCase()}
+                            </span>
+
+                        </div>
+
                         <div>
+
                             <strong>
                                 ${escapeHTML(
                                     assignment.title ||
@@ -737,7 +1118,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
                         </div>
 
-                        <span class="deadline-priority">
+                        <span class="${priorityClass}">
 
                             ${escapeHTML(
                                 assignment.subject ||
@@ -760,38 +1141,68 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     // =========================================
-    // DASHBOARD DATA SUMMARY
+    // QUIZ / PAPER / DOUBT DATA
     // =========================================
-
-    const dashboardDataSummary =
-        document.getElementById(
-            "dashboardDataSummary"
-        );
-
 
     const viewedPapers =
         Array.isArray(
-            pastPapers.viewedPapers
+            pastPapers?.viewedPapers
         )
             ? pastPapers.viewedPapers.length
             : 0;
 
 
     const unansweredDoubts =
-        doubts.filter(
-            doubt =>
-                doubt.status === "unanswered"
+        safeDoubts.filter(
+            doubt => {
+
+                const status =
+                    String(
+                        doubt.status || ""
+                    ).toLowerCase();
+
+
+                return (
+                    status ===
+                    "unanswered" ||
+                    status ===
+                    "open" ||
+                    !status
+                );
+            }
         ).length;
 
 
     const totalQuestions =
-        quizzes.reduce(
-            (total, quiz) =>
-                total +
-                Number(
-                    quiz.questionCount || 0
-                ),
+        safeQuizzes.reduce(
+            (total, quiz) => {
+
+                return (
+                    total +
+                    Number(
+                        quiz.questionCount ||
+                        (
+                            Array.isArray(
+                                quiz.questions
+                            )
+                                ? quiz.questions.length
+                                : 0
+                        ) ||
+                        0
+                    )
+                );
+            },
             0
+        );
+
+
+    // =========================================
+    // DASHBOARD DATA SUMMARY
+    // =========================================
+
+    const dashboardDataSummary =
+        document.getElementById(
+            "dashboardDataSummary"
         );
 
 
@@ -802,11 +1213,11 @@ document.addEventListener("DOMContentLoaded", () => {
             <div>
 
                 <strong>
-                    ${quizzes.length}
+                    ${safeQuizzes.length}
                 </strong>
 
                 <span>
-                    Quizzes
+                    Quizzes Created
                 </span>
 
             </div>
@@ -841,7 +1252,7 @@ document.addEventListener("DOMContentLoaded", () => {
             <div>
 
                 <strong>
-                    ${doubts.length}
+                    ${safeDoubts.length}
                 </strong>
 
                 <span>
@@ -858,7 +1269,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 </strong>
 
                 <span>
-                    Unanswered
+                    Unanswered Doubts
                 </span>
 
             </div>
@@ -867,13 +1278,16 @@ document.addEventListener("DOMContentLoaded", () => {
             <div>
 
                 <strong>
-                    ${wellbeing.silentMode
-                        ? "ON"
-                        : "OFF"}
+                    ${
+                        wellbeing &&
+                        wellbeing.silentMode
+                            ? "ON"
+                            : "OFF"
+                    }
                 </strong>
 
                 <span>
-                    Silent Mode
+                    Silent Study
                 </span>
 
             </div>
@@ -883,7 +1297,501 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     // =========================================
-    // FOCUS TIMER LINK
+    // RECENT ACTIVITY
+    // =========================================
+    //
+    // The existing dashboard HTML already contains
+    // the summary container. We use it safely for
+    // real available activity.
+    // =========================================
+
+    function getActivityDate(item) {
+
+        if (!item) {
+            return null;
+        }
+
+
+        const possibleDates = [
+            item.createdAt,
+            item.created_at,
+            item.updatedAt,
+            item.updated_at,
+            item.date
+        ];
+
+
+        for (
+            const value of possibleDates
+        ) {
+
+            if (!value) {
+                continue;
+            }
+
+
+            const date =
+                new Date(value);
+
+
+            if (
+                !Number.isNaN(
+                    date.getTime()
+                )
+            ) {
+
+                return date;
+            }
+        }
+
+
+        return null;
+    }
+
+
+    function createActivityList() {
+
+        const activities = [];
+
+
+        // Quizzes
+        safeQuizzes.forEach(
+            quiz => {
+
+                const date =
+                    getActivityDate(
+                        quiz
+                    );
+
+
+                activities.push({
+                    type: "quiz",
+                    title: "Quiz created",
+                    detail:
+                        quiz.title ||
+                        "A new quiz was generated.",
+                    date
+                });
+            }
+        );
+
+
+        // Doubts
+        safeDoubts.forEach(
+            doubt => {
+
+                const date =
+                    getActivityDate(
+                        doubt
+                    );
+
+
+                activities.push({
+                    type: "doubt",
+                    title: "Doubt asked",
+                    detail:
+                        doubt.subject ||
+                        doubt.title ||
+                        "A doubt was posted.",
+                    date
+                });
+            }
+        );
+
+
+        // Past papers viewed
+        if (
+            Array.isArray(
+                pastPapers?.viewedPapers
+            )
+        ) {
+
+            pastPapers.viewedPapers
+                .forEach(
+                    paper => {
+
+                        const date =
+                            getActivityDate(
+                                paper
+                            );
+
+
+                        activities.push({
+                            type: "paper",
+                            title: "Past paper opened",
+                            detail:
+                                typeof paper ===
+                                "string"
+                                    ? paper
+                                    : (
+                                        paper.title ||
+                                        paper.name ||
+                                        "Past paper"
+                                    ),
+                            date
+                        });
+                    }
+                );
+        }
+
+
+        // Completed assignments
+        safeAssignments
+            .filter(
+                assignment =>
+                    String(
+                        assignment.status ||
+                        ""
+                    ).toLowerCase() ===
+                    "completed"
+            )
+            .forEach(
+                assignment => {
+
+                    const date =
+                        getActivityDate(
+                            assignment
+                        );
+
+
+                    activities.push({
+                        type: "assignment",
+                        title: "Assignment completed",
+                        detail:
+                            assignment.title ||
+                            "Assignment completed.",
+                        date
+                    });
+                }
+            );
+
+
+        // Completed planner tasks
+        safePlannerTasks
+            .filter(
+                task =>
+                    isTaskCompleted(task)
+            )
+            .forEach(
+                task => {
+
+                    const date =
+                        getActivityDate(
+                            task
+                        );
+
+
+                    activities.push({
+                        type: "planner",
+                        title: "Study task completed",
+                        detail:
+                            task.title ||
+                            "Study task completed.",
+                        date
+                    });
+                }
+            );
+
+
+        // Silent study
+        if (
+            wellbeing &&
+            (
+                wellbeing.silentMode === true ||
+                wellbeing.silentStudy === true
+            )
+        ) {
+
+            activities.push({
+                type: "wellbeing",
+                title: "Silent Study active",
+                detail:
+                    "Your focus garden is active.",
+                date:
+                    getActivityDate(
+                        wellbeing
+                    )
+            });
+        }
+
+
+        return activities
+            .sort(
+                (a, b) => {
+
+                    const aTime =
+                        a.date
+                            ? a.date.getTime()
+                            : 0;
+
+                    const bTime =
+                        b.date
+                            ? b.date.getTime()
+                            : 0;
+
+                    return bTime - aTime;
+                }
+            )
+            .slice(0, 5);
+    }
+
+
+    const recentActivities =
+        createActivityList();
+
+
+    // =========================================
+    // ACTIVITY SUMMARY
+    // =========================================
+
+    if (dashboardDataSummary) {
+
+        const activityWrapper =
+            document.createElement(
+                "div"
+            );
+
+
+        activityWrapper.className =
+            "dashboard-recent-activity";
+
+
+        activityWrapper.innerHTML = `
+
+            <div class="recent-activity-header">
+
+                <div>
+
+                    <small>
+                        RECENT ACTIVITY
+                    </small>
+
+                    <h2>
+                        Your latest progress
+                    </h2>
+
+                </div>
+
+            </div>
+
+            <div class="recent-activity-list"></div>
+
+        `;
+
+
+        const activityList =
+            activityWrapper.querySelector(
+                ".recent-activity-list"
+            );
+
+
+        if (
+            recentActivities.length === 0
+        ) {
+
+            activityList.innerHTML = `
+
+                <div class="recent-activity-empty">
+
+                    <span>✨</span>
+
+                    <div>
+
+                        <strong>
+                            No recent activity yet
+                        </strong>
+
+                        <small>
+                            Start using Campus Saathi and your activity will appear here.
+                        </small>
+
+                    </div>
+
+                </div>
+
+            `;
+
+        }
+        else {
+
+            recentActivities
+                .forEach(activity => {
+
+                    const item =
+                        document.createElement(
+                            "div"
+                        );
+
+
+                    item.className =
+                        "recent-activity-item";
+
+
+                    let icon = "•";
+
+
+                    if (
+                        activity.type ===
+                        "quiz"
+                    ) {
+                        icon = "🧠";
+                    }
+                    else if (
+                        activity.type ===
+                        "doubt"
+                    ) {
+                        icon = "💬";
+                    }
+                    else if (
+                        activity.type ===
+                        "paper"
+                    ) {
+                        icon = "📄";
+                    }
+                    else if (
+                        activity.type ===
+                        "assignment"
+                    ) {
+                        icon = "✓";
+                    }
+                    else if (
+                        activity.type ===
+                        "planner"
+                    ) {
+                        icon = "📚";
+                    }
+                    else if (
+                        activity.type ===
+                        "wellbeing"
+                    ) {
+                        icon = "🌱";
+                    }
+
+
+                    const timeText =
+                        activity.date
+                            ? formatRelativeTime(
+                                activity.date
+                            )
+                            : "Recently";
+
+
+                    item.innerHTML = `
+
+                        <span class="recent-activity-icon">
+                            ${icon}
+                        </span>
+
+                        <div>
+
+                            <strong>
+                                ${escapeHTML(
+                                    activity.title
+                                )}
+                            </strong>
+
+                            <small>
+                                ${escapeHTML(
+                                    activity.detail
+                                )}
+                            </small>
+
+                        </div>
+
+                        <span class="recent-activity-time">
+                            ${escapeHTML(
+                                timeText
+                            )}
+                        </span>
+
+                    `;
+
+
+                    activityList
+                        .appendChild(
+                            item
+                        );
+
+                });
+        }
+
+
+        dashboardDataSummary
+            .appendChild(
+                activityWrapper
+            );
+    }
+
+
+    // =========================================
+    // RELATIVE TIME
+    // =========================================
+
+    function formatRelativeTime(date) {
+
+        const now =
+            new Date();
+
+
+        const difference =
+            Math.max(
+                0,
+                now.getTime() -
+                date.getTime()
+            );
+
+
+        const minutes =
+            Math.floor(
+                difference /
+                (1000 * 60)
+            );
+
+
+        if (minutes < 1) {
+            return "Just now";
+        }
+
+
+        if (minutes < 60) {
+            return `${minutes}m ago`;
+        }
+
+
+        const hours =
+            Math.floor(
+                minutes / 60
+            );
+
+
+        if (hours < 24) {
+            return `${hours}h ago`;
+        }
+
+
+        const days =
+            Math.floor(
+                hours / 24
+            );
+
+
+        if (days < 7) {
+            return `${days}d ago`;
+        }
+
+
+        return date.toLocaleDateString(
+            "en-US",
+            {
+                month: "short",
+                day: "numeric"
+            }
+        );
+    }
+
+
+    // =========================================
+    // FOCUS BUTTON
     // =========================================
 
     const focusButton =
@@ -894,7 +1802,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (
         focusButton &&
-        plannerTasks.length > 0
+        safePlannerTasks.length > 0
     ) {
 
         focusButton.addEventListener(
@@ -903,7 +1811,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 const minutes =
                     getTaskMinutes(
-                        plannerTasks[0].time
+                        safePlannerTasks[0].time
                     );
 
 
@@ -925,46 +1833,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     // =========================================
-    // CONSOLE INFORMATION
-    // =========================================
-
-    console.log(
-        "Campus Saathi Dashboard updated successfully."
-    );
-
-    console.log(
-        "Progress:",
-        progress + "%"
-    );
-
-    console.log(
-        "Planner Tasks:",
-        plannerTasks.length
-    );
-
-    console.log(
-        "Assignments:",
-        assignments.length
-    );
-
-    console.log(
-        "Projects:",
-        projects.length
-    );
-
-    console.log(
-        "Quizzes:",
-        quizzes.length
-    );
-
-
-    // =========================================
     // SECURITY / HTML ESCAPE
     // =========================================
 
     function escapeHTML(value) {
 
-        return String(value)
+        return String(value ?? "")
 
             .replace(
                 /&/g,
@@ -992,4 +1866,54 @@ document.addEventListener("DOMContentLoaded", () => {
             );
     }
 
+
+    // =========================================
+    // CONSOLE INFORMATION
+    // =========================================
+
+    console.log(
+        "Campus Saathi Dashboard loaded safely."
+    );
+
+    console.log(
+        "User:",
+        userId || "guest"
+    );
+
+    console.log(
+        "Progress:",
+        progress + "%"
+    );
+
+    console.log(
+        "Planner Tasks:",
+        safePlannerTasks.length
+    );
+
+    console.log(
+        "Completed Planner Tasks:",
+        completedPlannerTasks
+    );
+
+    console.log(
+        "Assignments:",
+        safeAssignments.length
+    );
+
+    console.log(
+        "Projects:",
+        safeProjects.length
+    );
+
+    console.log(
+        "Quizzes:",
+        safeQuizzes.length
+    );
+
+    console.log(
+        "Doubts:",
+        safeDoubts.length
+    );
+
 });
+```
